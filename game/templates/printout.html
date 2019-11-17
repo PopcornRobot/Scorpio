@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <!-- Header -->
+  <!-- <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">Space Dragons presents...</div>
+        <div class="intro-heading text-uppercase">A Halloween Murder Mystery</div>
+      </div>
+    </div>
+  </header> -->
+
+  <!-- Services -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h2>Rules</h2>
+
+          <!-- <ol>
+            <li><p><strong>Rule #1:</strong> We cannot lie about our life. Lying draws bad juju in the afterlife. If someone asks you a question, you must tell them the truth (within reasonable bounds of course). </p></li>
+            <li>  <p><strong>Rule #2:</strong> Beware the face slap. Once a prophecy has been read (e.g. This person has been to Costco), it is rude to ask, “Have you been to Costco?” It is implying you think they are the murderer. </p>
+
+              <p>So prophecies are real facts about the murderer that will be released over the course of the game. To figure out who went skydiving and costco, we go out and learn about people’s lives. Again, you cannot explicitly ask (e.g. Have you been to costco?), but you can implicitly ask (e.g. Do you buy on a weekly basis or in bulk?). </p></li>
+            <li>
+                          <p><strong>Rule #3:</strong> Only newscasters can read prophecies. Once the newscaster is given a prophecy, they read it once to the public and destroy the evidence forever. During that time, the person who gave up their prophecy are vulnerable… to murder.</p>
+
+                          <p>So everyone will be given a prophecy (hold up golf ball), our goal is to give the prophecy to the newscaster, so they can read what it says. Once we give up the prophecy, we can be killed by the murderer. We are vulnerable until the next person gives the next prophecy (next person passes prophecy). Newscasters can only hold one prophecy at a time. </p></li>
+            <li>
+                                      <p><strong>Rule #4:</strong> Only newscasters are immortal. But you… if a murderer sees you give your prophecy to the newscaster, they can kill you. All they have to do is pull you aside and say, “bang you’re dead”.  </p>
+
+                                      <p>If a murderer tries to kill you while you carry the ball (show the ball), the bullet will bounce off you and kill the murderer. But once you give the prophecy to the newscaster (hand to newscaster),  you can be killed by the murderer (“bang your dead”). You are safe once another person gives up their own prophecy. When an attack occurs, the one who died must tell the newscaster so they died. </p></li>
+          </ol> -->
+
+          <hr />
+
+            <p>&nbsp;</p>
+              <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                  <p>&nbsp;</p>
+          <h2>Introduction</h2>
+          <p>Welcome to the Land of the Dead. Thank you for visiting our world. Oh, excuse me… I’m sorry everyone. Apparently there was a murder down the street. Two of the suspects fled on foot and … the police thinks they are here, so they are relying on us to find the murderers. </p>
+          <p>This game is like a modified mafia. In 2 hours, we vote on who we think the two murderers are. To help us, everyone is given one prophecy (golf ball). Prophecies protect us from harm. Nobody can kill us as long as we carry the prophecy. It can also be used to reveal a fact about the murderer. Real facts. Facts like “this person skydived” that lead to real people. It’s your job to talk to each other and find out who the two murderers are. But first, you are a guest in the Land of the Dead. So you must learn about our traditions.</p>
+          <p><strong>Rule #1:</strong> We cannot lie about our life. Lying draws bad juju in the afterlife. If someone asks you a question, you must tell them the truth (within reasonable bounds of course). </p>
+
+<p><strong>Rule #2:</strong> Beware the face slap. Once a prophecy has been read (e.g. This person has been to Costco), it is rude to ask, “Have you been to Costco?” It is implying you think they are the murderer. </p>
+
+<p>So prophecies are real facts about the murderer that will be released over the course of the game. To figure out who went skydiving and costco, we go out and learn about people’s lives. Again, you cannot explicitly ask (e.g. Have you been to costco?), but you can implicitly ask (e.g. Do you buy on a weekly basis or in bulk?). </p>
+
+<p><strong>Rule #3:</strong> Only newscasters can read prophecies. Once the newscaster is given a prophecy, they read it once to the public and destroy the evidence forever. During that time, the person who gave up their prophecy are vulnerable… to murder.</p>
+
+<p>So everyone will be given a prophecy (hold up golf ball), our goal is to give the prophecy to the newscaster, so they can read what it says. Once we give up the prophecy, we can be killed by the murderer. We are vulnerable until the next person gives the next prophecy (next person passes prophecy). Newscasters can only hold one prophecy at a time. </p>
+
+<p><strong>Rule #4:</strong> Only newscasters are immortal. But you… if a murderer sees you give your prophecy to the newscaster, they can kill you. All they have to do is pull you aside and say, “bang you’re dead”.  </p>
+
+<p>If a murderer tries to kill you while you carry the ball (show the ball), the bullet will bounce off you and kill the murderer. But once you give the prophecy to the newscaster (hand to newscaster),  you can be killed by the murderer (“bang your dead”). You are safe once another person gives up their own prophecy. When an attack occurs, the one who died must tell the newscaster so they died. </p>
+
+  <p>&nbsp;</p>
+    <p>&nbsp;</p>
+      <p>&nbsp;</p>
+        <p>&nbsp;</p>
+<p>Newscaster: I have just been informed that the murderer is going to be watching me for prophecy drops, so that you can kill them. I know you are watching me. But I am also watching you. If I think you are the murderer, I can capture you any time tonight. But, I cannot make a mistake. For if I capture an innocent, it will be my head. </p>
+
+<p>Prophecy 1: One murderer is called Five finger.</p>
+
+
+<p>{{ starter1.answer.text|safe }}</p>
+<p>&nbsp;</p>
+<p>{{ starter1.report|safe }}</p>
+
+
+<p>Prophecy 2: One person is called Wood Chipper. </p>
+
+
+<p>{{ starter2.answer.text|safe }}</p>
+<p>&nbsp;</p>
+<p>{{ starter2.report|safe }}</p>
+
+
+<hr />
+  <p>&nbsp;</p>
+    <p>&nbsp;</p>
+      <p>&nbsp;</p>
+        <p>&nbsp;</p>
+
+          <h2 class="section-heading text-uppercase">Tips</h2>
+          <!-- <h3 class="section-subheading text-muted">Land of the Dead Customs and Border Protection</h3> -->
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          {% for tip in all_tips %}
+              <p>{{ tip.answer.text|safe }}</p>
+              <p>&nbsp;</p>
+              <p>{{ tip.report|safe }}</p>
+              <p>&nbsp;</p>
+              <hr />
+              <p>&nbsp;</p>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+
+
+          <h2 class="section-heading text-uppercase">People</h2>
+          <!-- <h3 class="section-subheading text-muted">Land of the Dead Customs and Border Protection</h3> -->
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <table class='table'>
+            <tbody>
+
+              {% for name, is_murderer in overview.items %}
+                <tr>
+                  <td width="30%">
+                    <h2>{{ name }}</h2>
+                  </td>
+                  <td>
+                    <h2>KEEP THIS HIDDEN</h2>
+                    {% if is_murderer == 1 %}
+
+
+                    <p>Hello. You are the murderer. They call you Five Finger because you’ll steal from anyone. You even stole from the boss just to prove a point. Two hours ago, you murdered someone down the hill and ran into this party to hide with this tourist group. Your partner is {{ murderer2 }}, but you know’em as the Wood Chipper. In 2 hours, everyone is going to vote on who to deliver to the police. Convince everyone you are innocent. But there’s a problem. Everyone in the party has a small tip against you. </p>
+
+                    <p>Superpower: As a mafia member, you have the power to kill people. To kill someone, pull them aside and quietly tell them, “Bang! You’re dead”. Be careful, however, you can only kill people during a certain time! You’ll learn more in the introduction later.</p>
+
+
+
+
+
+                    <p>You are the only one to get the message above. Everyone else got the message below:</p>
+                    {% elif is_murderer == 2 %}
+
+
+                    <p>Hello. You are the murderer. They call you Wood Chipper because you once punched a piece of wood so hard, wood chips flew off. Two hours ago, you murdered someone down the hill and ran into this party to hide with this tourist group. Your partner is {{ murderer1 }}, but you know’em as the Wood Chipper. In 2 hours, everyone is going to vote on who to deliver to the police. Convince everyone you are innocent. But there’s a problem. Everyone in the party has a small tip against you. </p>
+
+                    <p>Superpower: As a mafia member, you have the power to kill people. To kill someone, pull them aside and quietly tell them, “Bang! You’re dead”. Be careful, however, you can only kill people during a certain time! You’ll learn more in the introduction later.</p>
+
+
+
+
+
+                    <p>You are the only one to get the message above. Everyone else got the message below:</p>
+
+                    {% elif is_murderer == 3 %}
+                      <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                          <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                              <p>&nbsp;</p>
+                    {% endif %}
+
+                    <p>Hola amigo! Welcome to the Land of the Dead. You should have a golf ball in your hand. That is a “prophecy”. Everyone is born with a prophecy. Keep your prophecy safe, as it protects you from harm!</p>
+
+                    <p>&nbsp;</p>
+                  </td>
+                </tr>
+
+              {% endfor %}
+            <tbody>
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

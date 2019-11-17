@@ -4,15 +4,32 @@ from django.db import models
 # Create your models here.
 
 # Contains information on the actual card itself
-class Answer(models.Model):
+class Question(models.Model):
     text = models.TextField()           # Question on problem
+    news_report = models.TextField()           # How the news reports this question
+
 
     def __str__(self):
         return self.text
 
-class UserAnswer(models.Model):
-    name = models.TextField()
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+class Player(models.Model):
+    name = models.CharField(max_length=100)
+    nickname = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    partner = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name + " : " + self.answer.text
+        return self.name
+
+
+class PlayerAnswer(models.Model):
+
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    is_used = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.player.name + " : " + self.question.text
+
+    def tip_text(self):
+        return self.question.news_report.replace("%s", self.player.nickname)

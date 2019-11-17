@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+  <!-- Header -->
+  <!-- <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">Space Dragons presents...</div>
+        <div class="intro-heading text-uppercase">A Halloween Murder Mystery</div>
+      </div>
+    </div>
+  </header> -->
+
+  <!-- Services -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">A murderer walks in...</h2>
+          <!-- <h3 class="section-subheading text-muted">Land of the Dead Customs and Border Protection</h3> -->
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>Ladies and gentlemen, we have horrible news. An hour ago, there was a murder down the street.
+          The suspects fled on foot and the police thinks they are hiding here. They are relying on us to find the murderers.</p>
+
+                    <p>&nbsp;</p>
+          <hr />
+
+          <h4>How the game works</h4>
+
+          <p>This game is like a modified game of Mafia. In one hour, we will vote on who the murderers are.
+            To find the murderers, everyone is given an Orb of Truth (golf ball). </p>
+
+          <p class="text-center" ><img src="{% static "img/golfball.jpg" %}" style="width:400px" /></p>
+
+          <p>These orbs reveal a fact about the murderer.
+            Real facts. Facts like “this person has been skydiving" that lead to real people.
+            It’s your job to talk to each other and find out who the murderers are. The number of murderers
+            in the room will be revealed
+            when roles are assigned.</p>
+
+          <p>&nbsp;</p>
+
+          <hr />
+
+          <h4>Roles</h4>
+
+          <p><img class="float-left" src="{% static "img/informant.jpg" %}" style="width: 100px" /></p>
+          <p><strong>Informant</strong></p>
+          <ol>
+            <li><em>Goal</em> - Find the murderers and vote them out at the end of the game. </li>
+            <li><em>Powers</em> - Each informant is given an Orb of Truth. Secretly deliver your orb to the Chief of Police
+              so they can reveal a tip on who the murderer is. </li>
+            <li><em>Weakness</em> - The Orb of Truth protects you from harm.
+              Once given up, the murderer can attack you.</li>
+          </ol>
+
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <!-- <p>&nbsp;</p> -->
+
+
+          <p class=''><img class="float-left" src="{% static "img/criminal.jpg" %}" style="width: 100px" /></p>
+          <p><strong>Murderers</strong> </p>
+          <ol>
+            <li><em>Goal</em> - Convince everyone you are not the murderer. </li>
+            <li><em>Powers</em> - Murderers cannot harm anyone holding an Orb of Truth.
+              If the murderer sees an informant without an orb, they can kill them by pulling
+              that informant aside and saying, <em>"I'm the murderer. You're dead."</em>
+            </li>
+            <li><em>Weakness</em> - If a murderer tries to kill an informant holding an orb, the murderer dies and
+              informant lives.
+            </li>
+          </ol>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <!-- <p>&nbsp;</p> -->
+
+          <p><img class="float-left" src="{% static "img/police.jpeg" %}" style="width: 100px" /></p>
+          <p><strong>Chief of police</strong></p>
+          <ol>
+            <li><em>Goal</em> - Lead the group into finding the murderers and vote them out at the end of the game. </li>
+            <li><p><em>Powers</em> - The Chief is
+            immortal and <em>cannot</em> be killed by murderers.</p>
+
+
+              <!-- <p>So everyone will be given a prophecy (hold up golf ball), our goal is to give the prophecy to the newscaster, so they can read what it says. Once we give up the prophecy, we can be killed by the murderer. We are vulnerable until the next person gives the next prophecy (next person passes prophecy). Newscasters can only hold one prophecy at a time.</p> -->
+
+
+            </li>
+            <li><p><em>Responsibilities</em> - The Chief is responsible for two announcements:</p>
+
+              <ol>
+                <li><em>Tips</em> - To unlock information about the murderers, informants will pass their
+                  Orbs of Truth to you. When you receive them, you will announce the tip to the public
+                  and destroy the tip and Orb forever.
+                You can only hold one Orb at a time.</li>
+                <li><em>Deaths</em> - If a character dies, they will quietly inform you of their death and the role they played.
+                You will announce it to the public. Feel free to be creative with this!</li>
+              </ol>
+
+
+            </li>
+          </ol>
+          <p>&nbsp;</p>
+
+          <hr />
+
+          <h4>3 Cardinal Rules</h4>
+
+
+          <ol>
+            <li><em>No lies</em>. If someone asks you a question about your life,
+               you must tell them the truth (within reasonable bounds of course). You can lie about who you think
+             is the murderer.</li>
+            <li><p><em>Don't be rude.</em> Once a tip has been read (e.g. This person has been to Costco), it is rude to
+              ask, “Have you been to Costco?” It implies you think that person is the murderer.</p>
+
+            <p><em>The tips are real facts about the murderer.
+              To figure out who went skydiving or costco, talk to people about their lives.
+              Again, you cannot explicitly ask (e.g. Have you been to costco?), but you can implicitly
+              ask (e.g. Do you buy on a weekly basis or in bulk?).</em></p></li>
+            <li><p><em>Don't die.</em> If you get killed, you must quietly inform the Chief of Police
+              of your death and the character role you played. The Chief will
+              announce it to the public.</p>
+
+              <p>There are two ways to die:</p>
+              <ol>
+                <li><em>Informant dies</em>. Murderer pulls an informant <em>without</em> an orb aside and says, "I'm the murderer. You're dead."</li>
+                <li><em>Murderer dies</em>. Murderer tries to kill an informant <em>with</em> an orb. Murderer dies.
+                  Informant remains in the game.</li>
+              </ol>
+            </li>
+          </ol>
+
+          <p>&nbsp;</p>
+
+          <hr />
+
+          <h4>Summary</h4>
+
+          <p>Our goal is to find the murderer.
+            Everyone is given an Orb of Truth (golf ball).
+            Each orb, when given to the Chief, reveals a fact about the murderer.
+            Be careful though, once we give up our orb, we can be killed by the murderer.</p>
+
+
+          <p><a href="/role_assignment?pid={{ player_id }}"><button type="button" class="btn btn-secondary">Assign character</button></a></p>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

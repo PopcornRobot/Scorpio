@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <!-- Header -->
+  <!-- <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">Space Dragons presents...</div>
+        <div class="intro-heading text-uppercase">A Halloween Murder Mystery</div>
+      </div>
+    </div>
+  </header> -->
+
+  <!-- Services -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Questions and News Reports</h2>
+          <!-- <h3 class="section-subheading text-muted">Land of the Dead Customs and Border Protection</h3> -->
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <ol>
+            {% for question in questions %}
+              <li>
+                <p>{{ question.text|safe }}</p>
+                <p>&nbsp;</p>
+                <p>{{ question.news_report }}</p>
+              </li>
+            {% endfor %}
+          </ol>
+
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
