@@ -35,6 +35,7 @@
           <h4>Players</h4>
           <ol>
             {% for player in players %}
+            {% comment %}
               <li><strong>{{ player.role }}</strong> {{ player.id }}- {{ player.name }}
                 {% if player.nickname %}
                   aka {{ player.nickname }}
@@ -43,6 +44,9 @@
                 {% endif %}
 
                 <a href="/delete?pid={{ player.id }}">delete</a></li>
+            {% endcomment %}
+
+              <li>{{ player.id }}- {{ player.name }} <a href="/delete?pid={{ player.id }}">delete</a></li>
             {% endfor %}
           </ol>
 

@@ -12,7 +12,7 @@ from game.models import *
 
 
 # TWO DEBUGGERS. HERE AND GAME MENU
-populate_data = True
+populate_data = False
 
 Question.objects.all().delete()
 Player.objects.all().delete()
