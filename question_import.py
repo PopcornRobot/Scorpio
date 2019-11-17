@@ -10,6 +10,8 @@ django.setup()
 
 from game.models import *
 
+
+# TWO DEBUGGERS. HERE AND GAME MENU
 populate_data = True
 
 Question.objects.all().delete()
