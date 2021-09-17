@@ -2,11 +2,8 @@
 
 An utterly fantastic project starter template for Django 2.0.
 
-<<<<<<< HEAD
 Arlene Rangel
-=======
 Brandon
->>>>>>> 6cf6f05cf87bf9ec37dbaea3d3347949b9747d19
 
 ## Features
 
