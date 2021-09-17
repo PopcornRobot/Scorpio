@@ -1,7 +1,9 @@
 # Heroku Django Starter Template
 
 An utterly fantastic project starter template for Django 2.0.
-SFASFASFASF
+
+New changes!!!
+
 ## Features
 
 - Production-ready configuration for Static Files, Database Settings, Gunicorn, etc.
