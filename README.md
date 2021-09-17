@@ -1,6 +1,7 @@
 # Heroku Django Starter Template
 
 An utterly fantastic project starter template for Django 2.0.
+Arlene
 
 ## Features
 
