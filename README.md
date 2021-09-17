@@ -1,7 +1,11 @@
 # Heroku Django Starter Template
 
 An utterly fantastic project starter template for Django 2.0.
+<<<<<<< HEAD
 AJ 
+=======
+SFASFASFASF
+>>>>>>> c20228018b8ce48caff2a90bd7d5c15bad5fa523
 ## Features
 
 - Production-ready configuration for Static Files, Database Settings, Gunicorn, etc.
