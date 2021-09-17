@@ -2,7 +2,7 @@
 
 An utterly fantastic project starter template for Django 2.0.
 Arlene
-
+Brandon
 ## Features
 
 - Production-ready configuration for Static Files, Database Settings, Gunicorn, etc.
