@@ -33,3 +33,11 @@ class PlayerAnswer(models.Model):
 
     def tip_text(self):
         return self.question.news_report.replace("%s", self.player.nickname)
+
+class Timer(models.Model):
+    timer = models.IntegerField()
+
+class Game(models.Model):
+    roundLength = models.IntegerField()
+    timer = models.IntegerField()
+    gameOver = models.DateTimeField(null=True)

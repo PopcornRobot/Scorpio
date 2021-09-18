@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import *
 import random
@@ -375,3 +375,22 @@ def printout(request):
 
     # return HttpResponse("overview")
     # return render(request, 'murderer.html', {'murderer': final_clues, 'name': murderer})
+
+
+
+# timer test
+
+def timer(request):
+    game = Game.objects.get_or_create(id=1)[0]
+    roundLength = game.roundLength
+    context = {
+        'roundLength': roundLength,
+        'gameOver': game.gameOver
+    }
+    return render(request, "timer.html", context)
+
+def roundLengthSet(request):
+    game = Game.objects.get_or_create(id=1)[0]
+    game.roundLength = request.POST['roundLength']
+    game.save()
+    return redirect("/timer")
