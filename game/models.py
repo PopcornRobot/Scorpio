@@ -38,7 +38,7 @@ class Timer(models.Model):
     timer = models.IntegerField()
 
 class Game(models.Model):
-    roundLength = models.IntegerField()
-    timer = models.IntegerField()
+    roundLength = models.IntegerField(default=0)
+    timer = models.IntegerField(default=0)
     gameOver = models.DateTimeField(null=True)
-    roundEndTime = models.IntegerField()
+    roundEndTime = models.IntegerField(default=0)
