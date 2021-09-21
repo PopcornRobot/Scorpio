@@ -2,8 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import *
 import random
-
-# Create your views here.
+import time
 
 def survey(request):
     players = Player.objects.all()
@@ -385,12 +384,25 @@ def timer(request):
     roundLength = game.roundLength
     context = {
         'roundLength': roundLength,
-        'gameOver': game.gameOver
+        'gameOver': game.gameOver,
+        'roundEndTime': game.roundEndTime
     }
     return render(request, "timer.html", context)
+
+def timerStart(request, time):
+    print("----", time)
+    return HttpResponse("timer started")
 
 def roundLengthSet(request):
     game = Game.objects.get_or_create(id=1)[0]
     game.roundLength = request.POST['roundLength']
     game.save()
     return redirect("/timer")
+
+def setTimerEnd(request):
+    now = time.time()
+    game = Game.objects.get(id=1)
+    game.roundEndTime = now + game.roundLength * 60
+    game.save()
+    print("--- ajaxTest hit", now)
+    return HttpResponse("ajaxTest")

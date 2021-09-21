@@ -25,5 +25,6 @@ urlpatterns = [
 # timer test
     path('timer', views.timer),
     path('roundLengthSet', views.roundLengthSet),
+    path('setTimerEnd', views.setTimerEnd),
 
 ]

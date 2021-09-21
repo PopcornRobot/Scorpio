@@ -29,21 +29,35 @@
     <div>
         Timer: <div id="timer"></div>
     </div>
+    <div>
+        <button onclick="setTimer()">Set Timer</button>
+    </div>
+    <div>
+        Round End Time: {{ roundEndTime }}
+    </div>
 </body>
 
 <script>
+    function setTimer(){
+        console.log("setTimer")
+        var xhttp = new XMLHttpRequest()
+        xhttp.onload = function() {
+            console.log("onload callback")
+        }
+        xhttp.open("GET", "/setTimerEnd", true)
+        xhttp.send()
+    }
     function getTime() {
         console.log("getTime", Date.now())
     }
     function timer() {
-        // ajax call to save timer end time
-
-        console.log('startTimer running')
-        var endTime = new Date(163193909288)
-        endTime = (Date.parse(endTime) / 1000)
-        var now = new Date()
-        now = (Date.parse(now) / 1000)
-        var timeLeft = now - endTime
+        console.log('startTimer running', roundEndTime)
+        var endTime = new Date(roundEndTime)
+        endTime = {{ roundEndTime }}
+        var now = new Date().getTime() / 1000
+        now = Math.round(now)
+        console.log({now}, {endTime})
+        var timeLeft = endTime - now 
         document.getElementById('timer').innerHTML = timeLeft
         
     }

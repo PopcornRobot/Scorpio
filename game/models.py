@@ -41,3 +41,4 @@ class Game(models.Model):
     roundLength = models.IntegerField()
     timer = models.IntegerField()
     gameOver = models.DateTimeField(null=True)
+    roundEndTime = models.IntegerField()
