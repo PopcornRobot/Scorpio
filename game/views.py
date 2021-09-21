@@ -404,5 +404,4 @@ def setTimerEnd(request):
     game = Game.objects.get(id=1)
     game.roundEndTime = now + game.roundLength * 60
     game.save()
-    print("--- ajaxTest hit", now)
     return HttpResponse("ajaxTest")
