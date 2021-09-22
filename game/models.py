@@ -18,7 +18,6 @@ class Player(models.Model):
     role = models.CharField(max_length=100)
     informant = models.BooleanField(default=False)
     partner = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
-    # gender = models.Charfield(max_length=1, choices=(('m', _('male')), ('f', _('Female'))), blank=True, null=True)
 
     def __str__(self):
         return self.name
