@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Timer</h1>
+    <div>
+        <form action="/roundLengthSet" method="Post">
+            {% csrf_token %}
+            <label for="roundLength">Round Length</label>
+            <input id="roundLength" name="roundLength" type="text">
+            <input type="submit" value="submit">
+        </form>
+
+    </div>
+    <div>
+        <button onclick="startTimer()">Start Game</button>
+    </div>
+    <div>
+        Round Length: {{ roundLength }}
+    </div>
+    <div>
+        Game Over: {{ gameOver }}
+    </div>
+    <div>
+        Timer: <div id="timer"></div>
+    </div>
+    <div>
+        <button onclick="setTimer()">Set Timer</button>
+    </div>
+    <div>
+        Round End Time: {{ roundEndTime }}
+    </div>
+</body>
+
+<script>
+    setTimer = () =>  {
+        console.log("setTimer")
+        var xhttp = new XMLHttpRequest()
+        xhttp.open("GET", "/setTimerEnd", true)
+        xhttp.send()
+    }
+    getTime = () => {
+        console.log("getTime", Date.now())
+    }
+    timer = () => {
+        var roundEndTime  = {{ roundEndTime }}
+        console.log('startTimer running', roundEndTime)
+        var endTime = new Date(roundEndTime)
+        endTime = {{ roundEndTime }}
+        var now = new Date().getTime() / 1000
+        now = Math.round(now)
+        console.log({now}, {endTime})
+        var timeLeft = endTime - now 
+        document.getElementById('timer').innerHTML = timeLeft
+        
+    }
+    startTimer = () => {
+        setInterval(function() {timer()},1000)
+    }
+</script>
+</html>

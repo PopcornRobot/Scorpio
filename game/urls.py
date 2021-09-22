@@ -20,5 +20,16 @@ urlpatterns = [
     path('survey_save', views.survey_save),
     path('overview', views.overview),
     path('printout', views.printout),
-    path('randomize', views.randomize)
+    path('randomize', views.randomize),
+
+# timer test
+    path('timer', views.timer),
+    path('roundLengthSet', views.roundLengthSet),
+    path('setTimerEnd', views.setTimerEnd),
+
+# bulletin test
+    path('<str:user>/bulletin', views.bulletin),
+    path('getMessages', views.getMessages),
+    path('dashboard', views.dashboard),
+    path('sendMessage', views.sendMessage),
 ]

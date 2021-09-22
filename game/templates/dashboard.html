@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+</head>
+<body>
+    <div style="border:1px solid black;">
+
+        <h1>Dashboard</h1>
+        <button onclick="startGame()">Start Game</button>
+        <button onclick="sendMessage('All')">Message all users</button>
+        <p>Mafia</p>
+        <button onclick="sendMessage('Mafia')">Message all Mafia</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Nickname</th>
+                    <th>Role</th>
+                    <th>Send</th>
+                    <th>Messages</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in mafia %}
+                <tr>
+                    <td>
+                        <a href="/{{ player.name }}/bulletin">
+                            {{ player.name }}</td>
+                        </a>
+                    <td>{{ player.nickname }}</td>
+                    <td>{{ player.role }}</td>
+                    <td><button onclick="sendMessage('{{ player.name }}')">Message</button></td>
+                    <td>{{ player.playermessages.text }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Townnpeople</p>
+        <button onclick="sendMessage('Townpeople')">Message all Townpeople</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Nickname</th>
+                    <th>Role</th>
+                    <th>Send</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in townpeople %}
+                <tr>
+                    <td>
+                        <a href="/{{ player.name }}/bulletin">
+                            {{ player.name }}</td>
+                        </a>
+                    </td>
+                    <td>{{ player.nickname }}</td>
+                    <td>{{ player.role }}</td>
+                    <td><button onclick="sendMessage('{{ player.name }}')">Message</button></td>
+                    <td>{{ player.playermessages.text }}</td>                
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+    </div>
+
+
+
+    <script>
+        sendMessage = (recip) => {
+            console.log(recip)
+            var xhttp = new XMLHttpRequest()
+            xhttp.open("GET", "/sendMessage?recip=" + recip, true)
+            xhttp.send()
+        }
+        sendMessageToGroup = (group) => {
+            console.log(group)
+        }
+        startGame = () => {
+            var xhttp = new XMLHttpRequest()
+            xhttp.open("GET", "/setTimerEnd", true)
+            xhttp.send()
+        }
+    </script>
+</body>
+</html>
