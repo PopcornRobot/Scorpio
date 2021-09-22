@@ -16,6 +16,7 @@ class Player(models.Model):
     name = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
+    informant = models.BooleanField(default=False)
     partner = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -42,3 +43,11 @@ class Game(models.Model):
     timer = models.IntegerField(default=0)
     gameOver = models.DateTimeField(null=True)
     roundEndTime = models.IntegerField(default=0)
+    roundOneEndTime = models.IntegerField(default=0)
+    roundTwoEndTime = models.IntegerField(default=0)
+    roundThreeEndTime = models.IntegerField(default=0)
+
+
+class PlayerMessages(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    text = models.CharField(max_length=120)

@@ -27,4 +27,9 @@ urlpatterns = [
     path('roundLengthSet', views.roundLengthSet),
     path('setTimerEnd', views.setTimerEnd),
 
+# bulletin test
+    path('<str:user>/bulletin', views.bulletin),
+    path('getMessages', views.getMessages),
+    path('dashboard', views.dashboard),
+    path('sendMessage', views.sendMessage),
 ]

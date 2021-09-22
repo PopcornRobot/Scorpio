@@ -402,6 +402,72 @@ def roundLengthSet(request):
 def setTimerEnd(request):
     now = time.time()
     game = Game.objects.get(id=1)
-    game.roundEndTime = now + game.roundLength * 60
+    game.roundOneEndTime = now + game.roundLength * 60
+    game.roundTwoEndTime = now + (game.roundLength * 2) * 60
+    game.roundThreeEndTime = now + (game.roundLength * 3) * 60
     game.save()
     return HttpResponse("ajaxTest")
+
+# bulletin test
+
+def bulletin(request, user):
+    player = Player.objects.get(name=user)
+    game = Game.objects.get(id=1)
+    context = {
+        'user': user,
+        'nickname': player.nickname,
+        'role': player.role,
+        'informant': player.informant,
+        'messages': "messages",
+        'roundOneEndTime': game.roundOneEndTime,
+        'roundTwoEndTime': game.roundTwoEndTime,
+        'roundThreeEndTime': game.roundThreeEndTime,
+    }
+    return render(request, "bulletin.html", context)
+
+def getMessages(request):
+    return HttpResponse("views messages")
+
+def dashboard(request):
+    players = Player.objects.all()
+    playerMessages = PlayerMessages.objects.all()
+    mafia = Player.objects.filter(role='Mafia')
+    townpeople = Player.objects.filter(role='Townpeople')
+    context = {
+        'players': players,
+        'playerMessages': playerMessages,
+        'mafia': mafia,
+        'townpeople': townpeople
+    }
+    return render(request, "dashboard.html", context)
+
+def setMessage(request):
+    return HttpResponse("message set")
+
+def sendMessage(request):
+    recip = request.GET.get('recip','no value')
+    if recip == 'All':
+        print("All")
+        players = Player.objects.all()
+        for player in players:
+            playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
+            playerMessage.save()
+    elif recip == 'Mafia':
+        print("Mafia")
+        players = Player.objects.filter(role='Mafia')
+        for player in players:
+            playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
+            playerMessage.save()
+    elif recip == 'Townpeople':
+        print("Townpeople")
+        players = Player.objects.filter(role='Townpeople')
+        for player in players:
+            playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
+            playerMessage.save()        
+    else:
+        print(recip)
+        players = Player.objects.filter(name=recip)
+        for player in players:
+            playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
+            playerMessage.save()        
+    return HttpResponse("send message")

@@ -38,19 +38,16 @@
 </body>
 
 <script>
-    function setTimer(){
+    setTimer = () =>  {
         console.log("setTimer")
         var xhttp = new XMLHttpRequest()
-        xhttp.onload = function() {
-            console.log("onload callback")
-        }
         xhttp.open("GET", "/setTimerEnd", true)
         xhttp.send()
     }
-    function getTime() {
+    getTime = () => {
         console.log("getTime", Date.now())
     }
-    function timer() {
+    timer = () => {
         var roundEndTime  = {{ roundEndTime }}
         console.log('startTimer running', roundEndTime)
         var endTime = new Date(roundEndTime)
@@ -62,7 +59,7 @@
         document.getElementById('timer').innerHTML = timeLeft
         
     }
-    function startTimer() {
+    startTimer = () => {
         setInterval(function() {timer()},1000)
     }
 </script>
