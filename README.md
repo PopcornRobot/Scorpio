@@ -2,8 +2,6 @@
 
 An utterly fantastic project starter template for Django 2.0.
 
-Arlene Rangel
-Brandon
 
 ## Features
 
