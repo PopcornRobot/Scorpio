@@ -397,7 +397,7 @@ def roundLengthSet(request):
     game = Game.objects.get_or_create(id=1)[0]
     game.roundLength = request.POST['roundLength']
     game.save()
-    return redirect("/timer")
+    return redirect("/dashboard")
 
 def setTimerEnd(request):
     now = time.time()
@@ -429,6 +429,7 @@ def getMessages(request):
     return HttpResponse("views messages")
 
 def dashboard(request):
+    game = Game.objects.get(id=1)
     players = Player.objects.all()
     playerMessages = PlayerMessages.objects.all()
     mafia = Player.objects.filter(role='Mafia')
@@ -437,7 +438,9 @@ def dashboard(request):
         'players': players,
         'playerMessages': playerMessages,
         'mafia': mafia,
-        'townpeople': townpeople
+        'townpeople': townpeople,
+        'roundLength': game.roundLength,
+
     }
     return render(request, "dashboard.html", context)
 

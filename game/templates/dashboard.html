@@ -27,6 +27,18 @@
     <div style="border:1px solid black;">
 
         <h1>Dashboard</h1>
+        <div>
+            <form action="/roundLengthSet" method="Post">
+                {% csrf_token %}
+                <label for="roundLength">Round Length</label>
+                <input id="roundLength" name="roundLength" type="text">
+                <input type="submit" value="submit">
+            </form>
+            <div>
+                Round Length: {{ roundLength }}
+            </div>
+        </div>
+
         <button onclick="startGame()">Start Game</button>
         <button onclick="sendMessage('All')">Message all users</button>
         <p>Mafia</p>
@@ -51,7 +63,13 @@
                     <td>{{ player.nickname }}</td>
                     <td>{{ player.role }}</td>
                     <td><button onclick="sendMessage('{{ player.name }}')">Message</button></td>
-                    <td>{{ player.playermessages.text }}</td>
+                    <td>
+                        <ul>
+                            {% for message in player.playermessages_set.all %}
+                            <li>{{ message.text }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
