@@ -41,6 +41,7 @@
 
         <button onclick="startGame()">Start Game</button>
         <button onclick="sendMessage('All')">Message all users</button>
+        <button onclick="deleteAllPlayerMessages()">Delete all messages</button>
         <p>Mafia</p>
         <button onclick="sendMessage('Mafia')">Message all Mafia</button>
         <table>
@@ -70,6 +71,7 @@
                             {% endfor %}
                         </ul>
                     </td>
+                    <td id="{{ player.name }}">test</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -97,7 +99,13 @@
                     <td>{{ player.nickname }}</td>
                     <td>{{ player.role }}</td>
                     <td><button onclick="sendMessage('{{ player.name }}')">Message</button></td>
-                    <td>{{ player.playermessages.text }}</td>                
+                    <td>
+                        <ul>
+                            {% for message in player.playermessages_set.all %}
+                            <li>{{ message.text }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>                
                 </tr>
                 {% endfor %}
             </tbody>
@@ -114,14 +122,39 @@
             xhttp.open("GET", "/sendMessage?recip=" + recip, true)
             xhttp.send()
         }
-        sendMessageToGroup = (group) => {
-            console.log(group)
-        }
         startGame = () => {
             var xhttp = new XMLHttpRequest()
             xhttp.open("GET", "/setTimerEnd", true)
             xhttp.send()
         }
+        deleteAllPlayerMessages = () => {
+            var xhttp = new XMLHttpRequest()
+            xhttp.open("GET", "/deleteAllPlayerMessages", true)
+            xhttp.send()
+        }
+        polling = () => {
+            setInterval(() => {getMessages()}, 2000)
+        }
+        getMessages = () => {
+            console.log("getMessages")
+            let messages = ""
+            const url = "/getMessages"
+            fetch(url)
+                .then(response => response.json())
+                .then(data => messages = data)
+                .then(html => {
+                    console.log(html, messages)
+                    
+                    for (let key in html){
+                        let value = html[key]
+                        document.getElementById('AJ').innerHTML = value
+
+                    }
+
+                    
+                })
+        }
+        document.onload(polling())
     </script>
 </body>
 </html>

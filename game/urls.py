@@ -30,6 +30,8 @@ urlpatterns = [
 # bulletin test
     path('<str:user>/bulletin', views.bulletin),
     path('getMessages', views.getMessages),
-    path('dashboard', views.dashboard),
+    path('dashboard', views.dashboard, name="dashboard"),
     path('sendMessage', views.sendMessage),
+    path('deleteAllPlayerMessages', views.deleteAllPlayerMessages),
+    path('getPlayerMessages/<str:player>', views.getPlayerMessages),
 ]

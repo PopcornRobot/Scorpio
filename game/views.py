@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.urls import reverse
 from .models import *
-import random
+import random, json
 import time
 
 def survey(request):
@@ -426,7 +427,20 @@ def bulletin(request, user):
     return render(request, "bulletin.html", context)
 
 def getMessages(request):
-    return HttpResponse("views messages")
+    messages = PlayerMessages.objects.all()
+    output = {}
+    for message in messages:
+        player = str(message.player)
+        if player in output:
+            output[player].append(message.text)
+        else: 
+            output[player] = [message.text]
+    print("output", output)
+    return HttpResponse(json.dumps(output))
+
+def getPlayerMessages(request, player):
+    print("----- getPlayerMessages", player)
+    return HttpResponse(["one", "two", "three"])
 
 def dashboard(request):
     game = Game.objects.get(id=1)
@@ -455,6 +469,7 @@ def sendMessage(request):
         for player in players:
             playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
             playerMessage.save()
+        return redirect("/dashboard")
     elif recip == 'Mafia':
         print("Mafia")
         players = Player.objects.filter(role='Mafia')
@@ -474,3 +489,8 @@ def sendMessage(request):
             playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
             playerMessage.save()        
     return HttpResponse("send message")
+
+def deleteAllPlayerMessages(request):
+    messages = PlayerMessages.objects.all()
+    messages.delete()
+    return HttpResponseRedirect(reverse('game:dashboard'))

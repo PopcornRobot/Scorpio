@@ -12,6 +12,7 @@
     <h4>Nickname: {{ nickname }}</h4>
     <h4>Role: {{ role }}</h4>
     <h4>Informant: {{ informant }}</h4>
+    <button onclick="getPlayerMessages('{{ user }}')">Get Messages</button>
     <h4>Messages: {{ messages }}</h4>
     <h4>Round: <span id="round"></span></h4>
     <h4>Timer: <span id="timer"></span></h4>
@@ -64,6 +65,14 @@
                 document.getElementById('timer').innerHTML = "00:00"
                 document.getElementById('round').innerHTML = "Game Over"
             }
+       }
+       getPlayerMessages = (user) => {
+        //    const user = {{ user }}
+           const url = "/getPlayerMessages/" + user
+           fetch(url)
+                .then(response => response.text())
+                .then(data => console.log(data))
+        
        }
        document.onload(polling())
     </script>

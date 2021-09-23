@@ -51,3 +51,4 @@ class Game(models.Model):
 class PlayerMessages(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     text = models.CharField(max_length=120)
+    
