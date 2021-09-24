@@ -414,6 +414,7 @@ def setTimerEnd(request):
 def bulletin(request, user):
     player = Player.objects.get(name=user)
     game = Game.objects.get(id=1)
+    activeScreen = "screens/" + player.active_screen + ".html"
     context = {
         'user': user,
         'nickname': player.nickname,
@@ -423,6 +424,7 @@ def bulletin(request, user):
         'roundOneEndTime': game.roundOneEndTime,
         'roundTwoEndTime': game.roundTwoEndTime,
         'roundThreeEndTime': game.roundThreeEndTime,
+        'activeScreen': activeScreen,
     }
     return render(request, "bulletin.html", context)
 
@@ -435,8 +437,28 @@ def getMessages(request):
             output[player].append(message.text)
         else: 
             output[player] = [message.text]
-    print("output", output)
+    # print("output", output)
     return HttpResponse(json.dumps(output))
+
+def getPlayerScreen(request, player):
+    player = Player.objects.get(name=player) 
+    screens = {
+        "death_alert": "<h1>Death Alert<h1><p>Someone has been killed</p>",
+        "wait_screen": "<h1>Role Assignment</h1><p>Please wait here</p>",
+        "informant": "<h1>Your life is in danger!</h1><p>You found a package...</p>",
+        "mafia": "<h1>You are the Mafia</h1>",
+        "tip_received_mafia": "<h1>Tip Received (Mafia)</h1>",
+        "tip_received_townpeople": "<h1>Tip Received (Townpeople)</h1>"
+
+    }
+    return HttpResponse(screens[player.active_screen])
+
+def setPlayerScreen(request, player, screen):
+    print("setPlayerScreen", player, screen)
+    user = Player.objects.get(name=player)
+    user.active_screen = screen
+    user.save()
+    return HttpResponse("setPlayerScreen")
 
 def getPlayerMessages(request, player):
     print("----- getPlayerMessages", player)

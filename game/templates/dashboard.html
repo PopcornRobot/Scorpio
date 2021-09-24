@@ -52,6 +52,7 @@
                     <th>Role</th>
                     <th>Send</th>
                     <th>Messages</th>
+                    <th>Active Screen</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,7 +72,16 @@
                             {% endfor %}
                         </ul>
                     </td>
-                    <td id="{{ player.name }}">test</td>
+                    <td>
+                        {{ player.active_screen }}
+                        <button onclick="setScreen('{{ player.name }}', 'wait_screen')">Wait</button>
+                        <button onclick="setScreen('{{ player.name }}', 'death_alert')">Death</button>
+                        <button onclick="setScreen('{{ player.name }}', 'informant')">Informant</button>
+                        <button onclick="setScreen('{{ player.name }}', 'mafia')">Mafia</button>
+                        <button onclick="setScreen('{{ player.name }}', 'tip_received_mafia')">Mafia Tipped</button>
+                        <button onclick="setScreen('{{ player.name }}', 'tip_received_townpeople')">Tip</button>
+                    
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -86,6 +96,7 @@
                     <th>Role</th>
                     <th>Send</th>
                     <th>Message</th>
+                    <th>Active Screen</th>
                 </tr>
             </thead>
             <tbody>
@@ -105,7 +116,8 @@
                             <li>{{ message.text }}</li>
                             {% endfor %}
                         </ul>
-                    </td>                
+                    </td>       
+                    <td>{{ player.active_screen }}</td>         
                 </tr>
                 {% endfor %}
             </tbody>
@@ -116,6 +128,9 @@
 
 
     <script>
+        polling = () => {
+            setInterval(() => {getMessages()}, 2000)
+        }
         sendMessage = (recip) => {
             console.log(recip)
             var xhttp = new XMLHttpRequest()
@@ -131,9 +146,6 @@
             var xhttp = new XMLHttpRequest()
             xhttp.open("GET", "/deleteAllPlayerMessages", true)
             xhttp.send()
-        }
-        polling = () => {
-            setInterval(() => {getMessages()}, 2000)
         }
         getMessages = () => {
             console.log("getMessages")
@@ -153,6 +165,12 @@
 
                     
                 })
+        }
+        setScreen = (player, screen) => {
+            const url = "/setPlayerScreen/" + player + "/" + screen
+            fetch(url)
+                .then(response => response.text())
+                .then(data => console.log({data}))
         }
         document.onload(polling())
     </script>

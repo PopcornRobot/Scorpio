@@ -18,6 +18,7 @@ class Player(models.Model):
     role = models.CharField(max_length=100)
     informant = models.BooleanField(default=False)
     partner = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
+    active_screen = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name

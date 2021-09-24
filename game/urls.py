@@ -34,4 +34,6 @@ urlpatterns = [
     path('sendMessage', views.sendMessage),
     path('deleteAllPlayerMessages', views.deleteAllPlayerMessages),
     path('getPlayerMessages/<str:player>', views.getPlayerMessages),
+    path('getPlayerScreen/<str:player>', views.getPlayerScreen),
+    path('setPlayerScreen/<str:player>/<str:screen>', views.setPlayerScreen),
 ]
