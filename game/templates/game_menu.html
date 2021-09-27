@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+  <!-- Header -->
+  <!-- <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">Space Dragons presents...</div>
+        <div class="intro-heading text-uppercase">A Halloween Murder Mystery</div>
+      </div>
+    </div>
+  </header> -->
+
+  <!-- Services -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Game menu</h2>
+          <!-- <h3 class="section-subheading text-muted">Land of the Dead Customs and Border Protection</h3> -->
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          {% if game_is_started %}
+            <p><a href="/stop_game"><button type="button" class="btn btn-secondary">Stop game</button></a></p>
+          {% elif game_is_started == False %}
+            <p><a href="/start_game"><button type="button" class="btn btn-secondary">Start game</button></a></p>
+          {% endif %}
+
+
+          <h4>Players</h4>
+          <ol>
+            {% for player in players %}
+            {% comment %}
+              <li><strong>{{ player.role }}</strong> {{ player.id }}- {{ player.name }}
+                {% if player.nickname %}
+                  aka {{ player.nickname }}
+                {% elif player.partner %}
+                  partnered with {{ player.partner }}
+                {% endif %}
+
+                <a href="/delete?pid={{ player.id }}">delete</a></li>
+            {% endcomment %}
+
+              <li>{{ player.id }}- {{ player.name }} <a href="/delete?pid={{ player.id }}">delete</a></li>
+            {% endfor %}
+          </ol>
+
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

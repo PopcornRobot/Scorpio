@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+  <!-- Header -->
+  <!-- <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">Space Dragons presents...</div>
+        <div class="intro-heading text-uppercase">A Halloween Murder Mystery</div>
+      </div>
+    </div>
+  </header> -->
+
+  <!-- Services -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Role assignment</h2>
+          <!-- <h3 class="section-subheading text-muted">Land of the Dead Customs and Border Protection</h3> -->
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+
+          {% if player.role == "" %}
+            <p class="float-left p-3" ><img src="{% static "img/wait.jpg" %}" style="width:200px" /></p>
+            <p>Please wait here until everyone has completed the survey.
+              Leave your browser on this page. Reload it once the game starts.</p>
+          {% elif player.role != "" %}
+            <p>&nbsp;</p>
+            <h4>Hide your screen before reading. Don't reload the page.</h4>
+            <p>&nbsp;</p>
+
+            {% if player.role == "informant" %}
+              <p>You are an <strong>informant</strong>.
+                <!-- Coming from the underground, you find out
+                 there are {{ num_murderers }} murderer{{ num_murderers|pluralize }} in the room. -->
+                Your job is to find the murderer among the group. The best way to do that is
+                to give your Orb of Truth to the Chief of Police to help reveal who the murderer is.
+              Be careful though,
+              your life is in danger once the Orb leaves your hands.
+              </p>
+
+              <p>Remember, the tips are real facts that lead to real people. So walk around and talk to people.
+              Create alliances. Figure out who's profile matches the best. We are counting on you.
+              </p>
+
+              {% if player.partner != None %}
+              <p>There's one more thing though... You've spent the whole day
+                with {{ player.partner.name }}.
+                So you know {{ player.partner.name }} is innocent. You can trust'em. Keep your partnership a secret.
+                The murderer is looking for you two and trying to murder you both.
+              {% endif %}
+
+            {% elif player.role == "murderer" %}
+              <p>You are the <strong>murderer</strong> known as <em>{{ player.nickname }}</em>.
+                An hour ago, you murdered someone and ran into this restaurant to hide in this group.
+                Soon everyone is going to vote on who to deliver to the police. Convince everyone you are innocent.
+              </p>
+
+              <p>Your criminal partners:</p>
+              <ol>
+                {% for murderer in murderers %}
+                  {% if player.id != murderer.id %}
+                  <li>{{ murderer.name }} known as <strong>{{ murderer.nickname }}</strong></li>
+                  {% endif %}
+                {% endfor %}
+              </ol>
+
+              <hr />
+
+              <p>You are the only one to get the message above. Everyone else got the message below:</p>
+
+              <p>You are an <strong>informant</strong>.
+                <!-- Coming from the underground, you find out
+                 there are {{ num_murderers }} murderer{{ num_murderers|pluralize }} in the room. -->
+                Your job is to find the murderer among the group. The best way to do that is
+                to give your Orb of Truth to the Chief of Police to help reveal who the murderer is.
+              Be careful though,
+              your life is in danger once the Orb leaves your hands.
+              </p>
+
+              <p>Remember, the tips are real facts that lead to real people. So walk around and talk to people.
+              Create alliances. Figure out who's profile matches the best. We are counting on you.
+              </p>
+
+
+
+            {% elif player.role == "chief1" or player.role == "chief2" %}
+              <p>You are the <strong>Chief of Police</strong>. Lead the group and expose the murderers
+                before someone gets killed.
+                <!-- Undercover cops are saying there are {{ num_murderers }}
+              murderer{{ num_murderers|pluralize }} in the room.  -->
+              You'll need every tip from your informants to catch
+            these murderers. </p>
+
+
+              <p><em>As Chief, you are responsible for making group announcements.
+                We encourage improvisation! To give you room for creativity,
+                each tip includes the survey question and a script of what to say.
+                When you make an announcement, feel free to create or modify your own script.</em>
+              </p>
+
+              {% if player.role == "chief1" %}
+              <p>Right now, everyone should be reading their roles. Once they are done, gather everyone around
+                and make the following public announcement:</p>
+
+
+              <h5>Pubic Announcement</h5>
+
+              <p>Hello everyone. As Chief of Police, I have just been informed that the murderer is watching me for
+                Orb drops. They want to use
+                that opportunity to kill my informants.
+                I know you are watching me. But I am also watching you. And we are already closing in on you.
+                </p>
+
+              <p>Camera footage shows there are {{ num_murderers }}
+              murderer{{ num_murderers|pluralize }} in the room. So we are looking for {{ num_murderers }}
+              murderer{{ num_murderers|pluralize }}. The murderers identify themselves as:
+
+              {% for murderer in murderers %}
+                {% if not forloop.first %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}
+                {{ murderer.nickname }}
+              {% endfor %}
+              </p>
+
+
+                My colleague, {{ player.partner.name }}, will share some more information we have on the suspects.
+
+              {% elif player.role == "chief2" %}
+
+              <p>In a few minutes, {{ player.partner.name }}, the other Chief of Police,
+                will read an announcement. Once done, make the following public announcement.
+              Remember, you don't need to read the "survey question" portion of the tips. That's
+            there purely for your benefit.</p>
+
+
+
+              <h5>Public Announcement</h5>
+
+              <p>Hello everyone. As the other Chief of Police, we have discovered these facts about the murderers.</p>
+
+              <ol>
+                {% for tip in tips %}
+                  <li>
+                    <p><em>Question: </em> {{ tip.question|safe }}</p>
+                    <p><em>Script: </em> {{ tip.tip_text|safe }}</p>
+                  </li>
+                {% endfor %}
+              </ol>
+
+            <!-- Deploy -->
+
+              {% endif %}
+
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+            <hr />
+
+            <h5>Tips:</h5>
+            <p>Remember, you can only hold one orb at a time. Once you receive an orb,
+              you are permitted to unlock a tip and read it publicly before you can accept another orb.
+              Be secretive, because once
+            an informant gives you an orb, their lives are on the line. Protect their lives under all costs. </p>
+
+            <p><button id="reveal_tip" type="button" class="btn btn-secondary">Reveal tip</button></p>
+
+
+            <div class="card">
+              <div id="tip" style="display:none" class="card-body">
+
+              </div>
+            </div>
+
+
+
+            <script>
+              $(function() {
+
+                $("#reveal_tip").click(function() {
+                  if (confirm("Are you sure you want to unlock a tip?"))
+                  {
+
+                    $.ajax({
+                      url: "/reveal_tip"
+                    }).done(function(data) {
+                      $( "#tip" ).html(data).show()
+                      $("#tip").append('<p><a id="destroy" href="">Click to destroy</a></p>')
+
+
+                        $("#destroy").on("click", function() {
+                          $("#tip").hide()
+                          return false
+                        })
+                    });
+                  }
+                })
+              })
+            </script>
+
+
+            {% endif %}
+
+
+          {% endif %}
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
