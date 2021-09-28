@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, F, Max
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
@@ -466,15 +466,45 @@ def dashboard(request):
     playerMessages = PlayerMessages.objects.all()
     mafia = Player.objects.filter(role='Mafia')
     townpeople = Player.objects.filter(role='Townpeople')
+    questions = Question.objects.all().order_by('-selected_count')
+    low_accuracy = Question.objects.all().order_by('-selected_count')[:1]
+    high_accuracy = Question.objects.filter(selected_count__gt=0).order_by('selected_count')[:1]
+    max_selected = Question.objects.aggregate(Max('selected_count'))
+    print("max selected", max_selected)
+    answered_questions = Question.objects.filter(selected_count__gt=0)
     context = {
         'players': players,
         'playerMessages': playerMessages,
         'mafia': mafia,
         'townpeople': townpeople,
         'roundLength': game.roundLength,
+        'questions': questions,
+        'low_accuracy': low_accuracy,
+        'high_accuracy': high_accuracy,
 
     }
     return render(request, "dashboard.html", context)
+
+def countSelected(request):
+    print('count selected')
+    player_answers = PlayerAnswer.objects.all()
+    for answer in player_answers:
+        question_id = answer.question.id
+        Question.objects.filter(id=question_id).update(selected_count=F('selected_count')+1)
+
+        print(question_id)
+
+    return HttpResponse("countSelected")
+
+def clearCountSelected(request):
+    print('clear count selected')
+    player_answers = PlayerAnswer.objects.all()
+    for answer in player_answers:
+        question_id = answer.question.id
+        Question.objects.filter(id=question_id).update(selected_count=0)
+
+        print(question_id)    
+    return HttpResponse("countSelected")
 
 def setMessage(request):
     return HttpResponse("message set")

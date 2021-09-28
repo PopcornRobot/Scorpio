@@ -1,5 +1,5 @@
 from django.contrib import admin
-from game.models import Game, Player, PlayerMessages
+from game.models import Game, Player, PlayerMessages, PlayerAnswer
 
 class GameAdmin(admin.ModelAdmin):
     pass
@@ -12,3 +12,7 @@ admin.site.register(Player, PlayerAdmin)
 class PlayerMessagesAdmin(admin.ModelAdmin):
     pass
 admin.site.register(PlayerMessages, PlayerMessagesAdmin)
+
+class PlayerAnswerAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(PlayerAnswer, PlayerAnswerAdmin)
