@@ -1,14 +1,11 @@
-<<<<<<< HEAD
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
-=======
 from django.db.models import Q, F, Max
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
->>>>>>> 4eaf5a5dd9912750718e77b504d75c29e65571e0
 from .models import *
 import random
+
+
 
 # Create your views here.
 
@@ -386,8 +383,6 @@ def printout(request):
 
     # return HttpResponse("overview")
     # return render(request, 'murderer.html', {'murderer': final_clues, 'name': murderer})
-<<<<<<< HEAD
-=======
 
 
 
@@ -450,13 +445,13 @@ def getMessages(request):
         player = str(message.player)
         if player in output:
             output[player].append(message.text)
-        else: 
+        else:
             output[player] = [message.text]
     # print("output", output)
     return HttpResponse(json.dumps(output))
 
 def getPlayerScreen(request, player):
-    player = Player.objects.get(name=player) 
+    player = Player.objects.get(name=player)
     all_townpeople = Player.objects.filter(role="Townpeople")
     context =  {'user': player.name, 'all_townpeople': all_townpeople}
     return render(request, "screens/"+ player.active_screen  + ".html", context)
@@ -515,7 +510,7 @@ def clearCountSelected(request):
         question_id = answer.question.id
         Question.objects.filter(id=question_id).update(selected_count=0)
 
-        print(question_id)    
+        print(question_id)
     return HttpResponse("countSelected")
 
 def setMessage(request):
@@ -541,13 +536,13 @@ def sendMessage(request):
         players = Player.objects.filter(role='Townpeople')
         for player in players:
             playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
-            playerMessage.save()        
+            playerMessage.save()
     else:
         print(recip)
         players = Player.objects.filter(name=recip)
         for player in players:
             playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
-            playerMessage.save()        
+            playerMessage.save()
     return HttpResponse("send message")
 
 def deleteAllPlayerMessages(request):
@@ -564,4 +559,3 @@ def kill_informant(request):
         setPlayerScreen(request, player.name, "announcement")
     return HttpResponseRedirect(reverse('game:bulletin', kwargs={'user': killer}))
     # return HttpResponse("pass")
->>>>>>> 4eaf5a5dd9912750718e77b504d75c29e65571e0
