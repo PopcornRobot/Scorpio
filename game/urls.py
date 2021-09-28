@@ -22,4 +22,22 @@ urlpatterns = [
     path('printout', views.printout),
     path('randomize', views.randomize),
     path('screen', views.screen),
+
+# timer test
+    path('timer', views.timer),
+    path('roundLengthSet', views.roundLengthSet),
+    path('setTimerEnd', views.setTimerEnd),
+
+# bulletin/dashboard test
+    path('<str:user>/bulletin', views.bulletin, name="bulletin"),
+    path('getMessages', views.getMessages),
+    path('dashboard', views.dashboard, name="dashboard"),
+    path('sendMessage', views.sendMessage),
+    path('deleteAllPlayerMessages', views.deleteAllPlayerMessages),
+    path('getPlayerMessages/<str:player>', views.getPlayerMessages),
+    path('getPlayerScreen/<str:player>', views.getPlayerScreen),
+    path('setPlayerScreen/<str:player>/<str:screen>', views.setPlayerScreen),
+    path('kill_informant', views.kill_informant),
+    path('countSelected', views.countSelected),
+    path('clearCountSelected', views.clearCountSelected),
 ]

@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
+=======
+from django.db.models import Q, F, Max
+from django.shortcuts import redirect, render
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.urls import reverse
+>>>>>>> 4eaf5a5dd9912750718e77b504d75c29e65571e0
 from .models import *
 import random
 
@@ -379,3 +386,182 @@ def printout(request):
 
     # return HttpResponse("overview")
     # return render(request, 'murderer.html', {'murderer': final_clues, 'name': murderer})
+<<<<<<< HEAD
+=======
+
+
+
+# timer test
+
+def timer(request):
+    game = Game.objects.get_or_create(id=1)[0]
+    roundLength = game.roundLength
+    context = {
+        'roundLength': roundLength,
+        'gameOver': game.gameOver,
+        'roundEndTime': game.roundEndTime
+    }
+    return render(request, "timer.html", context)
+
+def timerStart(request, time):
+    print("----", time)
+    return HttpResponse("timer started")
+
+def roundLengthSet(request):
+    game = Game.objects.get_or_create(id=1)[0]
+    game.roundLength = request.POST['roundLength']
+    game.save()
+    return redirect("/dashboard")
+
+def setTimerEnd(request):
+    now = time.time()
+    game = Game.objects.get(id=1)
+    game.roundOneEndTime = now + game.roundLength * 60
+    game.roundTwoEndTime = now + (game.roundLength * 2) * 60
+    game.roundThreeEndTime = now + (game.roundLength * 3) * 60
+    game.save()
+    return HttpResponse("ajaxTest")
+
+# bulletin test
+
+def bulletin(request, user):
+    player = Player.objects.get(name=user)
+    game = Game.objects.get(id=1)
+    all_townpeople = Player.objects.filter(role='Townpeople')
+    activeScreen = "screens/" + player.active_screen + ".html"
+    context = {
+        'user': user,
+        'nickname': player.nickname,
+        'role': player.role,
+        'informant': player.informant,
+        'messages': "messages",
+        'roundOneEndTime': game.roundOneEndTime,
+        'roundTwoEndTime': game.roundTwoEndTime,
+        'roundThreeEndTime': game.roundThreeEndTime,
+        'activeScreen': activeScreen,
+        'all_townpeople': all_townpeople
+    }
+    return render(request, "bulletin.html", context)
+
+def getMessages(request):
+    messages = PlayerMessages.objects.all()
+    output = {}
+    for message in messages:
+        player = str(message.player)
+        if player in output:
+            output[player].append(message.text)
+        else: 
+            output[player] = [message.text]
+    # print("output", output)
+    return HttpResponse(json.dumps(output))
+
+def getPlayerScreen(request, player):
+    player = Player.objects.get(name=player) 
+    all_townpeople = Player.objects.filter(role="Townpeople")
+    context =  {'user': player.name, 'all_townpeople': all_townpeople}
+    return render(request, "screens/"+ player.active_screen  + ".html", context)
+
+def setPlayerScreen(request, player, screen):
+    print("setPlayerScreen", player, screen)
+    user = Player.objects.get(name=player)
+    user.active_screen = screen
+    user.save()
+    return HttpResponse("setPlayerScreen")
+
+def getPlayerMessages(request, player):
+    print("----- getPlayerMessages", player)
+    return HttpResponse(["one", "two", "three"])
+
+def dashboard(request):
+    game = Game.objects.get(id=1)
+    players = Player.objects.all()
+    playerMessages = PlayerMessages.objects.all()
+    mafia = Player.objects.filter(role='Mafia')
+    townpeople = Player.objects.filter(role='Townpeople')
+    questions = Question.objects.all().order_by('-selected_count')
+    low_accuracy = Question.objects.all().order_by('-selected_count')[:1]
+    high_accuracy = Question.objects.filter(selected_count__gt=0).order_by('selected_count')[:1]
+    max_selected = Question.objects.aggregate(Max('selected_count'))
+    print("max selected", max_selected)
+    answered_questions = Question.objects.filter(selected_count__gt=0)
+    context = {
+        'players': players,
+        'playerMessages': playerMessages,
+        'mafia': mafia,
+        'townpeople': townpeople,
+        'roundLength': game.roundLength,
+        'questions': questions,
+        'low_accuracy': low_accuracy,
+        'high_accuracy': high_accuracy,
+
+    }
+    return render(request, "dashboard.html", context)
+
+def countSelected(request):
+    print('count selected')
+    player_answers = PlayerAnswer.objects.all()
+    for answer in player_answers:
+        question_id = answer.question.id
+        Question.objects.filter(id=question_id).update(selected_count=F('selected_count')+1)
+
+        print(question_id)
+
+    return HttpResponse("countSelected")
+
+def clearCountSelected(request):
+    print('clear count selected')
+    player_answers = PlayerAnswer.objects.all()
+    for answer in player_answers:
+        question_id = answer.question.id
+        Question.objects.filter(id=question_id).update(selected_count=0)
+
+        print(question_id)    
+    return HttpResponse("countSelected")
+
+def setMessage(request):
+    return HttpResponse("message set")
+
+def sendMessage(request):
+    recip = request.GET.get('recip','no value')
+    if recip == 'All':
+        print("All")
+        players = Player.objects.all()
+        for player in players:
+            playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
+            playerMessage.save()
+        return redirect("/dashboard")
+    elif recip == 'Mafia':
+        print("Mafia")
+        players = Player.objects.filter(role='Mafia')
+        for player in players:
+            playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
+            playerMessage.save()
+    elif recip == 'Townpeople':
+        print("Townpeople")
+        players = Player.objects.filter(role='Townpeople')
+        for player in players:
+            playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
+            playerMessage.save()        
+    else:
+        print(recip)
+        players = Player.objects.filter(name=recip)
+        for player in players:
+            playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
+            playerMessage.save()        
+    return HttpResponse("send message")
+
+def deleteAllPlayerMessages(request):
+    messages = PlayerMessages.objects.all()
+    messages.delete()
+    return HttpResponseRedirect(reverse('game:dashboard'))
+
+def kill_informant(request):
+    player = request.POST.get('player')
+    killer = request.POST.get('killer')
+    print("kill informant", player, killer)
+    all_players = Player.objects.filter(Q(role="Mafia")|Q(role="Townpeople"))
+    for player in all_players:
+        setPlayerScreen(request, player.name, "announcement")
+    return HttpResponseRedirect(reverse('game:bulletin', kwargs={'user': killer}))
+    # return HttpResponse("pass")
+>>>>>>> 4eaf5a5dd9912750718e77b504d75c29e65571e0

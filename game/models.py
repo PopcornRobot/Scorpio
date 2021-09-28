@@ -1,13 +1,10 @@
 from django.db import models
 
-
-# Create your models here.
-
 # Contains information on the actual card itself
 class Question(models.Model):
     text = models.TextField()           # Question on problem
     news_report = models.TextField()           # How the news reports this question
-
+    selected_count = models.IntegerField(default=0)  # How many times this question was selected
 
     def __str__(self):
         return self.text
@@ -19,6 +16,8 @@ class Player(models.Model):
     informant = models.BooleanField(default=False)
     partner = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     active_screen = models.CharField(max_length=100)
+    alive = models.BooleanField(default=True)
+    moderator = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

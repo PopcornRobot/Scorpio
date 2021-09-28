@@ -9,14 +9,14 @@
 <body onload="polling()">
     <h1>Bulletin</h1>
     <h4>User: {{ user }}</h4>
-    <h4>Active Screen: <span id="activeScreen_old"></span></h4>
-    <h4>Include: 
-        <span id="activeScreen">
-
-        {% include activeScreen %}
-        
-        </span> 
-    </h4>
+    <div style="border:1px solid black">
+        <h4>Active Screen: <span id="activeScreen_old"></span></h4>
+            <span id="activeScreen">
+                
+                {% include activeScreen %}
+                
+            </span> 
+    </div>
     <h4>Nickname: {{ nickname }}</h4>
     <h4>Role: {{ role }}</h4>
     <h4>Informant: {{ informant }}</h4>
@@ -35,7 +35,7 @@
         polling = () => {
         //     setInterval(function() {getMessages()}, 2000)
             setInterval(function() {timer()}, 1000)
-            setInterval(function() {getPlayerScreen()}, 1000)
+            setInterval(function() {getPlayerScreen()}, 5000)
         }
         // getMessages = () => {
         //     console.log("getMessages")
@@ -93,7 +93,7 @@
            fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     document.getElementById('activeScreen').innerHTML = data
                 })
        }
