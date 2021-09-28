@@ -28,7 +28,7 @@ urlpatterns = [
     path('setTimerEnd', views.setTimerEnd),
 
 # bulletin test
-    path('<str:user>/bulletin', views.bulletin),
+    path('<str:user>/bulletin', views.bulletin, name="bulletin"),
     path('getMessages', views.getMessages),
     path('dashboard', views.dashboard, name="dashboard"),
     path('sendMessage', views.sendMessage),
@@ -36,4 +36,5 @@ urlpatterns = [
     path('getPlayerMessages/<str:player>', views.getPlayerMessages),
     path('getPlayerScreen/<str:player>', views.getPlayerScreen),
     path('setPlayerScreen/<str:player>/<str:screen>', views.setPlayerScreen),
+    path('kill_informant', views.kill_informant),
 ]

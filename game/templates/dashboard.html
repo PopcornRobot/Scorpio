@@ -50,6 +50,7 @@
                     <th>Player</th>
                     <th>Nickname</th>
                     <th>Role</th>
+                    <!-- <th>Kill</th> -->
                     <th>Send</th>
                     <th>Messages</th>
                     <th>Active Screen</th>
@@ -64,6 +65,7 @@
                         </a>
                     <td>{{ player.nickname }}</td>
                     <td>{{ player.role }}</td>
+                    <!-- <td><button>Kill</button></td> -->
                     <td><button onclick="sendMessage('{{ player.name }}')">Message</button></td>
                     <td>
                         <ul>
@@ -80,7 +82,7 @@
                         <button onclick="setScreen('{{ player.name }}', 'mafia')">Mafia</button>
                         <button onclick="setScreen('{{ player.name }}', 'tip_received_mafia')">Mafia Tipped</button>
                         <button onclick="setScreen('{{ player.name }}', 'tip_received_townpeople')">Tip</button>
-                    
+                        <button onclick="setScreen('{{ player.name }}', 'theres_a_rat')">Rat</button>                   
                     </td>
                 </tr>
                 {% endfor %}
@@ -93,7 +95,7 @@
                 <tr>
                     <th>Player</th>
                     <th>Nickname</th>
-                    <th>Role</th>
+                    <th>Informant</th>
                     <th>Send</th>
                     <th>Message</th>
                     <th>Active Screen</th>
@@ -108,7 +110,10 @@
                         </a>
                     </td>
                     <td>{{ player.nickname }}</td>
-                    <td>{{ player.role }}</td>
+                    <td>{% if player.informant %}
+                        <button>Kill</button>
+                        {% endif %}
+                    </td>
                     <td><button onclick="sendMessage('{{ player.name }}')">Message</button></td>
                     <td>
                         <ul>
@@ -117,7 +122,15 @@
                             {% endfor %}
                         </ul>
                     </td>       
-                    <td>{{ player.active_screen }}</td>         
+                    <td>
+                        {{ player.active_screen }}
+                        <button onclick="setScreen('{{ player.name }}', 'wait_screen')">Wait</button>
+                        <button onclick="setScreen('{{ player.name }}', 'death_alert')">Death</button>
+                        <button onclick="setScreen('{{ player.name }}', 'informant')">Informant</button>
+                        <button onclick="setScreen('{{ player.name }}', 'mafia')">Mafia</button>
+                        <button onclick="setScreen('{{ player.name }}', 'tip_received_mafia')">Mafia Tipped</button>
+                        <button onclick="setScreen('{{ player.name }}', 'tip_received_townpeople')">Tip</button>                    
+                    </td>        
                 </tr>
                 {% endfor %}
             </tbody>
@@ -129,7 +142,7 @@
 
     <script>
         polling = () => {
-            setInterval(() => {getMessages()}, 2000)
+            // setInterval(() => {getMessages()}, 5000)
         }
         sendMessage = (recip) => {
             console.log(recip)

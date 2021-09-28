@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
@@ -414,6 +415,7 @@ def setTimerEnd(request):
 def bulletin(request, user):
     player = Player.objects.get(name=user)
     game = Game.objects.get(id=1)
+    all_townpeople = Player.objects.filter(role='Townpeople')
     activeScreen = "screens/" + player.active_screen + ".html"
     context = {
         'user': user,
@@ -425,6 +427,7 @@ def bulletin(request, user):
         'roundTwoEndTime': game.roundTwoEndTime,
         'roundThreeEndTime': game.roundThreeEndTime,
         'activeScreen': activeScreen,
+        'all_townpeople': all_townpeople
     }
     return render(request, "bulletin.html", context)
 
@@ -442,16 +445,9 @@ def getMessages(request):
 
 def getPlayerScreen(request, player):
     player = Player.objects.get(name=player) 
-    screens = {
-        "death_alert": "<h1>Death Alert<h1><p>Someone has been killed</p>",
-        "wait_screen": "<h1>Role Assignment</h1><p>Please wait here</p>",
-        "informant": "<h1>Your life is in danger!</h1><p>You found a package...</p>",
-        "mafia": "<h1>You are the Mafia</h1>",
-        "tip_received_mafia": "<h1>Tip Received (Mafia)</h1>",
-        "tip_received_townpeople": "<h1>Tip Received (Townpeople)</h1>"
-
-    }
-    return HttpResponse(screens[player.active_screen])
+    all_townpeople = Player.objects.filter(role="Townpeople")
+    context =  {'user': player.name, 'all_townpeople': all_townpeople}
+    return render(request, "screens/"+ player.active_screen  + ".html", context)
 
 def setPlayerScreen(request, player, screen):
     print("setPlayerScreen", player, screen)
@@ -516,3 +512,13 @@ def deleteAllPlayerMessages(request):
     messages = PlayerMessages.objects.all()
     messages.delete()
     return HttpResponseRedirect(reverse('game:dashboard'))
+
+def kill_informant(request):
+    player = request.POST.get('player')
+    killer = request.POST.get('killer')
+    print("kill informant", player, killer)
+    all_players = Player.objects.filter(Q(role="Mafia")|Q(role="Townpeople"))
+    for player in all_players:
+        setPlayerScreen(request, player.name, "announcement")
+    return HttpResponseRedirect(reverse('game:bulletin', kwargs={'user': killer}))
+    # return HttpResponse("pass")
