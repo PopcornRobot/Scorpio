@@ -434,9 +434,16 @@ def bulletin(request, user):
         'roundTwoEndTime': game.roundTwoEndTime,
         'roundThreeEndTime': game.roundThreeEndTime,
         'activeScreen': activeScreen,
-        'all_townpeople': all_townpeople
+        'all_townpeople': all_townpeople,
+        'playerActiveScreen': player.active_screen
     }
     return render(request, "bulletin.html", context)
+
+def checkPlayerScreen(request, player):
+    user = Player.objects.get(name=player)
+    print("player", user.active_screen)
+
+    return HttpResponse(user.active_screen)
 
 def getMessages(request):
     messages = PlayerMessages.objects.all()
@@ -505,6 +512,24 @@ def countSelected(request):
 
         print(question_id)
 
+    return HttpResponse("countSelected")
+
+def countSelected2(request):
+    print('count selected 2')
+    q = {}
+    # get player answers
+    player_answers = PlayerAnswer.objects.all()
+    # loop through 
+    for answer in player_answers:
+        # print(answer.player.name, answer.question.text, q)
+        if answer.question.text in q.keys():
+            print("in q, update object")
+            q[answer.question.text] = q[answer.question.text] + 1
+            
+        else:
+            print("not in q, add object")
+            q[answer.question.text] = 1
+    print("------", q)
     return HttpResponse("countSelected")
 
 def clearCountSelected(request):

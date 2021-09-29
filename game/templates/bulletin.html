@@ -35,7 +35,7 @@
         polling = () => {
         //     setInterval(function() {getMessages()}, 2000)
             setInterval(function() {timer()}, 1000)
-            setInterval(function() {getPlayerScreen()}, 5000)
+            setInterval(function() {checkPlayerScreen()}, 30000)
         }
         // getMessages = () => {
         //     console.log("getMessages")
@@ -93,8 +93,24 @@
            fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    // console.log(data)
                     document.getElementById('activeScreen').innerHTML = data
+                })
+       }
+       let playerActiveScreen = "{{ playerActiveScreen }}"
+       checkPlayerScreen = () => {
+           console.log("check player screen", playerActiveScreen)
+           const url = "/checkPlayerScreen/" + player
+           fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    console.log({data}, {playerActiveScreen})
+                    if(playerActiveScreen != data){
+                        console.log("update screen")
+                        getPlayerScreen()
+                        playerActiveScreen = data
+                    } else { 
+                        console.log("no changes")
+                    }
                 })
        }
        document.onload(polling())
