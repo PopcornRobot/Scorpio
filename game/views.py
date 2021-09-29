@@ -467,11 +467,14 @@ def dashboard(request):
     mafia = Player.objects.filter(role='Mafia')
     townpeople = Player.objects.filter(role='Townpeople')
     questions = Question.objects.all().order_by('-selected_count')
-    low_accuracy = Question.objects.all().order_by('-selected_count')[:1]
-    high_accuracy = Question.objects.filter(selected_count__gt=0).order_by('selected_count')[:1]
+    low_accuracy = Question.objects.all().order_by('-selected_count')[:1][0]
+    high_accuracy = Question.objects.filter(selected_count__gt=0).order_by('selected_count')[:1][0]
     max_selected = Question.objects.aggregate(Max('selected_count'))
-    print("max selected", max_selected)
+    # print("max selected", max_selected)
     answered_questions = Question.objects.filter(selected_count__gt=0)
+    player_answers = PlayerAnswer.objects.all()
+
+    print('players', players)
     context = {
         'players': players,
         'playerMessages': playerMessages,
@@ -481,6 +484,7 @@ def dashboard(request):
         'questions': questions,
         'low_accuracy': low_accuracy,
         'high_accuracy': high_accuracy,
+        'player_answers': player_answers,
 
     }
     return render(request, "dashboard.html", context)
@@ -551,4 +555,4 @@ def kill_informant(request):
     for player in all_players:
         setPlayerScreen(request, player.name, "announcement")
     return HttpResponseRedirect(reverse('game:bulletin', kwargs={'user': killer}))
-    # return HttpResponse("pass")
+    

@@ -39,4 +39,6 @@ urlpatterns = [
     path('kill_informant', views.kill_informant),
     path('countSelected', views.countSelected),
     path('clearCountSelected', views.clearCountSelected),
+
+
 ]
