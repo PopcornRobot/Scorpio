@@ -21,6 +21,7 @@ urlpatterns = [
     path('overview', views.overview),
     path('printout', views.printout),
     path('randomize', views.randomize),
+    path('screen', views.screen),
 
 # timer test
     path('timer', views.timer),

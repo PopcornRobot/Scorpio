@@ -3,8 +3,11 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from .models import *
-import random, json
-import time
+import random
+
+
+
+# Create your views here.
 
 def survey(request):
     players = Player.objects.all()
@@ -19,6 +22,10 @@ def survey(request):
 def all_questions(request):
     questions = Question.objects.all()
     return render(request, 'all_questions.html', {'questions': questions})
+
+def screen(request):
+    # questions = Question.objects.all()
+    return render(request, 'screens/' + request.GET["screen"] + '.html')
 
 def rules(request):
     return render(request, 'rules.html', {'player_id': request.GET['pid']})
@@ -438,13 +445,13 @@ def getMessages(request):
         player = str(message.player)
         if player in output:
             output[player].append(message.text)
-        else: 
+        else:
             output[player] = [message.text]
     # print("output", output)
     return HttpResponse(json.dumps(output))
 
 def getPlayerScreen(request, player):
-    player = Player.objects.get(name=player) 
+    player = Player.objects.get(name=player)
     all_townpeople = Player.objects.filter(role="Townpeople")
     context =  {'user': player.name, 'all_townpeople': all_townpeople}
     return render(request, "screens/"+ player.active_screen  + ".html", context)
@@ -507,7 +514,7 @@ def clearCountSelected(request):
         question_id = answer.question.id
         Question.objects.filter(id=question_id).update(selected_count=0)
 
-        print(question_id)    
+        print(question_id)
     return HttpResponse("countSelected")
 
 def setMessage(request):
@@ -533,13 +540,13 @@ def sendMessage(request):
         players = Player.objects.filter(role='Townpeople')
         for player in players:
             playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
-            playerMessage.save()        
+            playerMessage.save()
     else:
         print(recip)
         players = Player.objects.filter(name=recip)
         for player in players:
             playerMessage = PlayerMessages.objects.create(player=player, text="Test message")
-            playerMessage.save()        
+            playerMessage.save()
     return HttpResponse("send message")
 
 def deleteAllPlayerMessages(request):

@@ -2,6 +2,22 @@
 {% load static %}
 
 {% block body %}
+
+<!--
+
+github commands
+
+git pull
+git add .
+git commit
+git push origin main
+
+git status
+
+-->
+
+
+
   <!-- Header -->
   <!-- <header class="masthead">
     <div class="container">
@@ -25,7 +41,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <p>Ladies and gentlemen, an hour ago, there was a murder down the street.
+          <p>An hour ago, there was a murder down the street.
             The suspect fled on foot and hid amongst our group here. Little did they know
             they hid in a party of seasoned detectives. Police are relying on us to find them.</p>
 
@@ -34,13 +50,13 @@
 
           <h4>How the game works</h4>
 
-          <p>This game is like a modified game of Mafia. Our goal is to find the criminal.
-            At the end of the game, we vote on who the murderer is.</p>
+          <p>The game is similar to Mafia. Our goal is to find the criminal.
+            At the end of the game, we vote on who is the murderer.</p>
 
             <p class=''><img src="{% static "img/spy.jpg" %}"  /></p>
 
-            <p>To help our search, we rely on tips that reveal facts about the murderer.
-            These facts are real, like “this person skydived" that lead to real people.
+            <p>To help our search, we rely on tips that reveal information about the murderer.
+            Real facts like “this person skydived" that lead to real people.
             It’s your job to talk to each other and find out who the murderer is. </p>
 
           <p>&nbsp;</p>
@@ -60,7 +76,7 @@
                 <ol>
                   <li>Interrogate everyone. </li>
                   <li>Find murderer.</li>
-                  <li>Trust no one.</li>
+                  <!-- <li>Trust no one.</li> -->
                 </ol>
               </div>
             </div>
@@ -76,8 +92,8 @@
                 <!-- <p><em>Goal</em> </p> -->
                 <ol>
                   <li>Secretely deliver tip to detectives. </li>
-                  <li>Stay alive. The murderer is hunting you. Keep your identity secret.</li>
-                  <li>Trust no one.</li>
+                  <li>Stay alive. Keep your identity a secret. The murderer is hunting you.</li>
+                  <!-- <li>Trust no one.</li> -->
                 </ol>
               </div>
             </div>
@@ -93,7 +109,7 @@
                 <!-- <p><em>Goal</em> </p> -->
                 <ol>
                   <li>Convince everyone you are not the murderer. </li>
-                  <li>Hunt informants and kill them. They are trying to spread information about you.</li>
+                  <li>Kill informants before they spread information about you.</li>
                 </ol>
               </div>
             </div>
@@ -106,7 +122,7 @@
 
           <hr />
 
-          <h4>2 Cardinal Rules</h4>
+          <h4>3 Cardinal Rules</h4>
 
 
           <ol style="padding-top:20px">
@@ -114,10 +130,11 @@
                tell them the truth (within reasonable bounds, of course).</p>
                <p>You can lie about who you think
              is the murderer.</p></li>
-             <li><p><em>Check your phone</em>. Your screen updates as the game progresses.
-               It reveals new objectives and important information throughout the game. Check your screen every 10 minutes!
+             <li><p><em>Check your phone every 10 minutes</em>. Your screen updates as the game progresses.
+               It reveals new objectives and important information throughout the game.
              </p>
-             <p>Hide your screen!</p></li>
+             </li>
+             <li><p><em>Hide your screen!</em> Or don't and have your secrets revealed. </p></li>
 
             <!-- <li><p><em>Don't die.</em> If you get killed, you must quietly inform the Chief of Police
               of your death and the character role you played. The Chief will
@@ -131,6 +148,8 @@
               </ol>
             </li> -->
           </ol>
+
+
 
           <p>&nbsp;</p>
 <!--
