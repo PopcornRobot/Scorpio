@@ -38,10 +38,41 @@
                 Round Length: {{ roundLength }}
             </div>
         </div>
+        <div>
 
+            <a href='/loadPlayerData'><button>Load Player Data</button></a>
+            <a href='/deletePlayerData'><button>Delete Player Data</button></a>
+            <a href='/assignPlayerRole'><button>Assign Player Role</button></a>
+            <a href='/assignInformants'><button>Assign Informants</button></a>
+
+        </div>
+        <button>Clear Player Data</button>
         <button onclick="startGame()">Start Game</button>
         <button onclick="sendMessage('All')">Message all users</button>
         <button onclick="deleteAllPlayerMessages()">Delete all messages</button>
+        <h3>Players</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Nickname</th>
+                    <th>Role</th>
+                    <th>Informant</th>
+                    <th>Alive</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in players%}
+                <tr>
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.nickname }}</td>
+                    <td>{{ player.role }}</td>
+                    <td>{{ player.informant }}</td>
+                    <td>{{ player.alive }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         <p>Mafia</p>
         <button onclick="sendMessage('Mafia')">Message all Mafia</button>
         <table>
@@ -139,6 +170,8 @@
     </div>
     <div style="border:1px solid black;">
         <h1>Questions v2</h1>
+        <button onclick="countSelected2()">countSelected2</button>
+
         <table>
             <thead>
                 <tr>
@@ -192,6 +225,11 @@
             var xhttp = new XMLHttpRequest()
             xhttp.open("GET", "/countSelected", true)
             xhttp.send()
+        }
+        countSelected2 = () => {
+            fetch('/countSelected2')
+                .then(response => response.text())
+                .then(data => console.log(data))
         }
         clearCountSelected = () => {
             console.log("clear countSelected")

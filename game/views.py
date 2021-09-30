@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from .models import *
-import random
+import random, json, math
 
 
 
@@ -488,7 +488,7 @@ def dashboard(request):
     answered_questions = Question.objects.filter(selected_count__gt=0)
     player_answers = PlayerAnswer.objects.all()
 
-    print('players', players)
+    # print('players', players)
     context = {
         'players': players,
         'playerMessages': playerMessages,
@@ -522,15 +522,16 @@ def countSelected2(request):
     # loop through 
     for answer in player_answers:
         # print(answer.player.name, answer.question.text, q)
-        if answer.question.text in q.keys():
+        if answer.question_id in q.keys():
             print("in q, update object")
-            q[answer.question.text] = q[answer.question.text] + 1
+            q[answer.question_id] = q[answer.question_id] + 1
             
         else:
             print("not in q, add object")
-            q[answer.question.text] = 1
+            q[answer.question_id] = 1
     print("------", q)
-    return HttpResponse("countSelected")
+    return JsonResponse(q)
+    # return HttpResponse(q)
 
 def clearCountSelected(request):
     print('clear count selected')
@@ -588,3 +589,38 @@ def kill_informant(request):
         setPlayerScreen(request, player.name, "announcement")
     return HttpResponseRedirect(reverse('game:bulletin', kwargs={'user': killer}))
     
+def load_player_data(request):
+    Player.objects.bulk_create(
+        [
+            Player(name='AJ', nickname="Mugger"),
+            Player(name='Sam', nickname="The Knife"),
+            Player(name='Simin', nickname="Sticky Fingers"),
+            Player(name='Terry', nickname="Tool Shed"),
+            Player(name='Maria', nickname="Mumbles"),
+            Player(name='Andre', nickname="The Taco"),
+            Player(name='Jose', nickname="Shoestring"),
+            Player(name='John', nickname="Lefty"),
+            Player(name='Mary', nickname="Bulleye"),
+        ]
+    )
+    for player in Player.objects.all():
+        question_ids = random.sample(range(388, 400), 5)
+        for question_id in question_ids:
+            question = Question.objects.get(id=question_id)
+            PlayerAnswer.objects.create(player=player, question=question)
+    return HttpResponseRedirect("/dashboard")
+
+def delete_player_data(request):
+    Player.objects.all().delete()
+    PlayerAnswer.objects.all().delete()
+    return HttpResponseRedirect('/dashboard')
+
+def assign_player_role(request):
+    player_count = Player.objects.all().count()
+    mafia_count = math.sqrt(player_count)
+    print(int(mafia_count * .6))
+    return HttpResponseRedirect("/dashboard")
+
+def assign_informants(request):
+    print('hit')
+    return HttpResponseRedirect('/dashboard')

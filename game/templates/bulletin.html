@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body onload="polling()">
+<body>
     <h1>Bulletin</h1>
     <h4>User: {{ user }}</h4>
     <div style="border:1px solid black">
@@ -30,12 +30,24 @@
 
 
     <script>
+        
+        // function myTimer() {
+        //     console.log(' each 1 second...');
+        // }
+
+        // var myVar = setInterval(test, 1000);
+
         let player = "{{ user }}"
         console.log({player})
         polling = () => {
+            console.log("polling start")
         //     setInterval(function() {getMessages()}, 2000)
             setInterval(function() {timer()}, 1000)
-            setInterval(function() {checkPlayerScreen()}, 30000)
+            setInterval(function() {checkPlayerScreen()}, 5000)
+            // setInterval(function() {
+            //     console.log("setInterval--------")
+            //     test
+            // }, 5000)
         }
         // getMessages = () => {
         //     console.log("getMessages")
@@ -96,6 +108,8 @@
                     document.getElementById('activeScreen').innerHTML = data
                 })
        }
+    
+
        let playerActiveScreen = "{{ playerActiveScreen }}"
        checkPlayerScreen = () => {
            console.log("check player screen", playerActiveScreen)

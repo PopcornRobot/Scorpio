@@ -42,6 +42,10 @@ urlpatterns = [
     path('clearCountSelected', views.clearCountSelected),
     path('countSelected2', views.countSelected2),
     path('checkPlayerScreen/<str:player>', views.checkPlayerScreen),
+    path('loadPlayerData', views.load_player_data),
+    path('deletePlayerData', views.delete_player_data),
+    path('assignPlayerRole', views.assign_player_role),
+    path('assignInformants', views.assign_informants),
 
 
 ]
