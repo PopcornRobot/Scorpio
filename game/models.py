@@ -12,15 +12,16 @@ class Question(models.Model):
 class Player(models.Model):
     name = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100)
-    role = models.CharField(max_length=100)
+    role = models.CharField(max_length=100, default="detective")
     informant = models.BooleanField(default=False)
     partner = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     active_screen = models.CharField(max_length=100)
     alive = models.BooleanField(default=True)
     moderator = models.BooleanField(default=False)
+    has_been_informant = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return self.name + " " + self.role
 
 
 class PlayerAnswer(models.Model):

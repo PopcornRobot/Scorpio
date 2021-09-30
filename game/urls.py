@@ -44,8 +44,10 @@ urlpatterns = [
     path('checkPlayerScreen/<str:player>', views.checkPlayerScreen),
     path('loadPlayerData', views.load_player_data),
     path('deletePlayerData', views.delete_player_data),
-    path('assignPlayerRole', views.assign_player_role),
+    path('assignMafiaRole', views.assign_mafia_role),
     path('assignInformants', views.assign_informants),
+    # path('reassignInformants', views.reassign_informants),
+    path('assignAllToDetective', views.assign_all_to_detective),
 
 
 ]
