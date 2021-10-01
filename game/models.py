@@ -47,6 +47,8 @@ class Game(models.Model):
     roundOneEndTime = models.IntegerField(default=0)
     roundTwoEndTime = models.IntegerField(default=0)
     roundThreeEndTime = models.IntegerField(default=0)
+    announce_round_2 = models.BooleanField(default=True)
+    announce_round_3 = models.BooleanField(default=True)
 
 
 class PlayerMessages(models.Model):

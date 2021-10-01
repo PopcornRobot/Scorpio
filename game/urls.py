@@ -48,6 +48,12 @@ urlpatterns = [
     path('assignInformants', views.assign_informants),
     # path('reassignInformants', views.reassign_informants),
     path('assignAllToDetective', views.assign_all_to_detective),
+    path('killPlayer/<str:player>', views.kill_player),
+    path('resurrectAllPlayers', views.resurrect_all_players),
+    path('start_game2', views.start_game2),
+    path('stop_game2', views.stop_game2),
+    path('new_round/<int:round>', views.new_round),
+    
 
 
 ]
