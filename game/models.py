@@ -20,7 +20,7 @@ class Player(models.Model):
     partner = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.name + self.nickname
 
 
 class PlayerAnswer(models.Model):

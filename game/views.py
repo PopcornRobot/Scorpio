@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from .models import *
 import random
 import time
+import json
 
 def survey(request):
     players = Player.objects.all()
@@ -88,7 +89,6 @@ def stop_game(request):
     PlayerAnswer.objects.all().update(is_used=False)
     return HttpResponseRedirect("/game_menu")
 
-
 def start_game(request):
 
     # assign Chief
@@ -173,18 +173,63 @@ def assignInformantPartners():
 
 
 def survey_save(request):
-    answer_ids =request.POST.getlist('survey')
 
-    player = Player.objects.create(name=request.POST['name'], role='', nickname="")
+    answer_ids =request.POST.getlist('survey')
+  
+    player = Player.objects.create(name=request.POST['name'], role='', nickname='')
 
     # print(list_ids)
+
+    # return HttpResponse("thanks for your submission!")
+    # return render(request, 'rules.html', {})
+
+    # player = Player.objects.get(name=request.user.name)
+    # print(player)
+
+    # if request.method == "POST":
+    #     gangsterName = request.POST['gangsterNameDropdown']
+        
+    #     gangsterNameList = list(Player.objects.all().values_list('nickname', flat=True)) 
+    #     gangsterNameList = set(gangsterNameList)
+
+    #     if gangsterName in gangsterNameList:
+    #         print(gangsterName + " is in the List")
+
+    #         players = Player.objects.all()
+
+    #         game_is_started = False
+    #         if len(players) > 0 and players[0].role != "":
+    #             game_is_started = True
+
+    #         questions = Question.objects.all()
+    #         return render(request, 'survey.html', {'questions': questions, 'game_is_started': game_is_started})
+    #     else:
+    #         print(gangsterName + " is not in the List")
+    #         player = Player.objects.create(name=request.POST['name'], role='', nickname=gangsterName)
+    
     for id in answer_ids:
         question = Question.objects.get(id=id)
         PlayerAnswer.objects.create(player=player, question=question)
 
+    # print(gangsterNameList)
+        # for nickname in gangsterNameList:
+        #     if gangsterName == nickname:
+        #         print("this is a dup")
+        #     print("this is not a dup")
+  
+        # if gangsterName in gangsterNameList:
+        #     print("this is dup")
+        # else:
+        #     print("this is not dup")
+        # gangsterNameList.append(gangsterName)
 
-    # return HttpResponse("thanks for your submission!")
-    # return render(request, 'rules.html', {})
+        # for name in gangsterNameList:
+        #     if name != gangsterName:
+        #         print(gangsterName + " is not dup")
+        #         pass
+        #     if name == gangsterName:
+        #         print(gangsterName + " is a dup")
+       
     return HttpResponseRedirect(("/rules?pid=%s" % (player.id)))
 
 
@@ -221,6 +266,44 @@ def overview(request):
     print(overview)
     # return HttpResponse("overview")
     return render(request, 'overview.html', {'overview': overview})
+
+def validate_name(request):
+    print("validate_name is being called")
+    # if request.method == "POST":
+    #     a = Player.objects.filter(nickname=request.POST['gangsterNameDropdown'])
+    #     print(a)
+        # if Player.objects.filter(nickname=request.POST['nickname']).exist():
+        # return HttpResponse("Testing")
+
+    pass
+    # if Player.objects.filter(nickname=request.POST['gangsterNameDropdown']).exists():
+    #     print("true")
+    #     return HttpResponse("true")
+    # else:
+    #     print("false")
+    #     return HttpResponse("false")
+
+    # if request.method == "POST":
+    #     gangsterName = request.POST['gangsterNameDropdown']
+    
+    #     gangsterNameList = list(Player.objects.all().values_list('nickname', flat=True)) 
+    #     gangsterNameList = set(gangsterNameList)
+
+    #     print(gangsterName + " This is validate name")
+
+    #     return HttpResponse(gangsterName)
+        # if gangsterName in gangsterNameList:
+        #     print(gangsterName + " is in the List")
+        #     players = Player.objects.all()
+
+        #     questions = Question.objects.all()
+        #     return HttpResponse("true")
+        # else:
+        #     print(gangsterName + " is not in the List")
+        #     player = Player.objects.create(name=request.POST['name'], role='', nickname=gangsterName)
+        #     return HttpResponse("false")
+
+# return HttpResponse("false")
 
 def randomize(request):
     names = ['jan', 'bassel', 'marian', 'aj', 'simi', 'timmy', 'laura', 'james', 'sally', 'matt', 'chris']
