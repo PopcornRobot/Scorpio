@@ -1,9 +1,9 @@
-from django.db.models import Q, F, Max
+from django.db.models import Q, F, Max, Count
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from .models import *
-import random, json, math, time, threading, trace
+import random, json, math, time, threading, trace, collections
 
 
 
@@ -496,45 +496,72 @@ def test():
 
 def assign_roles():
     print("assign_roles")
+
+# if round 1
+    # make everyone detective
+    # assign mafia
+    # assign informants
+# if round 2/3
+    # loop over mafia
+        # reset non mafia to detective
+            # 
+        # assign new unused informant
+            # set informant partner
+            # set has been informant to true
+            # deal with less than required informant count
+        # set mafia partner
+
     players = Player.objects.all()
     player_count = Player.objects.all().count()
     mafia_count = int(round(player_count * .2))
-    print(mafia_count, player_count, round(player_count))
-    for mafia in range(mafia_count):
-        counter = 1
-        random_number = random.randint(1, player_count)
-        for player in players:
-            print(player.name, random_number, counter)
-            if random_number == counter:
-                print("assign")
-                player.role = "mafia"
-                player.save()
-                counter+=1
-            else:
-                counter+=1
-        informants = Player.objects.filter(role='informant')
-    for p in informants: # reset informants to detectives
-        p.role = 'detective'
-        p.save()
-    for informant in range(mafia_count):
-        print("select informant")
-        players = Player.objects\
-            .exclude(role="mafia")\
-            .exclude(has_been_informant=True)\
-            .exclude(alive=False)
-        print(players.count())
-        random_number = random.randint(1, players.count())
-        counter = 1
-        for player in players:
-            print(player.name, counter, random_number)
-            if counter == random_number:
-                player.role = "informant"
-                player.has_been_informant = True
-                player.save()
-                counter+=1
-            else:
-                counter+=1         
-    return HttpResponseRedirect("/dashboard")
+    havent_been_informant = Player.objects \
+        .exclude(role="mafia") \
+        .exclude(has_been_informant=True)
+    if havent_been_informant.count() == 1:
+        havent_been_informant.role = "informant"
+        havent_been_informant.has_been_informant = True
+        havent_been_informant.active_screen = "informant"
+        havent_been_informant.save()
+        return HttpResponseRedirect('/dashboard')
+    else:
+        mafia = Player.objects.filter(role="mafia")
+
+        for mafia in range(mafia_count):
+            counter = 1
+            random_number = random.randint(1, player_count)
+            for player in players:
+                print(player.name, random_number, counter)
+                if random_number == counter:
+                    print("assign")
+                    player.role = "mafia"
+                    player.save()
+                    counter+=1
+                else:
+                    counter+=1
+            informants = Player.objects.filter(role='informant')
+        for p in informants: # reset informants to detectives
+            p.role = 'detective'
+            p.save()
+        for m in range(mafia_count):
+            print("select informant")
+            players = Player.objects\
+                .exclude(role="mafia")\
+                .exclude(has_been_informant=True)\
+                .exclude(alive=False)
+            print(players.count())
+            random_number = random.randint(1, players.count())
+            counter = 1
+            for player in players:
+                print(player.name, counter, random_number)
+                if counter == random_number:
+                    player.role = "informant"
+                    player.has_been_informant = True
+                    # player.partner = "test partner"
+                    player.save()
+                    counter+=1
+                else:
+                    counter+=1         
+        return HttpResponseRedirect("/dashboard")
 
 def update_screens():
     mafia = Player.objects.filter(role="mafia")
@@ -659,6 +686,39 @@ def dashboard(request):
 
     }
     return render(request, "dashboard.html", context)
+
+def process_survey(request):
+    questions = Question.objects.all().order_by("-selected_count")
+    # for q in questions:
+    #     print("q", q.selected_count, q.text)
+
+    
+    
+    players = Player.objects.all()
+
+    for player in players:
+        answer_dict = {}
+        answer_list = []
+        player_answers = PlayerAnswer.objects \
+            .filter(player=player) 
+        for answer in player_answers:
+            print(answer.question.selected_count, answer.question.text)
+            answer_dict[answer.question.selected_count] = answer.question.text
+            answer_list.append(answer.question.selected_count)
+        od = collections.OrderedDict(sorted(answer_dict.items()))
+        print(od, sorted(answer_list))
+        sorted_answer_list = sorted(answer_list)
+        q_high = max(answer_list)
+        q_low = min(answer_list)
+        q_med = sorted_answer_list[int((len(answer_list)-1)/2)]
+        
+        print(q_high, q_med, q_low)
+        player.low_accuracy_question = answer_dict[q_low]
+        player.med_accuracy_question = answer_dict[q_med]
+        player.high_accuracy_question = answer_dict[q_high]
+        player.save()
+    return HttpResponseRedirect(reverse('game:dashboard'))
+
 
 def countSelected(request):
     print('count selected')
@@ -798,35 +858,49 @@ def assign_mafia_role(request):
     return HttpResponseRedirect("/dashboard")
 
 
-def assign_informants():
+def assign_informants(request):
     informants = Player.objects.filter(role='informant')
     for p in informants: # reset informants to detectives
         p.role = 'detective'
         p.active_screen = "character_assign_detective"
         p.save()
-    mafia_count = Player.objects.filter(role="mafia").count()
-    for informant in range(mafia_count):
-        print("select informant")
-        players = Player.objects\
-            .exclude(role="mafia")\
-            .exclude(has_been_informant=True)\
-            .exclude(alive=False)
-        print(players.count())
-        random_number = random.randint(1, players.count())
-        # print(random_number)
-        counter = 1
-        for player in players:
-            print(player.name, counter, random_number)
-            if counter == random_number:
-                player.role = "informant"
-                player.has_been_informant = True
-                player.active_screen = "informant"
-                player.save()
-                counter+=1
+    havent_been_informant = Player.objects \
+        .exclude(role="mafia") \
+        .exclude(has_been_informant=True)
+    print("---", havent_been_informant.count(), havent_been_informant[0].name)
+    if havent_been_informant.count() == 1:
+        inf = havent_been_informant[0]
+        inf.role = "informant"
+        inf.has_been_informant = True
+        inf.active_screen = "informant"
+        inf.save()
+        return HttpResponseRedirect('/dashboard')
+    else:
+        mafia = Player.objects.filter(role="mafia")
+        for m in mafia:
+            print("select informant")
+            players = Player.objects\
+                .exclude(role="mafia")\
+                .exclude(has_been_informant=True)\
+                .exclude(alive=False)
+            print(players.count())
+            random_number = random.randint(1, players.count())
+            # print(random_number)
 
-            else:
-                counter+=1 
-    return HttpResponseRedirect('/dashboard')
+            counter = 1
+            for player in players:
+                print(player.name, counter, random_number)
+                if counter == random_number:
+                    player.role = "informant"
+                    player.has_been_informant = True
+                    player.active_screen = "informant"
+                    player.partner = m.name
+                    player.save()
+                    counter+=1
+
+                else:
+                    counter+=1 
+        return HttpResponseRedirect('/dashboard')
 
 def assign_all_to_detective(request):
     players = Player.objects.all()

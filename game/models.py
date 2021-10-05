@@ -5,6 +5,7 @@ class Question(models.Model):
     text = models.TextField()           # Question on problem
     news_report = models.TextField()           # How the news reports this question
     selected_count = models.IntegerField(default=0)  # How many times this question was selected
+    is_used = models.BooleanField(default=False)
 
     def __str__(self):
         return self.text
@@ -19,6 +20,10 @@ class Player(models.Model):
     alive = models.BooleanField(default=True)
     moderator = models.BooleanField(default=False)
     has_been_informant = models.BooleanField(default=False)
+    low_accuracy_question = models.CharField(max_length=500, default="none")
+    med_accuracy_question = models.CharField(max_length=500, default="none")
+    high_accuracy_question = models.CharField(max_length=500, default="none")
+
 
     def __str__(self):
         return self.name + " " + self.role
@@ -29,7 +34,7 @@ class PlayerAnswer(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     is_used = models.BooleanField(default=False)
-
+    
     def __str__(self):
         return self.player.name + " : " + self.question.text
 
