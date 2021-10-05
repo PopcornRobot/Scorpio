@@ -27,83 +27,192 @@
     <div style="border:1px solid black;">
 
         <h1>Dashboard</h1>
-        <button onclick="startGame()">Start Game</button>
+        <div>
+            <form action="/roundLengthSet" method="Post">
+                {% csrf_token %}
+                <label for="roundLength">Round Length</label>
+                <input id="roundLength" name="roundLength" type="text">
+                <input type="submit" value="submit">
+            </form>
+            <div>
+                Round Length: {{ roundLength }}
+            </div>
+        </div>
+        <div>
+
+            <a href='/loadPlayerData'><button>Load Player Data</button></a>
+            <a href='/deletePlayerData'><button>Delete Player Data</button></a>
+            <a href='/assignMafiaRole'><button>1-Assign Mafia Role</button></a>
+            <a href='/assignInformants'><button>2-Assign Informants</button></a>
+            <!-- <a href='/reassignInformants'><button>3-Reassign Informants</button></a> -->
+            <a href='/assignAllToDetective'><button>Assign All To Detective</button></a>
+
+        </div>
+        <button>Clear Player Data</button>
+        <a href="/start_game2" style="text-decoration: none;">
+            <button style="background-color: lightgreen;">Start Game</button>
+        </a>
+        <a href="/stop_game2" style="text-decoration: none;">
+            <button style="background-color: red;">Stop Game</button>
+        </a>
+        <button onclick="startTimer()">Start Timer</button>
         <button onclick="sendMessage('All')">Message all users</button>
-        <p>Mafia</p>
-        <button onclick="sendMessage('Mafia')">Message all Mafia</button>
+        <button onclick="deleteAllPlayerMessages()">Delete all messages</button>
+        <a href="/resurrectAllPlayers"><button>Resurrect Players</button></a>
+        <h3>Players</h3>
         <table>
             <thead>
                 <tr>
-                    <th>Player</th>
+                    <th>Name</th>
                     <th>Nickname</th>
+                    <th>Screen</th>
                     <th>Role</th>
-                    <th>Send</th>
-                    <th>Messages</th>
+                    <!-- <th>Informant</th> -->
+                    <th>Has Been Informant</th>
+                    <th>Alive</th>
                 </tr>
             </thead>
+
+            
+            
             <tbody>
-                {% for player in mafia %}
+                {% for player in players%}
                 <tr>
                     <td>
                         <a href="/{{ player.name }}/bulletin">
-                            {{ player.name }}</td>
+                            {{ player.name }}
                         </a>
-                    <td>{{ player.nickname }}</td>
-                    <td>{{ player.role }}</td>
-                    <td><button onclick="sendMessage('{{ player.name }}')">Message</button></td>
-                    <td>{{ player.playermessages.text }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <p>Townnpeople</p>
-        <button onclick="sendMessage('Townpeople')">Message all Townpeople</button>
-        <table>
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    <th>Nickname</th>
-                    <th>Role</th>
-                    <th>Send</th>
-                    <th>Message</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for player in townpeople %}
-                <tr>
-                    <td>
-                        <a href="/{{ player.name }}/bulletin">
-                            {{ player.name }}</td>
-                        </a>
+                        <a href="killPlayer/{{ player.name }}"><button style="background-color: red;">Kill</button></a>
+                        <a href="setPlayerScreen/{{ player.name }}/wait_screen"><button wait_screen')">Wait</button></a>
+                        <a href="setPlayerScreen/{{ player.name }}/death_alert"><button death_alert')">Death</button></a>
+                        <a href="setPlayerScreen/{{ player.name }}/informant"><button informant')">Informant</button></a>
+                        <a href="setPlayerScreen/{{ player.name }}/mafia"><button mafia')">Mafia</button></a>
+                        <a href="setPlayerScreen/{{ player.name }}/tip_received_mafia"><button tip_received_mafia')">Mafia Tipped</button></a>
+                        <a href="setPlayerScreen/{{ player.name }}/tip_received_townpeople"><button tip_received_townpeople')">Tip</button></a>
+                        <a href="setPlayerScreen/{{ player.name }}/theres_a_rat"><button theres_a_rat')">Rat</button>    </a>
                     </td>
                     <td>{{ player.nickname }}</td>
-                    <td>{{ player.role }}</td>
-                    <td><button onclick="sendMessage('{{ player.name }}')">Message</button></td>
-                    <td>{{ player.playermessages.text }}</td>                
+                    <td>{{ player.active_screen }}</td>
+                    <td style="background-color: {% if player.role == "informant"%}green{%elif player.role == "mafia"%}red{% endif %};">{{ player.role }}</td>
+                    <!-- <td>{{ player.informant }}</td> -->
+                    <td style="background-color: {% if player.has_been_informant == True%}green{% endif %};">{{ player.has_been_informant }}</td>
+                    <td>{{ player.alive }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    
+    <div style="border:1px solid black;">
+        <h1>Questions v2</h1>
+        <button onclick="countSelected2()">countSelected2</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>Count</td>
+                    <td>Question</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in player_answers %}
+                <tr>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="border:1px solid black;">
+        <h1>Questions v1</h1>
+        <button onclick="countSelected()">Count answers</button>
+        <button onclick="clearCountSelected()">Clear count answers</button>
+        <p>Low accuracy question: {{ low_accuracy }}</p>
+        <p>High accuracy question: {{ high_accuracy }}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Count</th>
+                    <th>Question</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                <tr>
+                    <td>{{ question.selected_count }}</td>
+                    <td>{{ question.text }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
     </div>
 
 
 
+
     <script>
+        polling = () => {
+            // setInterval(() => {getMessages()}, 5000)
+        }
+        countSelected = () => {
+            console.log("countSelected")
+            var xhttp = new XMLHttpRequest()
+            xhttp.open("GET", "/countSelected", true)
+            xhttp.send()
+        }
+        countSelected2 = () => {
+            fetch('/countSelected2')
+                .then(response => response.text())
+                .then(data => console.log(data))
+        }
+        clearCountSelected = () => {
+            console.log("clear countSelected")
+            var xhttp = new XMLHttpRequest()
+            xhttp.open("GET", "/clearCountSelected", true)
+            xhttp.send()            
+        }
         sendMessage = (recip) => {
             console.log(recip)
             var xhttp = new XMLHttpRequest()
             xhttp.open("GET", "/sendMessage?recip=" + recip, true)
             xhttp.send()
         }
-        sendMessageToGroup = (group) => {
-            console.log(group)
-        }
-        startGame = () => {
+        startTimer = () => {
             var xhttp = new XMLHttpRequest()
             xhttp.open("GET", "/setTimerEnd", true)
             xhttp.send()
         }
+
+        deleteAllPlayerMessages = () => {
+            var xhttp = new XMLHttpRequest()
+            xhttp.open("GET", "/deleteAllPlayerMessages", true)
+            xhttp.send()
+        }
+        getMessages = () => {
+            console.log("getMessages")
+            let messages = ""
+            const url = "/getMessages"
+            fetch(url)
+                .then(response => response.json())
+                .then(data => messages = data)
+                .then(html => {
+                    console.log(html, messages)
+                    
+                    for (let key in html){
+                        let value = html[key]
+                        document.getElementById('AJ').innerHTML = value
+
+                    }
+
+                    
+                })
+        }
+        setScreen = (player, screen) => {
+            const url = "/setPlayerScreen/" + player + "/" + screen
+            fetch(url)
+                .then(response => response.text())
+                .then(data => console.log({data}))
+        }
+        document.onload(polling())
     </script>
 </body>
 </html>

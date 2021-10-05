@@ -67,6 +67,7 @@
                 <option class="femaleName" value="Missy">Missy</option> 
                 <option class="femaleName" value="Magnolia">Magnolia</option> 
                 <option class="femaleName" value="StilettoAA">StilettoAA</option>
+                <option class="femaleName" value="NEW1">NEW1</option>
             </select>
 
             <p></p>
@@ -94,9 +95,7 @@
       let surveySubmitButton = document.getElementById("submit");
 
       surveySubmitButton.addEventListener("click", () => {
-        // disabledGangsterNames()
         checkRadio()
-        // gangsterNameValidation()
       });
 
     });//Page load closing 
@@ -127,63 +126,45 @@
         }
     }//end checkRadio() function
 
-    // function gangsterNameValidation() {
-
-    //   var gangsterName = document.getElementById("gangsterNameDropdownList").value;
-    //   console.log(gangsterName)
-    // }
-
-    // function disabledGangsterNames() {
-      // var selected_gangsterName = document.getElementById("gangsterNameDropdownList").value;
-      // var select = document.getElementById('gangsterNameDropdownList')
-
-      // console.log(selected_gangsterName)
-      
-      // for (var i=0; i<select.length; i++) {
-      //   if (select[i].value == selected_gangsterName) {
-      //     select[i].disabled = true;
-      //   }
-      // }    
-
-    // }
-
     $(function() {
-      $('#submit').click(function() {
-
-        var gangsterName = $("#gangsterNameDropdownList").val();
-        console.log(gangsterName + " This is within AJAX function outside of IF")    
-
+      $('#submit').click(function() {   
+        
         if ($("#txt_name").val() == "")
         {
           $("#error").show()
           return false
         }
-        return true;
 
         if ($("#gangsterNameDropdownList").val() != "")
         {
-          console.log("this is running")
-          // create params object 
-          let params = new URLSearchParams();
-          const csrftoken = Cookies.get('csrftoken');
-          params.append('csrfmiddlewaretoken', csrftoken); // TODO: MAKE SURE YOU HAVE CSRFTOKEN (LOOK UP DJANGO DOC OR MY LESSON)
-          params.append('nickname', gangsterName);          // TODO: THE NAME THEY SELECTED
-
-          fetch('/validate_name')
-          //  {          // TODO: THE URL
-            // method: 'POST',
-            // body: params,      // attach params object to request
-          // })
+          fetch('/validate_name?' + new URLSearchParams({         // TODO #1: UPDATE URL
+            gangsterName: document.getElementById("gangsterNameDropdownList").value,            // TODO #2: ADD PARAMETERS
+          }))
             .then(response => response.text())    // read response body and parse as text
-            .then(data => console.log(data))
-            console.log(response.text)
-              $("#gangsterNameDropdownError").show();    // TODO: WHAT TO DO AFTER YOUR RESPONSE
-            
-            console.log("Finished!")
-            return false 
-          }
-        // return true;
+            .then((text) => {
+              // return false
+              console.log('request succeeded with JSON response', text)      // TODO #3: SHOW ERROR MESSAGE
+              if (text == 'true') {
+                
+                console.log("hi")
+                // this.click()
+                console.log(this)
+                return true
+              }
+              else {
+                $("#gangsterNameDropdownError").show();  
+                return false
+            }})
+
+          return false
+        }
+
+     
       })
     });
   </script>
 {% endblock %}
+
+
+
+
