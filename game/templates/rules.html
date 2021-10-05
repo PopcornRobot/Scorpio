@@ -50,7 +50,7 @@ git status
 
           <h4>How the game works</h4>
 
-          <p>The game is similar to Mafia. Our goal is to find the criminal.
+          <p>The game is similar to Mafia. Our goal is to find the hidden criminal in our group.
             At the end of the game, we vote on who is the murderer.</p>
 
             <p class=''><img src="{% static "img/spy.jpg" %}"  /></p>
@@ -76,7 +76,7 @@ git status
                 <ol>
                   <li>Interrogate everyone. </li>
                   <li>Find murderer.</li>
-                  <!-- <li>Trust no one.</li> -->
+                  <li>Trust no one.</li>
                 </ol>
               </div>
             </div>
@@ -91,8 +91,8 @@ git status
                 <p><strong>Informant</strong></p>
                 <!-- <p><em>Goal</em> </p> -->
                 <ol>
-                  <li>Secretely deliver tip to detectives. </li>
-                  <li>Stay alive. Keep your identity a secret. The murderer is hunting you.</li>
+                  <li>Deliver tip to trusted detectives. </li>
+                  <li>Keep your identity a secret to stay alive. The murderer is hunting you.</li>
                   <!-- <li>Trust no one.</li> -->
                 </ol>
               </div>
@@ -127,14 +127,14 @@ git status
 
           <ol style="padding-top:20px">
             <li><p><em>No lies</em>. If someone asks you a question about your life,
-               tell them the truth (within reasonable bounds, of course).</p>
+               tell them the truth (within reasonable bounds, of course). ** MUST SAY TIP ACCURATELY **</p>
                <p>You can lie about who you think
              is the murderer.</p></li>
-             <li><p><em>Check your phone every 10 minutes</em>. Your screen updates as the game progresses.
-               It reveals new objectives and important information throughout the game.
+             <li><p><em>Check  phone every 10 minutes</em>. Your screen updates with new objectives and important information
+               as the game progresses.
              </p>
              </li>
-             <li><p><em>Hide your screen!</em> Or don't and have your secrets revealed. </p></li>
+             <li><p><em>Hide your screen!</em> If someone sees your screen, your identity can be compromised.</p></li>
 
             <!-- <li><p><em>Don't die.</em> If you get killed, you must quietly inform the Chief of Police
               of your death and the character role you played. The Chief will
