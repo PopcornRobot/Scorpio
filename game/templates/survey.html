@@ -35,7 +35,7 @@
               {% endfor %}
             </ol>
 
-            SELECT YOUR GENDER: 
+            SELECT YOUR GENDER:
 
             <input type="radio" id="male" name="gender" value="male" onclick="checkRadio()">
             <label for="male">Male</label>
@@ -44,34 +44,34 @@
 
             <p id="gangsterNameDropdownError" class="DropDownListClass text-danger" style="display:none">* Please chose another Gangster Name.</p>
 
-            <select name="gangsterNameDropdown" id="gangsterNameDropdownList" disabled="disabled">
+            <select name="gangsterNameDropdown" id="gangsterNameDropdownList">
               <option selected="selected" disabled>Select Your Gangster Name</option>
-                <option class="maleName" value="The Boss">The Boss</option> 
-                <option class="maleName" value="Bugsy">Bugsy</option> 
-                <option class="maleName" value="Cottonmouth">Cottonmouth</option> 
-                <option class="maleName" value="The Prophet">The Prophet</option> 
-                <option class="maleName" value="Sharkie">Sharkie</option> 
-                <option class="maleName" value="Fat Tony">Fat Tony</option> 
-                <option class="maleName" value="Snake Eyes">Snake Eyes</option> 
-                <option class="maleName" value="T-Bone">T-Bone</option> 
-                <option class="maleName" value="Ice Box">Ice Box</option> 
-                <option class="maleName" value="Vito">Vito</option> 
+                <option class="maleName" value="The Boss">The Boss</option>
+                <option class="maleName" value="Bugsy">Bugsy</option>
+                <option class="maleName" value="Cottonmouth">Cottonmouth</option>
+                <option class="maleName" value="The Prophet">The Prophet</option>
+                <option class="maleName" value="Sharkie">Sharkie</option>
+                <option class="maleName" value="Fat Tony">Fat Tony</option>
+                <option class="maleName" value="Snake Eyes">Snake Eyes</option>
+                <option class="maleName" value="T-Bone">T-Bone</option>
+                <option class="maleName" value="Ice Box">Ice Box</option>
+                <option class="maleName" value="Vito">Vito</option>
                 <option class="maleName" value="Knuckles">Knuckles</option>
-                <option class="femaleName" value="Lucky">Lucky</option> 
-                <option class="femaleName" value="AceOfSpades">Ace of Spades</option> 
-                <option class="femaleName" value="Bonnie">Bonnie</option> 
-                <option class="femaleName" value="Brooklyn">Brooklyn</option> 
-                <option class="femaleName" value="Red">Red</option> 
-                <option class="femaleName" value="Pearl">Pearl</option> 
-                <option class="femaleName" value="TheFlamingo">The Flamingo</option> 
-                <option class="femaleName" value="Missy">Missy</option> 
-                <option class="femaleName" value="Magnolia">Magnolia</option> 
+                <option class="femaleName" value="Lucky">Lucky</option>
+                <option class="femaleName" value="AceOfSpades">Ace of Spades</option>
+                <option class="femaleName" value="Bonnie">Bonnie</option>
+                <option class="femaleName" value="Brooklyn">Brooklyn</option>
+                <option class="femaleName" value="Red">Red</option>
+                <option class="femaleName" value="Pearl">Pearl</option>
+                <option class="femaleName" value="TheFlamingo">The Flamingo</option>
+                <option class="femaleName" value="Missy">Missy</option>
+                <option class="femaleName" value="Magnolia">Magnolia</option>
                 <option class="femaleName" value="StilettoAA">StilettoAA</option>
-                <option class="femaleName" value="NEW1">NEW1</option>
+                <option class="femaleName" value="NEW132">NEW132</option>
             </select>
 
             <p></p>
-     
+
             <p id="error" class="text-danger" style="display:none">* Please enter your name.</p>
             <!-- TODO: ADD VALIDATION -->
             <p><input id="txt_name" type="text" name="name" placeholder="Name" /></p>
@@ -90,30 +90,73 @@
 
   <script>
 
+    var isValid = false;
+
     // Page load
     document.addEventListener("DOMContentLoaded", () => {
+
+      console.log('page hit')
+
       let surveySubmitButton = document.getElementById("submit");
+      let gangsterNameDropdownList = document.getElementById("gangsterNameDropdownList");
+
+      gangsterNameDropdownList.addEventListener("change", () => {
+        fetch('/validate_name?' + new URLSearchParams({         // TODO #1: UPDATE URL
+          gangsterName: document.getElementById("gangsterNameDropdownList").value,            // TODO #2: ADD PARAMETERS
+        }))
+          .then(response => response.text())    // read response body and parse as text
+          .then((text) => {
+            // return false
+            console.log('request succeeded with JSON response', text)      // TODO #3: SHOW ERROR MESSAGE
+            if (text == 'true') {
+
+              isValid = true;
+
+              console.log("hi")
+              // this.click()
+              $("#gangsterNameDropdownError").hide();
+              return true
+            }
+            else {
+              $("#gangsterNameDropdownError").show();
+
+              return false
+          }})
+      });
+
+
+      document.getElementById("gangsterNameDropdownList").style.display = "none" //.disabled = true;
+
+      if (document.getElementById('female').checked || document.getElementById('male').checked) {
+          console.log("ere")
+          document.getElementById("gangsterNameDropdownList").style.display = "block"
+          // document.getElementById("gangsterNameDropdownList").disabled = false;
+      }
 
       surveySubmitButton.addEventListener("click", () => {
         checkRadio()
       });
+      console.log("eredfd")
+      console.log(document.getElementById('female').checked || document.getElementById('male').checked)
 
-    });//Page load closing 
+    });//Page load closing
 
     function checkRadio() {
 
       var maleName = document.querySelectorAll(".maleName")
       var femaleName = document.querySelectorAll(".femaleName")
 
-      document.getElementById("gangsterNameDropdownList").disabled = false;
+      // document.getElementById("gangsterNameDropdownList").disabled = false;
 
-        if (male.checked == true) {      
+      document.getElementById("gangsterNameDropdownList").style.display = "block"
+
+        if (male.checked == true) {
           for (var i = 0; i < maleName.length; i++) {
             maleName[i].style.display = 'block'
           }
           for (var i = 0; i < femaleName.length; i++) {
             femaleName[i].style.display = 'none'
-          } 
+          }
         }
 
         if (female.checked == true) {
@@ -122,49 +165,25 @@
           }
           for (var i = 0; i < femaleName.length; i++) {
             femaleName[i].style.display = 'block'
-          } 
+          }
         }
     }//end checkRadio() function
 
     $(function() {
-      $('#submit').click(function() {   
-        
+      $('#submit').click(function() {
+
         if ($("#txt_name").val() == "")
         {
           $("#error").show()
           return false
         }
 
-        if ($("#gangsterNameDropdownList").val() != "")
-        {
-          fetch('/validate_name?' + new URLSearchParams({         // TODO #1: UPDATE URL
-            gangsterName: document.getElementById("gangsterNameDropdownList").value,            // TODO #2: ADD PARAMETERS
-          }))
-            .then(response => response.text())    // read response body and parse as text
-            .then((text) => {
-              // return false
-              console.log('request succeeded with JSON response', text)      // TODO #3: SHOW ERROR MESSAGE
-              if (text == 'true') {
-                
-                console.log("hi")
-                // this.click()
-                console.log(this)
-                return true
-              }
-              else {
-                $("#gangsterNameDropdownError").show();  
-                return false
-            }})
-
-          return false
+        if (!isValid) {
+          return false;
         }
 
-     
+
       })
     });
   </script>
 {% endblock %}
-
-
-
-
