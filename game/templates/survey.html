@@ -35,35 +35,43 @@
               {% endfor %}
             </ol>
 
-            <select name="gender"> 
-              <option value=" "> Select Gender</option> 
-              <option value="Male">Male</option> 
-              <option value="Female">Female</option> 
-            </select> 
+            SELECT YOUR GENDER: 
 
-            <select name="gansterName"> 
-              <option value=" "> Ganster Name</option> 
-              <option value="The Boss">The Boss</option> 
-              <option value="Bugsy">Bugsy</option> 
-              <option value="Cottonmouth">Cottonmouth</option> 
-              <option value="The Prophet">The Prophet</option> 
-              <option value="Sharkie">Sharkie</option> 
-              <option value="Fat Tony">Fat Tony</option> 
-              <option value="Snake Eyes">Snake Eyes</option> 
-              <option value="T-Bone">T-Bone</option> 
-              <option value="Ice Box">Ice Box</option> 
-              <option value="Vito">Vito</option> 
-              <option value="Lucky">Lucky</option> 
-              <option value="AceOfSpades">Ace of Spades</option> 
-              <option value="Bonnie">Bonnie</option> 
-              <option value="Brooklyn">Brooklyn</option> 
-              <option value="Red">Red</option> 
-              <option value="Pearl">Pearl</option> 
-              <option value="TheFlamingo">The Flamingo</option> 
-              <option value="Missy">Missy</option> 
-              <option value="Magnolia">Magnolia</option> 
-            </select> 
+            <input type="radio" id="male" name="gender" value="male" onclick="checkRadio()">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female" onclick="checkRadio()">
+            <label for="female">Female</label><br>
 
+            <p id="gangsterNameDropdownError" class="DropDownListClass text-danger" style="display:none">* Please chose another Gangster Name.</p>
+
+            <select name="gangsterNameDropdown" id="gangsterNameDropdownList" disabled="disabled">
+              <option selected="selected" disabled>Select Your Gangster Name</option>
+                <option class="maleName" value="The Boss">The Boss</option> 
+                <option class="maleName" value="Bugsy">Bugsy</option> 
+                <option class="maleName" value="Cottonmouth">Cottonmouth</option> 
+                <option class="maleName" value="The Prophet">The Prophet</option> 
+                <option class="maleName" value="Sharkie">Sharkie</option> 
+                <option class="maleName" value="Fat Tony">Fat Tony</option> 
+                <option class="maleName" value="Snake Eyes">Snake Eyes</option> 
+                <option class="maleName" value="T-Bone">T-Bone</option> 
+                <option class="maleName" value="Ice Box">Ice Box</option> 
+                <option class="maleName" value="Vito">Vito</option> 
+                <option class="maleName" value="Knuckles">Knuckles</option>
+                <option class="femaleName" value="Lucky">Lucky</option> 
+                <option class="femaleName" value="AceOfSpades">Ace of Spades</option> 
+                <option class="femaleName" value="Bonnie">Bonnie</option> 
+                <option class="femaleName" value="Brooklyn">Brooklyn</option> 
+                <option class="femaleName" value="Red">Red</option> 
+                <option class="femaleName" value="Pearl">Pearl</option> 
+                <option class="femaleName" value="TheFlamingo">The Flamingo</option> 
+                <option class="femaleName" value="Missy">Missy</option> 
+                <option class="femaleName" value="Magnolia">Magnolia</option> 
+                <option class="femaleName" value="StilettoAA">StilettoAA</option>
+                <option class="femaleName" value="NEW1">NEW1</option>
+            </select>
+
+            <p></p>
+     
             <p id="error" class="text-danger" style="display:none">* Please enter your name.</p>
             <!-- TODO: ADD VALIDATION -->
             <p><input id="txt_name" type="text" name="name" placeholder="Name" /></p>
@@ -80,18 +88,83 @@
     </div>
   </section>
 
-
   <script>
+
+    // Page load
+    document.addEventListener("DOMContentLoaded", () => {
+      let surveySubmitButton = document.getElementById("submit");
+
+      surveySubmitButton.addEventListener("click", () => {
+        checkRadio()
+      });
+
+    });//Page load closing 
+
+    function checkRadio() {
+
+      var maleName = document.querySelectorAll(".maleName")
+      var femaleName = document.querySelectorAll(".femaleName")
+
+      document.getElementById("gangsterNameDropdownList").disabled = false;
+
+        if (male.checked == true) {      
+          for (var i = 0; i < maleName.length; i++) {
+            maleName[i].style.display = 'block'
+          }
+          for (var i = 0; i < femaleName.length; i++) {
+            femaleName[i].style.display = 'none'
+          } 
+        }
+
+        if (female.checked == true) {
+          for (var i = 0; i < maleName.length; i++) {
+            maleName[i].style.display = 'none'
+          }
+          for (var i = 0; i < femaleName.length; i++) {
+            femaleName[i].style.display = 'block'
+          } 
+        }
+    }//end checkRadio() function
+
     $(function() {
-      $('#submit').click(function() {
+      $('#submit').click(function() {   
+        
         if ($("#txt_name").val() == "")
         {
           $("#error").show()
           return false
-
         }
-        return true;
+
+        if ($("#gangsterNameDropdownList").val() != "")
+        {
+          fetch('/validate_name?' + new URLSearchParams({         // TODO #1: UPDATE URL
+            gangsterName: document.getElementById("gangsterNameDropdownList").value,            // TODO #2: ADD PARAMETERS
+          }))
+            .then(response => response.text())    // read response body and parse as text
+            .then((text) => {
+              // return false
+              console.log('request succeeded with JSON response', text)      // TODO #3: SHOW ERROR MESSAGE
+              if (text == 'true') {
+                
+                console.log("hi")
+                // this.click()
+                console.log(this)
+                return true
+              }
+              else {
+                $("#gangsterNameDropdownError").show();  
+                return false
+            }})
+
+          return false
+        }
+
+     
       })
     });
   </script>
 {% endblock %}
+
+
+
+
