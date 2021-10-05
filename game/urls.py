@@ -53,6 +53,8 @@ urlpatterns = [
     path('start_game2', views.start_game2),
     path('stop_game2', views.stop_game2),
     path('new_round/<int:round>', views.new_round),
+    path('process_survey', views.process_survey),
+    
     
 
 
