@@ -414,12 +414,12 @@ def test():
 
 def assign_roles():
     print("assign_roles")
-
 # if round 1
     # make everyone detective
     # assign mafia
     # assign informants
 # if round 2/3
+
     # loop over mafia
         # reset non mafia to detective
             # 
@@ -601,6 +601,9 @@ def dashboard(request):
         'low_accuracy': low_accuracy,
         'high_accuracy': high_accuracy,
         'player_answers': player_answers,
+        'roundOneEndTime': game.roundOneEndTime,
+        'roundTwoEndTime': game.roundTwoEndTime,
+        'roundThreeEndTime': game.roundThreeEndTime,        
 
     }
     return render(request, "dashboard.html", context)
@@ -609,32 +612,42 @@ def process_survey(request):
     questions = Question.objects.all().order_by("-selected_count")
     # for q in questions:
     #     print("q", q.selected_count, q.text)
-
-    
-    
-    players = Player.objects.all()
+    players = Player.objects.all()[:1]
 
     for player in players:
         answer_dict = {}
         answer_list = []
         player_answers = PlayerAnswer.objects \
-            .filter(player=player) 
+            .filter(player=player) \
+            # .exclude(quesiton__is_used=False) # Question model
+        # if none, reuse player answers
+        count_dict = {}
         for answer in player_answers:
             print(answer.question.selected_count, answer.question.text)
+            count_dict[answer.id] = answer.question.selected_count
             answer_dict[answer.question.selected_count] = answer.question.text
             answer_list.append(answer.question.selected_count)
+
+        # print(count_dict)
+        # print("--", collections.OrderedDict(sorted(count_dict.items())))
+        print(dict(sorted(count_dict.items(), key=lambda item: item[1])))
+        print("low", sorted(count_dict.items(), key=lambda item: item[1])[0])
+        print("high", sorted(count_dict.items(), key=lambda item: item[1])[-1])
+
+        # create dict with key 
         od = collections.OrderedDict(sorted(answer_dict.items()))
-        print(od, sorted(answer_list))
+        # print("----", od, sorted(answer_list))
         sorted_answer_list = sorted(answer_list)
         q_high = max(answer_list)
         q_low = min(answer_list)
         q_med = sorted_answer_list[int((len(answer_list)-1)/2)]
         
-        print(q_high, q_med, q_low)
+        # print(q_high, q_med, q_low)
         player.low_accuracy_question = answer_dict[q_low]
         player.med_accuracy_question = answer_dict[q_med]
         player.high_accuracy_question = answer_dict[q_high]
         player.save()
+        # print(answer_dict.keys())
     return HttpResponseRedirect(reverse('game:dashboard'))
 
 
