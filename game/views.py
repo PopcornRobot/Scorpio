@@ -705,7 +705,7 @@ def dashboard(request):
         game = Game.objects.get_or_create(id=1)
     else:
         game = Game.objects.get(id=1)
-    players = Player.objects.all()
+    players = Player.objects.all().order_by('name')
     playerMessages = PlayerMessages.objects.all()
     mafia = Player.objects.filter(role='Mafia')
     townpeople = Player.objects.filter(role='Townpeople')
