@@ -10,6 +10,12 @@ from game.models import *
 from django.db.models import F
 
 
+# Count selected answers
+player_answers = PlayerAnswer.objects.all()
+for answer in player_answers:
+    question_id = answer.question.id
+    Question.objects.filter(id=question_id).update(selected_count=F('selected_count')+1)
+
 
 
 # assign question accuracy to players
@@ -40,9 +46,3 @@ for player in players:
     player.med_accuracy_question = answer_dict[q_med]
     player.high_accuracy_question = answer_dict[q_high]
     player.save()
-
-# Count selected answers
-player_answers = PlayerAnswer.objects.all()
-for answer in player_answers:
-    question_id = answer.question.id
-    Question.objects.filter(id=question_id).update(selected_count=F('selected_count')+1)
