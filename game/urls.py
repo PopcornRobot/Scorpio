@@ -39,6 +39,7 @@ urlpatterns = [
     path('getPlayerScreen/<str:player>', views.getPlayerScreen),
     path('setPlayerScreen/<str:player>/<str:screen>', views.setPlayerScreen),
     path('kill_informant', views.kill_informant),
+    path('kill_informant2/<str:informant>/<str:killer>', views.kill_informant2),
     path('countSelected', views.countSelected),
     path('clearCountSelected', views.clearCountSelected),
     path('countSelected2', views.countSelected2),
@@ -55,6 +56,8 @@ urlpatterns = [
     path('stop_game2', views.stop_game2),
     path('new_round/<int:round>', views.new_round),
     path('process_survey', views.process_survey),
+    path('debugSwitch', views.debug_switch),
+    path('submitSafeList/<str:user>', views.submit_safe_list),
     
     
 

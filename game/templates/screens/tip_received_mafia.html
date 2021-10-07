@@ -8,7 +8,7 @@
   shared this information with you. </p>
 
 <p>%%INCLUDE_TIP%% (e.g. "One of the members like to travel.")</p>
-
+{{ partner.low_accuracy_question }}
 <!-- <H2>** MUST SAY TIP ACCURATELY. CAN ONLY DECIDE IF TO ANNOUNCE IT PUBLICLY OR NOT.**</H2> -->
 <p>Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.</p>
   <p>If you decide to announce the tip, it must be announced accurately.
@@ -17,8 +17,13 @@
 
 <p>The informant is...</p>
 
-<p>Brandon Madison</p>
+
+<p>{{ partner.name }}</p>
 
 <p>Kill them and rid yourself of this annoying problem. Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
 
-<p>Do you kill Brandon Madison?</p>
+<p>Do you kill {{ partner.name }}?</p>
+<a href="/kill_informant2/{{ partner.name}}/{{ user }}">
+  <button>Kill Informant</button>
+</a>
+<button>Ignore</button>

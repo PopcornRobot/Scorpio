@@ -4,7 +4,6 @@
 <h2>Your life is in danger</h2>
 
 <p class=''><img src="{% static "img/danger.png" %}" style="width:400px"  /></p>
-
 <p>You just received an anonymous package, but you can't make sense of it. Your gut feeling is
   it's important. You need the help of other detectives but which ones do you trust?</p>
 
@@ -22,6 +21,18 @@ are tracking the package, which means...</p>
 
 <p>TRUST NO ONE.</p>
 
+<form action="/submitSafeList/{{ user }}" method="POST">
+  {% csrf_token %}
+  <ul>
+    {% for p in other_players %}
+    <li style="list-style-type: none;">
+      <input type="checkbox" name="players" value="{{ p.name }}">
+      {{ p.name }}
+      
+    </li>
+    {% endfor %}
+  </ul>
+  <input type="submit" value="Submit">
+</form>
 
-<p>*** INSERT FORM CONTROLS TO SUBMIT A LIST OF MULIPLE PEOPLE ***</p>
 <p>Your tip has been submitted. If you are right, a hint may be announced shortly. If not, it'll be your death. Good luck.</p>

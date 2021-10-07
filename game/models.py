@@ -23,7 +23,9 @@ class Player(models.Model):
     low_accuracy_question = models.CharField(max_length=500, default="none")
     med_accuracy_question = models.CharField(max_length=500, default="none")
     high_accuracy_question = models.CharField(max_length=500, default="none")
-
+    safe_list_1 = models.TextField(null=True, blank=True)
+    safe_list_2 = models.TextField(null=True, blank=True)
+    safe_list_3 = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name + " " + self.role
@@ -45,7 +47,7 @@ class Timer(models.Model):
     timer = models.IntegerField()
 
 class Game(models.Model):
-    roundLength = models.IntegerField(default=0)
+    roundLength = models.IntegerField(default=30)
     timer = models.IntegerField(default=0)
     gameOver = models.DateTimeField(null=True)
     roundEndTime = models.IntegerField(default=0)
@@ -54,6 +56,8 @@ class Game(models.Model):
     roundThreeEndTime = models.IntegerField(default=0)
     announce_round_2 = models.BooleanField(default=True)
     announce_round_3 = models.BooleanField(default=True)
+    debug = models.BooleanField(default=True)
+    debug_roundLength = models.IntegerField(default=30)
 
 
 class PlayerMessages(models.Model):

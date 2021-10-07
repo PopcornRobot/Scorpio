@@ -7,8 +7,9 @@
 
 let announceRound2 = true
 let announceRound3 = true
-
+let minute_multiplier = 60
 function timer(){
+    console.log("timer")
     var now = new Date().getTime() / 1000
     now = Math.round(now)
     var endTime1 = {{ roundOneEndTime }}
@@ -29,7 +30,7 @@ function timer(){
     var sec3 = timeLeft3 % 60
     if(sec3 < 10) sec3 = "0"+sec3
     // document.getElementById('timer3').innerHTML = min3+":"+sec3
-
+    console.log({timeLeft3})
     if(timeLeft1 > 0){
         document.getElementById('timer').innerHTML = min1+":"+sec1
         document.getElementById('round').innerHTML = 1
@@ -64,6 +65,10 @@ function timer(){
 polling = () => {
     setInterval(function() {timer()}, 1000)
 }
+getRoundTimes = () => {
+    console.log("getRoundTimes")
+}
 document.onload(polling())
+getRoundTimes()
 
 </script>
