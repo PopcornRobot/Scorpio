@@ -1,15 +1,7 @@
-<div style="border: 1px solid black">
-    <h4>Round: <span id="round"></span></h4>
-    <h4>Timer: <span id="timer"></span></h4>
-</div>
-
-<script>
 let announceRound2 = true
 let announceRound3 = true
 let minute_multiplier = 60
-let roundOneEndTime = "{{ roundOneEndTime }}"
-let roundTwoEndTime = "{{ roundTwoEndTime }}"
-let roundThreeEndTime = "{{ roundThreeEndTime }}"
+
 function timer(){
     console.log("timer", roundOneEndTime)
     var now = new Date().getTime() / 1000
@@ -64,14 +56,3 @@ function timer(){
 
 }  
 
-
-polling = () => {
-    setInterval(function() {timer()}, 1000)
-}
-getRoundTimes = () => {
-    console.log("getRoundTimes")
-}
-document.onload(polling())
-getRoundTimes()
-
-</script>

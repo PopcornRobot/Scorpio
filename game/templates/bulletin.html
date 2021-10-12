@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="{% static 'js/timer.js' %}"></script>
 </head>
 <body>
     <h1>Bulletin</h1>
     <h4>User: {{ user }}</h4>
 
     <div style="border:1px solid black">
+            <div style="border: 1px solid black">
+                <h4>Round: <span id="round"></span></h4>
+                <h4>Timer: <span id="timer"></span></h4>
+            </div>
             <span id="activeScreen">
                 
-                {% include activeScreen %}
+                {% include activeScreen with roundOneEndTime=game.roundOneEndTime roundTwoEndTime=game.roundTwoEndTime roundThreeEndTime=game.roundThreeEndTime %}
                 
             </span> 
     </div>
@@ -27,10 +33,10 @@
 
     <script>
         let player = "{{ user }}"
-        console.log({player})
+        // console.log({player})
         polling = () => {
         //     setInterval(function() {getMessages()}, 2000)
-            setInterval(function() {checkPlayerScreen()}, 5000)
+            setInterval(function() {checkPlayerScreen()}, 1000)
       
         }
         // getMessages = () => {
@@ -49,7 +55,7 @@
         
        }
        getPlayerScreen = () => {
-           console.log("player----", player)
+        //    console.log("player----", player)
            const url  ="/getPlayerScreen/" + player
            fetch(url)
                 .then(response => response.text())
@@ -58,18 +64,24 @@
                 })
        }
     
-
-       let playerActiveScreen = "{{ playerActiveScreen }}"
+        let playerActiveScreen = "{{ playerActiveScreen }}"
+        let roundOneEndTime = ""
+        let roundTwoEndTime = ""
+        let roundThreeEndTime = ""       
        checkPlayerScreen = () => {
         //    console.log("check player screen", playerActiveScreen)
            const url = "/checkPlayerScreen/" + player
            fetch(url)
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(data => {
-                    // console.log({data}, {playerActiveScreen})
+                    console.log("data", data["active_screen"], data["roundOneEndTime"])
                     if(playerActiveScreen != data){
                         // console.log("update screen")
+                        roundOneEndTime = data["roundOneEndTime"]
+                        roundTwoEndTime = data["roundTwoEndTime"]
+                        roundThreeEndTime = data["roundThreeEndTime"]
                         getPlayerScreen()
+                        timer()
                         playerActiveScreen = data
                     } else { 
                         // console.log("no changes")

@@ -592,6 +592,11 @@ def start_game2(request):
 
 def stop_game2(request):
     print("stop game")
+    game = Game.objects.get(id=1)
+    game.roundEndTime = 0
+    game.roundOneEndTime = 0
+    game.roundTwoEndTime = 0
+    game.save()
     return HttpResponseRedirect("/dashboard")
 
 def setTimerEnd():
@@ -645,15 +650,23 @@ def bulletin(request, user):
         'other_mafia': other_mafia,
         'mafia_count_text': mafia_count_text,
         'other_players': other_players,
-        'partner': partner
+        'partner': partner,
+        'game': game,
     }
     return render(request, "bulletin.html", context)
 
 def checkPlayerScreen(request, player):
+    game = Game.objects.get(id=1)
     user = Player.objects.get(name=player)
     print("player", user.active_screen)
 
-    return HttpResponse(user.active_screen)
+    return JsonResponse(
+        {
+            "active_screen":user.active_screen,
+            "roundOneEndTime": game.roundOneEndTime,
+            "roundTwoEndTime": game.roundTwoEndTime,
+            "roundTwoEndTime": game.roundTwoEndTime
+        })
 
 def getMessages(request):
     messages = PlayerMessages.objects.all()
