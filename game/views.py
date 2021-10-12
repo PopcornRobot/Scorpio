@@ -1089,3 +1089,7 @@ def submit_safe_list(request, user ):
             print("no match")
     print("submit safe list", selected_players)
     return HttpResponseRedirect('/' + user + '/bulletin')
+
+def scan(request):
+    print("scan")
+    return render(request, "scan.html")

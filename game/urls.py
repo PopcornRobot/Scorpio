@@ -58,6 +58,7 @@ urlpatterns = [
     path('process_survey', views.process_survey),
     path('debugSwitch', views.debug_switch),
     path('submitSafeList/<str:user>', views.submit_safe_list),
+    path('scan', views.scan),
     
     
 
