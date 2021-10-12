@@ -2,6 +2,7 @@ from django.db import models
 
 # Contains information on the actual card itself
 class Question(models.Model):
+    id = models.AutoField(primary_key=True)
     text = models.TextField()           # Question on problem
     news_report = models.TextField()           # How the news reports this question
     selected_count = models.IntegerField(default=0)  # How many times this question was selected
@@ -11,6 +12,7 @@ class Question(models.Model):
         return self.text
 
 class Player(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100)
     role = models.CharField(max_length=100, default="detective")
@@ -26,13 +28,15 @@ class Player(models.Model):
     safe_list_1 = models.TextField(null=True, blank=True)
     safe_list_2 = models.TextField(null=True, blank=True)
     safe_list_3 = models.TextField(null=True, blank=True)
+    private_tip = models.CharField(max_length=500, default="none")
+    gender = models.CharField(max_length=500, default="none")
 
     def __str__(self):
         return self.name + " " + self.role
 
 
 class PlayerAnswer(models.Model):
-
+    id = models.AutoField(primary_key=True)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     is_used = models.BooleanField(default=False)
@@ -44,9 +48,11 @@ class PlayerAnswer(models.Model):
         return self.question.news_report.replace("%s", self.player.nickname)
 
 class Timer(models.Model):
+    id = models.AutoField(primary_key=True)
     timer = models.IntegerField()
 
 class Game(models.Model):
+    id = models.AutoField(primary_key=True)
     roundLength = models.IntegerField(default=30)
     timer = models.IntegerField(default=0)
     gameOver = models.DateTimeField(null=True)
@@ -61,6 +67,7 @@ class Game(models.Model):
 
 
 class PlayerMessages(models.Model):
+    id = models.AutoField(primary_key=True)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     text = models.CharField(max_length=120)
     

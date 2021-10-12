@@ -19,7 +19,7 @@
             </div>
             <span id="activeScreen">
                 
-                {% include activeScreen with roundOneEndTime=game.roundOneEndTime roundTwoEndTime=game.roundTwoEndTime roundThreeEndTime=game.roundThreeEndTime %}
+                {% include activeScreen %}
                 
             </span> 
     </div>
@@ -37,6 +37,7 @@
         polling = () => {
         //     setInterval(function() {getMessages()}, 2000)
             setInterval(function() {checkPlayerScreen()}, 1000)
+            setInterval(function() {timer()}, 1000)
       
         }
         // getMessages = () => {
@@ -67,23 +68,24 @@
         let playerActiveScreen = "{{ playerActiveScreen }}"
         let roundOneEndTime = ""
         let roundTwoEndTime = ""
-        let roundThreeEndTime = ""       
+        let roundThreeEndTime = ""   
        checkPlayerScreen = () => {
-        //    console.log("check player screen", playerActiveScreen)
+           
+           //    console.log("check player screen", playerActiveScreen)
            const url = "/checkPlayerScreen/" + player
            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    console.log("data", data["active_screen"], data["roundOneEndTime"])
-                    if(playerActiveScreen != data){
-                        // console.log("update screen")
-                        roundOneEndTime = data["roundOneEndTime"]
-                        roundTwoEndTime = data["roundTwoEndTime"]
-                        roundThreeEndTime = data["roundThreeEndTime"]
-                        getPlayerScreen()
-                        timer()
-                        playerActiveScreen = data
-                    } else { 
+           .then(response => response.json())
+           .then(data => {
+               console.log("data", data["active_screen"], playerActiveScreen)
+               if(playerActiveScreen != data["active_screen"]){
+                   // console.log("update screen")
+                   roundOneEndTime = data["roundOneEndTime"]
+                   roundTwoEndTime = data["roundTwoEndTime"]
+                   roundThreeEndTime = data["roundThreeEndTime"]
+                   playerActiveScreen = data["active_screen"]
+                   getPlayerScreen()
+                } else { 
+                        // timer()
                         // console.log("no changes")
                     }
                 })

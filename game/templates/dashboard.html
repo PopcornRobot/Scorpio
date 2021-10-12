@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="{% static 'js/timer.js' %}"></script>
+
     <style>
         table {
           font-family: arial, sans-serif;
@@ -65,8 +68,11 @@
         <button onclick="sendMessage('All')">Message all users</button>
         <button onclick="deleteAllPlayerMessages()">Delete all messages</button>
         <a href="/resurrectAllPlayers"><button>Resurrect Players</button></a>
-        {% include "screens/timer.html" %}
-
+        <!-- {% include "screens/timer.html" %} -->
+        <div style="border: 1px solid black">
+            <h4>Round: <span id="round"></span></h4>
+            <h4>Timer: <span id="timer"></span></h4>
+        </div>
         <h3>Players</h3>
         <table>
             <thead>
@@ -165,8 +171,25 @@
 
 
     <script>
+        let roundOneEndTime = ""
+        let roundTwoEndTime = ""
+        let roundThreeEndTime = ""  
         polling = () => {
             // setInterval(() => {getMessages()}, 5000)
+            setInterval(() => {getTimerData()}, 1000)
+        }
+        getTimerData = () => {
+            const url = "/checkPlayerScreen/null"
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data["roundThreeEndTime"])
+                    roundOneEndTime = data["roundOneEndTime"]
+                    roundTwoEndTime = data["roundTwoEndTime"]
+                    roundThreeEndTime = data["roundThreeEndTime"]
+                    console.log("data",roundOneEndTime,roundTwoEndTime,roundThreeEndTime)
+                    timer()                    
+                })
         }
         countSelected = () => {
             console.log("countSelected")
