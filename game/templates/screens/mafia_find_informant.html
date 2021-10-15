@@ -3,66 +3,137 @@
 
 {% block content %}
 
+  <section id="three" class="no-padding">
+      <div class="container-fluid">
+          <div class="row no-gutter">
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" media="screen">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+              <br>
+              <br>
 
-    <div class="container">
+              <h2 class="animated__word text-center" style="color:orangered">Informant detective #1</h2>
 
-      <hr style="height:3px;border:none;color:black;background-color:black;"/>
+              <div class="col-lg-4 col-sm-6">
+                <img src="{% static "img/rat_one.jpg" %}" max width="100%" class="text-center"/>
+              </div>
 
-      <div id="my_h100" class="card border-danger mb-3 w-50 text-white" style="background-color:black">
-        <div class="card-header bg-transparent border-white text-center">
-          <h2 style="font-family:verdana; color:white">Informant detective #1: Smells like a rat</h2>
+              <h2 class="animated__word_two text-center" style="color:orangered">Smells like a rat</h2>
+
+              <div class="col-lg-4 col-sm-6">
+                <img src="{% static "img/rat_two.jpg" %}" max width="100%" class="text-center"/>
+              </div>
+
+              <br>
+
+          </div>
       </div>
+  </section>
 
-      <div class="mafia_find_informant card-body">
-        <div class="text-center">
-          <p class=''><img src="{% static "img/rat.png" %}" max width="100%" class="text-center"  /></p>
+<section class="container-fluid" id="four">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+            <hr>
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p class="animated__word text-center" style="color:white">Someone just called and told you there are missing items from the warehouse. 
+                    Items that can expose you and your crew's identity.The whole thing feels like a setup. How could so many things go 
+                    wrong at the same time?</p>
+                </div>
+            </div>
+            <hr>
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p class="animated__word text-center" style="color:white">They believe that a traitor sent the items to the detectives 
+                    at this party. You don't know which detective has it, but you know this:</p>
+                </div>
+            </div>
+            <hr>
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p class="animated__word text-center" style="color:white">INFORMANT DETECTIVE #1: {{ private_tip }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p class="animated__word text-center" style="color:white">The only way to stop the tip from being released is to kill the informant
+                    before they share the items with other detectives. This clue expires when the time runs out.</p>
+                </div>
+            </div>
+            <hr>
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p class="animated__word text-center" style="color:white">Warning: If you kill a detective that is not an 
+                    informant, you will be exposed and the police will kill you.</p>
+                </div>
+            </div>
+            <hr>
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p class="animated__word text-center" style="color:white">Scorpio members: Joe, Stephanie</p>
+                </div>
+            </div>
+            <hr>
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p class="animated__word text-center" style="color:white">*** INSERT FORM CONTROL TO SUBMIT ONE PERSON ***</p>
+                </div>
+            </div>
+            <hr>
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p class="animated__word text-center" style="color:white">Your tip has been submitted. If you are right, the informant dies. 
+                    If not, you will. Good luck.</p>
+                </div>
+            </div>
+            <hr>
         </div>
+    </div>
+</section>
 
-<p>Someone just called and told you there are missing items from the warehouse. Items that can expose you and your crew's identity.
-  The whole thing feels like a setup. How could so many things go wrong at the same time?</p>
+<script>
 
-<p>
-They believe that a traitor sent the items to the detectives at this party. You don't know which detective has it, but you know this:</p>
+    // global variables
 
-<p>INFORMANT DETECTIVE #1: {{ private_tip }}</p>
+    // Page load
+    document.addEventListener("DOMContentLoaded", () => {
 
+        LettersRandomPlaces({
+        element: ".animated__word",
+        })
 
-<p>The only way to stop the tip from being released is to kill the informant
-  before they share the items with other detectives. This clue expires when the time runs out. </p>
+        LettersRandomPlaces({
+        element: ".animated__word_two",
+        })
 
-<p>Warning: If you kill a detective that is not an informant, you will be exposed and the police will kill you.</p>
+    }); // page load closing
 
-<p>Scorpio members: Joe, Stephanie</p>
+    // Our functions
 
-<p>*** INSERT FORM CONTROL TO SUBMIT ONE PERSON ***</p>
-<p>Your tip has been submitted. If you are right, the informant dies. If not, you will. Good luck.</p>
+    LettersRandomPlaces({
+        element: ".animated__text",
 
-      <hr style="height:3px;border:none;color:black;background-color:black;"/>
+        // delay in ms
+        start_delay_time: 1000,
 
-    </div> <!-- container -->
+        // or 'random'
+        delay_type: "sequential",
 
-      <hr style="height:3px;border:none;color:black;background-color:black;"/>
+        // duration of the animation
+        animation_duration: 5000,
 
-  </head>
+        // type: number
+        force: 200,
 
-      <hr style="height:3px;border:none;color:black;background-color:black;"/>
+        // direction
+        direction: ['x', 'y'],
 
-<body style="background-color:black;">
-</body>
+        // scale text randomly
+        random_scale: false,
 
-</html>
+        // -1 for random
+        rotate: -1,
+    })
+
+</script>
 
 {% endblock %}

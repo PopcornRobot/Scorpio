@@ -322,7 +322,8 @@
    font-size: 1.5rem;
    line-height: inherit;
    color: inherit;
-   white-space: normal;
+    /* i changed the below from normal */
+   white-space: nowrap;
  }
  
  progress {
@@ -6542,7 +6543,8 @@
    letter-spacing: normal;
    word-break: normal;
    word-spacing: normal;
-   white-space: normal;
+   /* i changed the below from normal */
+   white-space: nowrap; 
    line-break: auto;
    font-size: 0.875rem;
    word-wrap: break-word;
@@ -6655,7 +6657,8 @@
    letter-spacing: normal;
    word-break: normal;
    word-spacing: normal;
-   white-space: normal;
+    /* i changed the below from normal */
+   white-space: nowrap;
    line-break: auto;
    font-size: 0.875rem;
    word-wrap: break-word;
@@ -8533,7 +8536,8 @@
    height: auto;
    overflow: visible;
    clip: auto;
-   white-space: normal;
+    /* i changed the below from normal */
+   white-space: nowrap
  }
  
  .shadow-sm {
@@ -10451,9 +10455,9 @@
  .text-justify {
    text-align: justify !important;
  }
- 
+  /* i changed the below from normal */
  .text-wrap {
-   white-space: normal !important;
+   white-space: nowrap !important;
  }
  
  .text-nowrap {

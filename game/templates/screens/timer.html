@@ -1,6 +1,10 @@
+{% extends 'base_new.html' %}
+{% load static %}
+{% block content %}
+
 <div style="border: 1px solid black">
-    <h4>Round: <span id="round"></span></h4>
-    <h4>Timer: <span id="timer"></span></h4>
+    <h4 style="color:white">Round: <span id="round"></span></h4>
+    <h4 style="color:white">Timer: <span id="timer"></span></h4>
 </div>
 
 <script>
@@ -75,3 +79,5 @@ document.onload(polling())
 getRoundTimes()
 
 </script>
+
+{% endblock %}

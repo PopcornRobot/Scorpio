@@ -3,55 +3,37 @@
 
 {% block content %}
 
+    <section id="three" class="no-padding">
+        <div class="container-fluid">
+            <div class="row no-gutter">
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" media="screen">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+                <br>
+                <br>
 
-    <div class="container">
+                <div class="col-lg-4 col-sm-6">
+                <img src="{% static "img/theres_a_rat.jpg" %}" max width="100%" class="text-center"/>
+                </div>
 
-        <hr style="height:3px;border:none;color:black;background-color:black;"/>
+                <h1 class="animated__word_youAre text-center" style="color:orange">There's a rat</h1>
 
-        <div id="my_h100" class="card border-danger mb-3 w-50 text-white" style="background-color:black">
-            <div class="card-header bg-transparent border-white text-center">
-                <h1 style="font-family:verdana; color:white" >There's a rat</h1>
+                <br>
+
+            </div>
         </div>
+    </section>
 
 
-<form action="/kill_informant" method="POST">
-    {% csrf_token %}
-    <select name="player" id="player">
-        {% for  player in all_townpeople %}
-        <option value="{{ player }}">{{ player }}</option>
 
-        {% endfor %}
-    </select>
-    <input type="hidden" name="killer" value="{{ user }}">
-    <button type="submit">Kill Informant</button>
-</form>
+    <form action="/kill_informant" method="POST">
+        {% csrf_token %}
+        <select name="player" id="player">
+            {% for  player in all_townpeople %}
+            <option value="{{ player }}">{{ player }}</option>
 
-        <hr style="height:3px;border:none;color:black;background-color:black;"/>
-
-    </div> <!-- container -->
-
-        <hr style="height:3px;border:none;color:black;background-color:black;"/>
-
-  </head>
-
-        <hr style="height:3px;border:none;color:black;background-color:black;"/>
-
-  <body style="background-color:black;">
-  </body>
-
-</html>
+            {% endfor %}
+        </select>
+        <input type="hidden" name="killer" value="{{ user }}">
+        <button type="submit">Kill Informant</button>
+    </form>
 
 {% endblock %}

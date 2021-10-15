@@ -91,6 +91,20 @@
         </div>
     </section>
 
+    <form action="/submitSafeList/{{ user }}" method="POST">
+        {% csrf_token %}
+        <ul>
+          {% for p in other_players %}
+          <li style="list-style-type: none;">
+            <input type="checkbox" name="players" value="{{ p.name }}">
+            {{ p.name }}
+            
+          </li>
+          {% endfor %}
+        </ul>
+        <input type="submit" value="Submit">
+    </form>
+
     <script>
     
         // global variables
@@ -100,10 +114,6 @@
     
             LettersRandomPlaces({
             element: ".animated__word",
-            })
-    
-            LettersRandomPlaces({
-            element: ".animated__word_a",
             })
     
         }); // page load closing
@@ -135,24 +145,9 @@
             rotate: -1,
         })
 
-<<<<<<< HEAD
     </script>
 
 
 {% endblock %}
-=======
-<form action="/submitSafeList/{{ user }}" method="POST">
-  {% csrf_token %}
-  <ul>
-    {% for p in other_players %}
-    <li style="list-style-type: none;">
-      <input type="checkbox" name="players" value="{{ p.name }}">
-      {{ p.name }}
-      
-    </li>
-    {% endfor %}
-  </ul>
-  <input type="submit" value="Submit">
-</form>
 
->>>>>>> d11955771cd39204f37933be0467d86772d45fcf
+

@@ -1,2 +1,85 @@
-<h2>You have been MURDERED!</h2>
-<p>Please set your corpse down somewhere comfortable.</p>
+{% extends 'base_new.html' %}
+{% load static %}
+
+{% block content %}
+
+    <section id="three" class="no-padding">
+        <div class="container-fluid">
+            <div class="row no-gutter">
+
+                <br>
+                <br>
+
+                <h1 class="animated__word text-center" style="color:grey">You have been MURDERED!</h1>
+
+                <div class="col-lg-4 col-sm-6">
+                  <img src="{% static "img/rip.jpg" %}" max width="100%" class="text-center"/>
+                </div>
+
+                <br>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="container-fluid" id="four">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                <hr>
+                <div class="media wow fadeInRight">
+                    <div class="media-body media-middle">
+                        <p class="animated__word_one text-center" style="color:grey">Please set your corpse down somewhere comfortable.</p>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    
+        // global variables
+    
+        // Page load
+        document.addEventListener("DOMContentLoaded", () => {
+    
+            LettersRandomPlaces({
+            element: ".animated__word",
+            })
+
+            LettersRandomPlaces({
+            element: ".animated__word_one",
+            })
+    
+        }); // page load closing
+    
+        // Our functions
+    
+        LettersRandomPlaces({
+            element: ".animated__text",
+    
+            // delay in ms
+            start_delay_time: 1000,
+    
+            // or 'random'
+            delay_type: "sequential",
+    
+            // duration of the animation
+            animation_duration: 5000,
+    
+            // type: number
+            force: 200,
+    
+            // direction
+            direction: ['x', 'y'],
+    
+            // scale text randomly
+            random_scale: false,
+    
+            // -1 for random
+            rotate: -1,
+        })
+    
+    </script>
+
+{% endblock %}

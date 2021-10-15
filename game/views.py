@@ -5,8 +5,6 @@ from django.urls import reverse
 from .models import *
 import random, json, time, collections
 
-
-
 # Create your views here.
 
 def survey(request):

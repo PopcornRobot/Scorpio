@@ -4,33 +4,39 @@
 
 {% block content %}
 
+    <!-- <style>
+        .photos {
+            white-space: nowrap;
+        }
+
+        .photos img {
+            display: inline;
+            vertical-align: top;
+            float: none;
+        }
+    </style> -->
+
     <section id="three" class="no-padding">
         <div class="container-fluid">
             <div class="row no-gutter">
-<p class=''><img src="{% static "img/scorpion.jpg" %}"  /></p>
-<p>You are the murderer known as "{{ nickname }}".
-  You are a part of the criminal organization called Scorpio.</p>
-<p>An hour ago, you and {{ mafia_count_text }} ran a hit and murdered an informant.
-  Due to bad luck, a police car blocked your escape route, so you hid in
-  this large group of people. Little did you know, it's a party of off-duty detectives.</p>
 
-                <h1 class="animated__word_youAre text-center" style="color:orange">YOU ARE</h1>
+                <h1 class="animated__word_youAre text-center" style="color:red">YOU ARE</h1>
 
                 <div class="col-lg-4 col-sm-6">
-                  <img src="{% static "img/police.jpg" %}" max width="100%" class="text-center"/>
+                  <img src="{% static "img/mafia_one.jpg" %}" max width="100%" class="text-center" style="overflow-x: auto; white-space: nowrap;"/>
                 </div>
 
-                <h1 class="animated__word_a text-center" style="color:orange">THE</h1>
+                <br clear="center">
 
-                <div class="col-lg-4 col-sm-6">
-                  <img src="{% static "img/male_detective.jpg" %}" max width="100%" class="text-center"/>
-                </div>
-                
-                <h1 class="animated__word_detective text-center" style="color:orange">MURDERER</h1>
+                <h1 class="animated__word_a text-center" style="color:red">THE</h1>
 
                 <div class="col-lg-4 col-sm-6">
-                    <img src="{% static "img/women_detectives.jpg" %}" max width="100%" class="text-center"/>
+                  <img src="{% static "img/mafia_two.jpg" %}" max width="100%" class="text-center" style="overflow-x: auto; white-space: nowrap;"/>
                 </div>
+
+                <h1 class="animated__word_detective text-center" style="color:red">MURDERER</h1>
+            
+                <br>
 
             </div>
         </div>
@@ -42,14 +48,17 @@
                 <hr>
                 <div class="media wow fadeInRight">
                     <div class="media-body media-middle">
-                        <p style="color:white">You are the murderer known as %%INSERT_MOB_NAME%% (e.g. The Blade).
+                        <p style="color:white">You are the murderer known as %%INSERT_MOB_NAME%% (e.g. The Blade) "{{ nickname }}".
                         You are a part of the criminal organization called Scorpio.</p>
                     </div>
                 </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <img src="{% static "img/black_scorpion_one.jpg" %}" max width="100%" class="text-center"/>
+                    </div>
                 <hr>
                 <div class="media wow fadeInRight">
                     <div class="media-body media-middle">
-                        <p style="color:white">An hour ago, you and %%INSERT_NUMBER_MEMBERS%% (e.g. three) others ran a hit and murdered an informant.
+                        <p style="color:white">An hour ago, you and %%INSERT_NUMBER_MEMBERS%% {{ mafia_count_text }}  (e.g. three) others ran a hit and murdered an informant.
                         Due to bad luck, a police car blocked your escape route, so you hid in
                         this large group of people. Little did you know, it's a party of off-duty detectives.</p>
                     </div>
@@ -71,90 +80,63 @@
                     </div>
                 </div>
                 <hr>
+                <p style="color:white">Scorpio member(s):</p>
+                {% for m in other_mafia %}
+                {{ m.name }}
+                {% endfor %}
+                <hr>
             </div>
         </div>
     </section>
 
-<script>
+    <script>
 
-    // global variables
+        // global variables
 
-    // Page load
-    document.addEventListener("DOMContentLoaded", () => {
+        // Page load
+        document.addEventListener("DOMContentLoaded", () => {
+
+            LettersRandomPlaces({
+            element: ".animated__word_youAre",
+            })
+
+            LettersRandomPlaces({
+            element: ".animated__word_a",
+            })
+
+            LettersRandomPlaces({
+            element: ".animated__word_detective",
+            })
+
+        }); // page load closing
+
+        // Our functions
 
         LettersRandomPlaces({
-        element: ".animated__word_youAre",
+            element: ".animated__word",
+
+            // delay in ms
+            start_delay_time: 1000,
+
+            // or 'random'
+            delay_type: "sequential",
+
+            // duration of the animation
+            animation_duration: 5000,
+
+            // type: number
+            force: 200,
+
+            // direction
+            direction: ['x', 'y'],
+
+            // scale text randomly
+            random_scale: false,
+
+            // -1 for random
+            rotate: -1,
         })
-
-        LettersRandomPlaces({
-        element: ".animated__word_a",
-        })
-
-        LettersRandomPlaces({
-        element: ".animated__word_detective",
-        })
-
-    }); // page load closing
-
-    // Our functions
-
-    LettersRandomPlaces({
-        element: ".animated__text",
-
-        // delay in ms
-        start_delay_time: 1000,
-
-        // or 'random'
-        delay_type: "sequential",
-
-        // duration of the animation
-        animation_duration: 5000,
-
-        // type: number
-        force: 200,
-
-        // direction
-        direction: ['x', 'y'],
-
-        // scale text randomly
-        random_scale: false,
-
-        // -1 for random
-        rotate: -1,
-    })
-
-    LettersRandomPlacesOne({
-        element: ".animated__text",
-
-        // delay in ms
-        start_delay_time: 5000,
-
-        // or 'random'
-        delay_type: "sequential",
-
-        // duration of the animation
-        animation_duration: 500,
-
-        // type: number
-        force: 200,
-
-        // direction
-        direction: ['x', 'y'],
-
-        // scale text randomly
-        random_scale: false,
-
-        // -1 for random
-        rotate: -1,
-    })
-    
-</script>
-  
-</body>
-</html>
+        
+    </script>
 
 {% endblock %}
-<p>Scorpio member(s):</p>
-{% for m in other_mafia %}
-{{ m.name }}
-{% endfor %}

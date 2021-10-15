@@ -3,71 +3,131 @@
 
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" media="screen">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <section id="three" class="no-padding">
+      <div class="container-fluid">
+          <div class="row no-gutter">
 
-    <div class="container">
+              <br>
+              <br>
 
-      <hr style="height:3px;border:none;color:black;background-color:black;"/>
+              <h1 class="animated__word text-center" style="color:red">Informant exposed!!</h1>
 
-      <div id="my_h100" class="card border-danger mb-3 w-50 text-white" style="background-color:black">
-        <div class="card-header bg-transparent border-white text-center">
-          <h2 style="font-family:verdana; color:white">Informant exposed!!</h2>
-        </div>
+              <div class="col-lg-4 col-sm-6">
+                <img src="{% static "img/tip_sent.jpg" %}" max width="100%" class="text-center"/>
+              </div>
 
-      <div class="tip_received_mafia card-body">
-        <div class="text-center">
-          <p class=''><img src="{% static "img/tip.png" %}" max width="100%" class="text-center"  /></p>
-        </div>
+              <br>
 
-<p>Your angel face and innocent demeanor served you well. The detective with the package foolishly thought you were trustworthy and
-  shared this information with you. </p>
-
-<p>{{ private_tip }}</p>
-{{ partner.low_accuracy_question }}
-<!-- <H2>** MUST SAY TIP ACCURATELY. CAN ONLY DECIDE IF TO ANNOUNCE IT PUBLICLY OR NOT.**</H2> -->
-<p>Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.</p>
-  <p>If you decide to announce the tip, it must be announced accurately.
-  Use this power
-  wisely.</p>
-
-<p>The informant is...</p>
+          </div>
+      </div>
+  </section>
 
 
-<p>{{ partner.name }}</p>
+  <section class="container-fluid" id="four">
+      <div class="row">
+          <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+              <hr>
+              <div class="media wow fadeInRight">
+                  <div class="media-body media-middle">
+                      <p style="color:white">Your angel face and innocent demeanor served you well. The detective with the package foolishly thought you were trustworthy and
+                          shared this information with you.</p>
+                  </div>
+              </div>
+              <hr>
+              <div class="media wow fadeInRight">
+                  <div class="media-body media-middle">
+                      <p style="color:white"> **Private Tip goes here** {{ private_tip }}</p>
+                      {{ partner.low_accuracy_question }}
+                  </div>
+              </div>
+              <hr>
+              <div class="media wow fadeIn">
+                  <div class="media-body media-middle">
+                      <p style="color:white">Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.</p>
+                  </div>
+              </div>
+              <hr>
+              <div class="media wow fadeIn">
+                  <div class="media-body media-middle">
+                      <p style="color:white">If you decide to announce the tip, it must be announced accurately.
+                          Use this power
+                          wisely.</p>
+                  </div>
+              </div>
+              <hr>
+              <div class="media wow fadeInRight">
+                  <div class="media-body media-middle">
+                      <p style="color:white">The informant is...</p>
+                  </div>
+              </div>
+              <hr>
+              <div class="media wow fadeIn"> 
+                  <div class="media-body media-middle">
+                      <p class="text-center" style="color:white"> {{ partner.name }}</p>
+                  </div>
+              </div>
+              <hr>
+              <div class="media wow fadeInRight">
+                  <div class="media-body media-middle">
+                      <p style="color:white"> Kill them and rid yourself of this annoying problem. 
+                        Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
+                  </div>
+              </div>
+              <hr>
+              <div class="media wow fadeInRight">
+                  <div class="media-body media-middle">
+                      <p style="color:white">Do you kill {{ partner.name }}?</p>
+                      <a href="/kill_informant2/{{ partner.name}}/{{ user }}">
+                        <button>Kill Informant</button>
+                      </a>
+                      <button>Ignore</button>
+                  </div>
+              </div>
+              <hr>
+          </div>
+      </div>
+    </section>
 
-<p>Kill them and rid yourself of this annoying problem. Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
-
-<p>Do you kill Brandon Madison?</p>
-
-      <hr style="height:3px;border:none;color:black;background-color:black;"/>
-
-    </div> <!-- container -->
-
-      <hr style="height:3px;border:none;color:black;background-color:black;"/>
-
-  </head>
-
-      <hr style="height:3px;border:none;color:black;background-color:black;"/>
-
-  <body style="background-color:black;">
-  </body>
-
-</html>
+    <script>
+    
+        // global variables
+    
+        // Page load
+        document.addEventListener("DOMContentLoaded", () => {
+    
+            LettersRandomPlaces({
+            element: ".animated__word",
+            })
+    
+        }); // page load closing
+    
+        // Our functions
+    
+        LettersRandomPlaces({
+            element: ".animated__text",
+    
+            // delay in ms
+            start_delay_time: 1000,
+    
+            // or 'random'
+            delay_type: "sequential",
+    
+            // duration of the animation
+            animation_duration: 5000,
+    
+            // type: number
+            force: 200,
+    
+            // direction
+            direction: ['x', 'y'],
+    
+            // scale text randomly
+            random_scale: false,
+    
+            // -1 for random
+            rotate: -1,
+        })
+        
+    </script>
 
 {% endblock %}
-<p>Do you kill {{ partner.name }}?</p>
-<a href="/kill_informant2/{{ partner.name}}/{{ user }}">
-  <button>Kill Informant</button>
-</a>
-<button>Ignore</button>
