@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from .models import *
-import random, json, math, time, threading, trace, collections
+import random, json, time, collections
 
 
 
@@ -98,7 +98,7 @@ def stop_game(request):
     return HttpResponseRedirect("/game_menu")
 
 def start_game(request):
-
+    
     # assign Chief
 
     # get random person
@@ -181,11 +181,16 @@ def assignInformantPartners():
 
 
 def survey_save(request):
-
+    print("survey_save")
     answer_ids =request.POST.getlist('survey')
 
-    player = Player.objects.create(name=request.POST['name'], role='', nickname=request.POST['gangsterNameDropdown'])
-
+    player = Player.objects.create( \
+        name=request.POST['name'], \
+        role='', \
+        active_screen='wait_screen'
+        # nickname=request.POST['gangsterNameDropdown'] \
+            )
+    print(player.id)
     # print(list_ids)
 
     # return HttpResponse("thanks for your submission!")
@@ -238,7 +243,8 @@ def survey_save(request):
         #     if name == gangsterName:
         #         print(gangsterName + " is a dup")
 
-    return HttpResponseRedirect(("/rules?pid=%s" % (player.id)))
+    # return HttpResponseRedirect(("/rules?pid=%s" % (player.id)))
+    return HttpResponseRedirect("/bulletin/" + str(player.id))
 
 
 def overview(request):
@@ -485,8 +491,13 @@ def timerStart(request, time):
     return HttpResponse("timer started")
 
 def roundLengthSet(request):
+
     game = Game.objects.get_or_create(id=1)[0]
-    game.roundLength = request.POST['roundLength']
+    if game.debug:
+        game.debug_roundLength = request.POST['roundLength']
+    else:
+        game.roundLength = request.POST['roundLength']
+        
     game.save()
     return redirect("/dashboard")
 
@@ -496,12 +507,12 @@ def test():
 
 def assign_roles():
     print("assign_roles")
-
 # if round 1
     # make everyone detective
     # assign mafia
     # assign informants
 # if round 2/3
+
     # loop over mafia
         # reset non mafia to detective
             #
@@ -524,9 +535,7 @@ def assign_roles():
         havent_been_informant.save()
         return HttpResponseRedirect('/dashboard')
     else:
-        mafia = Player.objects.filter(role="mafia")
-
-        for mafia in range(mafia_count):
+        for m in Player.objects.filter(role="mafia"):
             counter = 1
             random_number = random.randint(1, player_count)
             for player in players:
@@ -581,21 +590,36 @@ def update_screens():
 def start_game2(request):
     print("start game")
     setTimerEnd()
-    assign_roles()
+    # assign_roles()
+    assign_mafia_role("request")
+    assign_informants("request")
     update_screens()
     return HttpResponseRedirect("/dashboard")
 
 def stop_game2(request):
     print("stop game")
+    game = Game.objects.get(id=1)
+    game.roundEndTime = 0
+    game.roundOneEndTime = 0
+    game.roundTwoEndTime = 0
+    game.roundThreeEndTime = 0
+    game.save()
+    assign_all_to_detective()
     return HttpResponseRedirect("/dashboard")
 
 def setTimerEnd():
     print("setTimerEnd")
     now = time.time()
     game = Game.objects.get(id=1)
-    game.roundOneEndTime = now + game.roundLength * 60
-    game.roundTwoEndTime = now + (game.roundLength * 2) * 60
-    game.roundThreeEndTime = now + (game.roundLength * 3) * 60
+    if game.debug:
+        minute_multiplier = 1
+        roundLength = game.debug_roundLength
+    else: 
+        minute_multiplier = 60
+        roundLength = game.roundLength
+    game.roundOneEndTime = now + roundLength * minute_multiplier
+    game.roundTwoEndTime = now + (roundLength * 2) * minute_multiplier
+    game.roundThreeEndTime = now + (roundLength * 3) * minute_multiplier
     game.announce_round_2 = True
     game.announce_round_3 = True
     game.save()
@@ -603,13 +627,30 @@ def setTimerEnd():
 
 # bulletin test
 
-def bulletin(request, user):
-    player = Player.objects.get(name=user)
+def bulletin(request, id):
+    player = Player.objects.get(id=id)
+    mafia = Player.objects.filter(role="mafia")
     game = Game.objects.get(id=1)
     all_townpeople = Player.objects.filter(role='Townpeople')
     activeScreen = "screens/" + player.active_screen + ".html"
+    count_words = ["zero", "one", "two", "three", "four"]
+    mafia_count_text = "one other " if mafia.count() == 2 else count_words[mafia.count()] + " others"
+    other_mafia = Player.objects.filter(role='mafia').exclude(name=player.name).exclude(alive=False)
+    other_players = Player.objects.exclude(name=player.name).exclude(alive=False)
+    
+    if mafia:
+        tip_on_mafia_one = mafia[0].low_accuracy_question
+    else:
+        tip_on_mafia_one = "none"
+
+    if player.partner:
+        partner = player.partner
+    else:
+        partner = "none"
+    print("------", partner)
     context = {
-        'user': user,
+        # 'user': user,
+        'player': player,
         'nickname': player.nickname,
         'role': player.role,
         'informant': player.informant,
@@ -619,15 +660,37 @@ def bulletin(request, user):
         'roundThreeEndTime': game.roundThreeEndTime,
         'activeScreen': activeScreen,
         'all_townpeople': all_townpeople,
-        'playerActiveScreen': player.active_screen
+        'playerActiveScreen': player.active_screen,
+        'other_mafia': other_mafia,
+        'mafia_count_text': mafia_count_text,
+        'other_players': other_players,
+        'partner': partner,
+        'game': game,
+        'private_tip': player.private_tip,
+        'tip_on_mafia_one': tip_on_mafia_one,
+
     }
     return render(request, "bulletin.html", context)
 
-def checkPlayerScreen(request, player):
-    user = Player.objects.get(name=player)
-    print("player", user.active_screen)
-
-    return HttpResponse(user.active_screen)
+def checkPlayerScreen(request, id):
+    print("checkPlayerScreen", id)
+    game = Game.objects.get(id=1)
+    if id != "null":
+        user = Player.objects.get(id=id)
+        return JsonResponse(
+            {
+                "active_screen": user.active_screen,
+                "roundOneEndTime": game.roundOneEndTime,
+                "roundTwoEndTime": game.roundTwoEndTime,
+                "roundThreeEndTime": game.roundThreeEndTime
+            })
+    else:
+        return JsonResponse(
+            {
+                "roundOneEndTime": game.roundOneEndTime,
+                "roundTwoEndTime": game.roundTwoEndTime,
+                "roundThreeEndTime": game.roundThreeEndTime
+            })
 
 def getMessages(request):
     messages = PlayerMessages.objects.all()
@@ -641,15 +704,25 @@ def getMessages(request):
     # print("output", output)
     return HttpResponse(json.dumps(output))
 
-def getPlayerScreen(request, player):
-    player = Player.objects.get(name=player)
+def getPlayerScreen(request, id):
+    user = Player.objects.get(id=id)
     all_townpeople = Player.objects.filter(role="Townpeople")
-    context =  {'user': player.name, 'all_townpeople': all_townpeople}
-    return render(request, "screens/"+ player.active_screen  + ".html", context)
+    other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
+    other_players = Player.objects.exclude(id=id)
+    context =  {
+        'user': user.name,
+        'all_townpeople': all_townpeople,
+        'nickname': user.nickname,
+        'other_mafia': other_mafia,
+        'other_players': other_players,
+        'private_tip': "test private tip",
 
-def setPlayerScreen(request, player, screen):
-    print("setPlayerScreen", player, screen)
-    user = Player.objects.get(name=player)
+        }
+    return render(request, "screens/"+ user.active_screen  + ".html", context)
+
+def setPlayerScreen(request, id, screen):
+    print("setPlayerScreen", id, screen)
+    user = Player.objects.get(id=id)
     user.active_screen = screen
     user.save()
     return HttpResponseRedirect("/dashboard")
@@ -659,8 +732,27 @@ def getPlayerMessages(request, player):
     return HttpResponse(["one", "two", "three"])
 
 def dashboard(request):
-    game = Game.objects.get(id=1)
-    players = Player.objects.all()
+    question_data = Question.objects.all()
+    if question_data.count() == 0:
+        Question.objects.bulk_create(
+            [
+                Question(text='q1', news_report=""),
+                Question(text='q2', news_report=""),
+                Question(text='q3', news_report=""),
+                Question(text='q4', news_report=""),
+                Question(text='q5', news_report=""),
+                Question(text='q6', news_report=""),
+                Question(text='q7', news_report=""),
+                Question(text='q8', news_report=""),
+                Question(text='q9', news_report=""),
+            ]
+        )  
+    questions_answered = Question.objects.filter(selected_count__gt=0)
+    if questions_answered.count() == 0:
+        game = Game.objects.get_or_create(id=1)
+    else:
+        game = Game.objects.get(id=1)
+    players = Player.objects.all().order_by('name')
     playerMessages = PlayerMessages.objects.all()
     mafia = Player.objects.filter(role='Mafia')
     townpeople = Player.objects.filter(role='Townpeople')
@@ -671,18 +763,28 @@ def dashboard(request):
     # print("max selected", max_selected)
     answered_questions = Question.objects.filter(selected_count__gt=0)
     player_answers = PlayerAnswer.objects.all()
-
+    if game.debug:
+        roundLength = game.debug_roundLength
+        time = "sec"
+    else:
+        roundLength = game.roundLength
+        time = "min"
     # print('players', players)
     context = {
         'players': players,
         'playerMessages': playerMessages,
         'mafia': mafia,
         'townpeople': townpeople,
-        'roundLength': game.roundLength,
+        'roundLength': roundLength,
         'questions': questions,
         'low_accuracy': low_accuracy,
         'high_accuracy': high_accuracy,
         'player_answers': player_answers,
+        'roundOneEndTime': game.roundOneEndTime,
+        'roundTwoEndTime': game.roundTwoEndTime,
+        'roundThreeEndTime': game.roundThreeEndTime,    
+        'debug': game.debug,   
+        'time': time, 
 
     }
     return render(request, "dashboard.html", context)
@@ -691,32 +793,34 @@ def process_survey(request):
     questions = Question.objects.all().order_by("-selected_count")
     # for q in questions:
     #     print("q", q.selected_count, q.text)
-
-
-
     players = Player.objects.all()
 
     for player in players:
         answer_dict = {}
         answer_list = []
         player_answers = PlayerAnswer.objects \
-            .filter(player=player)
+            .filter(player=player) \
+            # .exclude(quesiton__is_used=False) # Question model
+        # if none, reuse player answers
+        count_dict = {}
         for answer in player_answers:
             print(answer.question.selected_count, answer.question.text)
+            count_dict[answer.id] = answer.question.selected_count
             answer_dict[answer.question.selected_count] = answer.question.text
             answer_list.append(answer.question.selected_count)
+
+
         od = collections.OrderedDict(sorted(answer_dict.items()))
-        print(od, sorted(answer_list))
         sorted_answer_list = sorted(answer_list)
         q_high = max(answer_list)
         q_low = min(answer_list)
         q_med = sorted_answer_list[int((len(answer_list)-1)/2)]
-
-        print(q_high, q_med, q_low)
+        
         player.low_accuracy_question = answer_dict[q_low]
         player.med_accuracy_question = answer_dict[q_med]
         player.high_accuracy_question = answer_dict[q_high]
         player.save()
+        # print(answer_dict.keys())
     return HttpResponseRedirect(reverse('game:dashboard'))
 
 
@@ -806,7 +910,22 @@ def kill_informant(request):
         setPlayerScreen(request, player.name, "announcement")
     return HttpResponseRedirect(reverse('game:bulletin', kwargs={'user': killer}))
 
+def kill_informant2(request, informant, killer):
+    print("kill informant", informant, killer)
+    i_player = Player.objects.get(name=informant)
+    k_player = Player.objects.get(name=killer)
+    i_player.alive = False
+    i_player.active_screen = "you_have_been_killed"
+    i_player.save()
+
+    other_players = Player.objects.exclude(name=informant)
+    for p in other_players:
+        p.active_screen = "death_alert"
+        p.save()
+    return HttpResponseRedirect("/bulletin/" + killer)
+
 def load_player_data(request):
+    Player.objects.all().delete()
     Player.objects.bulk_create(
         [
             Player(name='AJ', active_screen="wait_screen", nickname="Mugger"),
@@ -820,8 +939,12 @@ def load_player_data(request):
             Player(name='Mary', active_screen="wait_screen", nickname="Bulleye"),
         ]
     )
+    question_id_list = []
+    for question in Question.objects.all():
+        question_id_list.append(question.id)
+    print(min(question_id_list), max(question_id_list))
     for player in Player.objects.all():
-        question_ids = random.sample(range(388, 400), 5)
+        question_ids = random.sample(range(min(question_id_list), max(question_id_list)), 5)
         for question_id in question_ids:
             question = Question.objects.get(id=question_id)
             PlayerAnswer.objects.create(player=player, question=question)
@@ -833,6 +956,7 @@ def delete_player_data(request):
     return HttpResponseRedirect('/dashboard')
 
 def assign_mafia_role(request):
+    mafia_names = ["Pistol Pete", "Ice Pick Willie", "Bootsie"]
     print("assign_mafia_role")
     players = Player.objects.all()
     player_count = Player.objects.all().count()
@@ -846,12 +970,12 @@ def assign_mafia_role(request):
             print(player.name, random_number, counter)
             if random_number == counter:
                 print("assign")
+                mafia_name = random.choice(mafia_names)
                 player.role = "mafia"
+                player.nickname = mafia_name
                 player.save()
+                mafia_names.remove(mafia_name)
                 counter+=1
-
-                # return HttpResponseRedirect("/dashboard")
-
             else:
                 counter+=1
 
@@ -863,12 +987,13 @@ def assign_informants(request):
     for p in informants: # reset informants to detectives
         p.role = 'detective'
         p.active_screen = "character_assign_detective"
+        p.partner = None
         p.save()
     havent_been_informant = Player.objects \
         .exclude(role="mafia") \
         .exclude(has_been_informant=True)
-    print("---", havent_been_informant.count(), havent_been_informant[0].name)
-    if havent_been_informant.count() == 1:
+    if havent_been_informant.count() == 1: # if only one eligible detective remaining 
+        # update - if count less than mafia count , recycle detective
         inf = havent_been_informant[0]
         inf.role = "informant"
         inf.has_been_informant = True
@@ -878,36 +1003,43 @@ def assign_informants(request):
     else:
         mafia = Player.objects.filter(role="mafia")
         for m in mafia:
-            print("select informant")
             players = Player.objects\
                 .exclude(role="mafia")\
                 .exclude(has_been_informant=True)\
                 .exclude(alive=False)
-            print(players.count())
             random_number = random.randint(1, players.count())
-            # print(random_number)
-
             counter = 1
             for player in players:
-                print(player.name, counter, random_number)
                 if counter == random_number:
                     player.role = "informant"
                     player.has_been_informant = True
                     player.active_screen = "informant"
-                    player.partner = m.name
+                    player.partner = m
                     player.save()
+                    m.partner = player
+                    m.save()
                     counter+=1
-
                 else:
                     counter+=1
+        # for m in mafia:
+        #     informant = Player.objects.filter(role="informant", partner=None)[:1][0]
+        #     m.partner = informant
+        #     m.save()
         return HttpResponseRedirect('/dashboard')
 
-def assign_all_to_detective(request):
+
+def assign_all_to_detective(request=""):
     players = Player.objects.all()
     for player in players:
         player.role = "detective"
+        player.nickname = "none"
         player.has_been_informant = False
         player.active_screen = 'wait_screen'
+        player.alive = True
+        player.partner = None
+        player.safe_list_1 = None
+        player.safe_list_2 = None
+        player.safe_list_3 = None
         player.save()
     return HttpResponseRedirect("/dashboard")
 
@@ -930,11 +1062,48 @@ def new_round(request, round):
     if round == 2 and game.announce_round_2 == True:
         game.announce_round_2 = False
         game.save()
-        assign_informants()
+        assign_informants("request")
     if round == 3 and game.announce_round_3 == True:
         game.announce_round_3 = False
         game.save()
-        assign_informants()
+        assign_informants("request")
 
 
     return HttpResponseRedirect('/dashboard')
+
+def debug_switch(request):
+    game = Game.objects.get(id=1)
+    game.debug = not game.debug
+    game.save()
+    return HttpResponseRedirect('/dashboard')
+
+def submit_safe_list(request, user ):
+    player = Player.objects.get(name=user)
+    selected_players = request.POST.getlist('players')
+    mafia = Player.objects.filter(role="mafia")
+    game = Game.objects.get(id=1)
+
+    if game.announce_round_2 == True:
+        player.safe_list_1 = selected_players
+    elif game.announce_round_2 == False and game.announce_round_3 == True:
+        player.safe_list_2 = selected_players
+    elif game.announce_round_3 == True:
+        player.safe_list_3 = selected_players
+    else:
+        print("game over, no more subissions")
+    player.active_screen = "informant_tip_submitted"
+    player.save()
+    for m in mafia:
+        if m.name in selected_players:
+            print("match", m.name)
+            m.private_tip = player.low_accuracy_question
+            m.active_screen = "mafia_find_informant"
+            m.save()
+        else:
+            print("no match")
+    print("submit safe list", selected_players)
+    return HttpResponseRedirect('/bulletin/' + user)
+
+def scan(request):
+    print("scan")
+    return render(request, "scan.html")

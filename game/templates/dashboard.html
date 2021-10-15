@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="{% static 'js/timer.js' %}"></script>
+
     <style>
         table {
           font-family: arial, sans-serif;
@@ -25,17 +28,22 @@
 </head>
 <body>
     <div style="border:1px solid black;">
-
-        <h1>Dashboard</h1>
+        <h1>Dashboard
+            <span>
+                <a href="/debugSwitch">
+                    <button>Debug: {{ debug }}</button>
+                </a>
+            </span>
+        </h1>
         <div>
             <form action="/roundLengthSet" method="Post">
                 {% csrf_token %}
-                <label for="roundLength">Round Length</label>
+                <label for="roundLength">Round Length ({{ time }})</label>
                 <input id="roundLength" name="roundLength" type="text">
                 <input type="submit" value="submit">
             </form>
             <div>
-                Round Length: {{ roundLength }}
+                Round Length: {{ roundLength }} {{ time }}
             </div>
         </div>
         <div>
@@ -60,11 +68,18 @@
         <button onclick="sendMessage('All')">Message all users</button>
         <button onclick="deleteAllPlayerMessages()">Delete all messages</button>
         <a href="/resurrectAllPlayers"><button>Resurrect Players</button></a>
+        <!-- {% include "screens/timer.html" %} -->
+        <div style="border: 1px solid black">
+            <h4>Round: <span id="round"></span></h4>
+            <h4>Timer: <span id="timer"></span></h4>
+        </div>
         <h3>Players</h3>
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
+                    <th>Actions</th>
                     <th>Nickname</th>
                     <th>Partner</th>
                     <th>Screen</th>
@@ -79,10 +94,13 @@
             <tbody>
                 {% for player in players%}
                 <tr>
+                    <td>{{ player.id }}</td>
                     <td>
-                        <a href="/{{ player.name }}/bulletin">
+                        <a href="/bulletin/{{ player.id }}">
                             {{ player.name }}
                         </a>
+                    </td>
+                    <td>
                         <a href="killPlayer/{{ player.name }}"><button style="background-color: red;">Kill</button></a>
                         <a href="setPlayerScreen/{{ player.name }}/wait_screen"><button wait_screen')">Wait</button></a>
                         <a href="setPlayerScreen/{{ player.name }}/death_alert"><button death_alert')">Death</button></a>
@@ -158,9 +176,30 @@
 
 
     <script>
+        let roundOneEndTime = ""
+        let roundTwoEndTime = ""
+        let roundThreeEndTime = ""  
         polling = () => {
             // setInterval(() => {getMessages()}, 5000)
-        }
+            // setInterval(() => {getTimerData()}, 5000)
+            setInterval(function() {timer(
+                {{roundOneEndTime}},
+                {{roundTwoEndTime}},
+                {{roundThreeEndTime}}                
+                )}, 1000)        }
+        // getTimerData = () => {
+        //     const url = "/checkPlayerScreen/null"
+        //     fetch(url)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log(data["roundThreeEndTime"])
+        //             roundOneEndTime = data["roundOneEndTime"]
+        //             roundTwoEndTime = data["roundTwoEndTime"]
+        //             roundThreeEndTime = data["roundThreeEndTime"]
+        //             console.log("data",roundOneEndTime,roundTwoEndTime,roundThreeEndTime)
+        //             timer()                    
+        //         })
+        // }
         countSelected = () => {
             console.log("countSelected")
             var xhttp = new XMLHttpRequest()

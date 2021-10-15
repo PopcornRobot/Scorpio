@@ -1,6 +1,6 @@
 {% extends 'base_new.html' %}
 {% load static %}
-{% include "screens/timer.html" %}
+<!-- {% include "screens/timer.html" %} -->
 
 {% block content %}
 
@@ -135,7 +135,24 @@
             rotate: -1,
         })
 
+<<<<<<< HEAD
     </script>
 
 
 {% endblock %}
+=======
+<form action="/submitSafeList/{{ user }}" method="POST">
+  {% csrf_token %}
+  <ul>
+    {% for p in other_players %}
+    <li style="list-style-type: none;">
+      <input type="checkbox" name="players" value="{{ p.name }}">
+      {{ p.name }}
+      
+    </li>
+    {% endfor %}
+  </ul>
+  <input type="submit" value="Submit">
+</form>
+
+>>>>>>> d11955771cd39204f37933be0467d86772d45fcf

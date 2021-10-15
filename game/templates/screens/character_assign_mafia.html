@@ -1,12 +1,18 @@
 {% extends 'base_new.html' %}
 {% load static %}
-{% include "screens/timer.html" %}
+<!-- {% include "screens/timer.html" %} -->
 
 {% block content %}
 
     <section id="three" class="no-padding">
         <div class="container-fluid">
             <div class="row no-gutter">
+<p class=''><img src="{% static "img/scorpion.jpg" %}"  /></p>
+<p>You are the murderer known as "{{ nickname }}".
+  You are a part of the criminal organization called Scorpio.</p>
+<p>An hour ago, you and {{ mafia_count_text }} ran a hit and murdered an informant.
+  Due to bad luck, a police car blocked your escape route, so you hid in
+  this large group of people. Little did you know, it's a party of off-duty detectives.</p>
 
                 <h1 class="animated__word_youAre text-center" style="color:orange">YOU ARE</h1>
 
@@ -148,3 +154,7 @@
 </html>
 
 {% endblock %}
+<p>Scorpio member(s):</p>
+{% for m in other_mafia %}
+{{ m.name }}
+{% endfor %}

@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="{% static 'js/timer.js' %}"></script>
 </head>
-<body>
+<body style="color:white; background-color: black"  >
     <h1>Bulletin</h1>
-    <h4>User: {{ user }}</h4>
-    {% include "screens/timer.html" %}
+    <h4>User: {{ player.name }}</h4>
 
     <div style="border:1px solid black">
+            <div style="border: 1px solid black">
+                <h4>Round: <span id="round"></span></h4>
+                <h4>Timer: <span id="timer"></span></h4>
+            </div>
             <span id="activeScreen">
                 
-                {% include activeScreen %}
+                {% include activeScreen with tip_on_mafia_one=tip_on_mafia_one %}
                 
             </span> 
     </div>
@@ -27,11 +32,16 @@
 
 
     <script>
-        let player = "{{ user }}"
-        console.log({player})
+        let player_id = "{{ player.id }}"
+        console.log({player_id})
         polling = () => {
         //     setInterval(function() {getMessages()}, 2000)
-            setInterval(function() {checkPlayerScreen()}, 5000)
+            // setInterval(function() {checkPlayerScreen()}, 1000)
+            setInterval(function() {timer(
+                {{roundOneEndTime}},
+                {{roundTwoEndTime}},
+                {{roundThreeEndTime}}                
+                )}, 1000)
       
         }
         // getMessages = () => {
@@ -41,17 +51,17 @@
         //     xhttp.send()
         // }
 
-       getPlayerMessages = (user) => {
+       getPlayerMessages = (player_id) => {
         //    const user = {{ user }}
-           const url = "/getPlayerMessages/" + user
+           const url = "/getPlayerMessages/" + player_id
            fetch(url)
                 .then(response => response.text())
                 .then(data => console.log(data))
         
        }
        getPlayerScreen = () => {
-           console.log("player----", player)
-           const url  ="/getPlayerScreen/" + player
+        //    console.log("player----", player)
+           const url  ="/getPlayerScreen/" + player_id
            fetch(url)
                 .then(response => response.text())
                 .then(data => {
@@ -59,20 +69,27 @@
                 })
        }
     
-
-       let playerActiveScreen = "{{ playerActiveScreen }}"
+        let playerActiveScreen = "{{ playerActiveScreen }}"
+        let roundOneEndTime = ""
+        let roundTwoEndTime = ""
+        let roundThreeEndTime = ""   
        checkPlayerScreen = () => {
-        //    console.log("check player screen", playerActiveScreen)
-           const url = "/checkPlayerScreen/" + player
+           
+           //    console.log("check player screen", playerActiveScreen)
+           const url = "/checkPlayerScreen/" + player_id
            fetch(url)
-                .then(response => response.text())
-                .then(data => {
-                    // console.log({data}, {playerActiveScreen})
-                    if(playerActiveScreen != data){
-                        // console.log("update screen")
-                        getPlayerScreen()
-                        playerActiveScreen = data
-                    } else { 
+           .then(response => response.json())
+           .then(data => {
+               console.log("data", data["active_screen"], playerActiveScreen)
+               if(playerActiveScreen != data["active_screen"]){
+                   // console.log("update screen")
+                   roundOneEndTime = data["roundOneEndTime"]
+                   roundTwoEndTime = data["roundTwoEndTime"]
+                   roundThreeEndTime = data["roundThreeEndTime"]
+                   playerActiveScreen = data["active_screen"]
+                   getPlayerScreen()
+                } else { 
+                        // timer()
                         // console.log("no changes")
                     }
                 })

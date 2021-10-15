@@ -1,6 +1,7 @@
 {% extends 'base_new.html' %}
 {% load static %}
 {% block content %}
+<!-- {% include "screens/timer.html" with roundOneEndTime=roundOneEndTime roundTwoEndTime=roundTwoEndTime roundThreeEndTime=roundThreeEndTime %} -->
 
     <section id="three" class="no-padding">
         <div class="container-fluid">
@@ -24,6 +25,15 @@
                 <div class="col-lg-4 col-sm-6">
                     <img src="{% static "img/women_detectives.jpg" %}" max width="100%" class="text-center"/>
                 </div>
+<p>Now you just heard over the police radio that someone put two shots in your informant's head.
+  Police on the scene believe the perpetrator fled on foot and could be hiding at this very party.</p>
+<div style="background-color: yellow;">
+
+  <p>%%INCLUDE_TIP%% (e.g. "Early analysis of the scene makes police believe the suspect likes to travel.")</p>
+  <p>tip_on_mafia_one</p>
+  {{ tip_on_mafia_one }}
+  <p>While your informant's death is tragic, your mind is bothered by something else. </p>
+</div>
 
             </div>
         </div>
