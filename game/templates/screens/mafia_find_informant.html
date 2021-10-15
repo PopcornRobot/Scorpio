@@ -1,8 +1,35 @@
+{% extends 'base_new.html' %}
 {% load static %}
 
-<h2>Informant detective #1: Smells like a rat</h2>
+{% block content %}
 
-<p class=''><img src="{% static "img/rat.png" %}" style="width:400px"  /></p>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" media="screen">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <div class="container">
+
+      <hr style="height:3px;border:none;color:black;background-color:black;"/>
+
+      <div id="my_h100" class="card border-danger mb-3 w-50 text-white" style="background-color:black">
+        <div class="card-header bg-transparent border-white text-center">
+          <h2 style="font-family:verdana; color:white">Informant detective #1: Smells like a rat</h2>
+      </div>
+
+      <div class="mafia_find_informant card-body">
+        <div class="text-center">
+          <p class=''><img src="{% static "img/rat.png" %}" max width="100%" class="text-center"  /></p>
+        </div>
 
 <p>Someone just called and told you there are missing items from the warehouse. Items that can expose you and your crew's identity.
   The whole thing feels like a setup. How could so many things go wrong at the same time?</p>
@@ -22,3 +49,20 @@ They believe that a traitor sent the items to the detectives at this party. You 
 
 <p>*** INSERT FORM CONTROL TO SUBMIT ONE PERSON ***</p>
 <p>Your tip has been submitted. If you are right, the informant dies. If not, you will. Good luck.</p>
+
+      <hr style="height:3px;border:none;color:black;background-color:black;"/>
+
+    </div> <!-- container -->
+
+      <hr style="height:3px;border:none;color:black;background-color:black;"/>
+
+  </head>
+
+      <hr style="height:3px;border:none;color:black;background-color:black;"/>
+
+<body style="background-color:black;">
+</body>
+
+</html>
+
+{% endblock %}

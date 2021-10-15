@@ -1,2 +1,75 @@
-<p>Role Assignment</p>
-<p>Please wait here</p>
+{% load static %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" media="screen">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="{% static "js/tsparticles.min.js" %}"></script> 
+    <script src="js/tsparticles.min.js"></script>
+
+    {% block content %}
+    
+    <div class="container">
+      <div id="particles-js"></div>
+      <div id="my_h100" class="card border-danger mb-3 w-50 text-white" style="background-color:black">
+          <div class="card-header bg-transparent border-white text-center">
+      </div>
+
+      <p>Role Assignment</p>
+      <p>Please wait here</p>
+
+    </div> <!-- container -->
+  </head>
+
+  <body style="background-color:black;">
+
+      <script>
+    
+          // global variable
+    
+          // Page load
+          document.addEventListener("DOMContentLoaded", () => {
+
+            particlesJS('particles-js', {
+              canvas: {
+                color_hex_bg: '#15414e',
+                opacity: 1
+              },
+              particles: {
+                color_hex: '#fff',
+                opacity: 1,
+                size: 2.5,
+                size_random: true,
+                nb: 200,
+                anim: {
+                  speed: 2
+                }
+              },
+              retina_detect: true
+            });
+
+            tsParticlesJS.load('particles-js', 'assets/particles.json', function() {
+              console.log('callback - particles.js config loaded');
+            });
+
+          });
+          
+      </script>
+
+      <script src="js/tsparticles.js"></script>
+      <script src="{% static "js/tsparticles.js" %}"></script> 
+  </body>
+
+</html>
+
+{% endblock %}
