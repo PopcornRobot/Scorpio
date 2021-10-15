@@ -95,10 +95,12 @@
                 {% for player in players%}
                 <tr>
                     <td>{{ player.id }}</td>
-                    <td>{{ player.name }}</td>
                     <td>
                         <a href="/bulletin/{{ player.name }}">
+                            {{ player.name }}
                         </a>
+                    </td>
+                    <td>
                         <a href="killPlayer/{{ player.name }}"><button style="background-color: red;">Kill</button></a>
                         <a href="setPlayerScreen/{{ player.name }}/wait_screen"><button wait_screen')">Wait</button></a>
                         <a href="setPlayerScreen/{{ player.name }}/death_alert"><button death_alert')">Death</button></a>
