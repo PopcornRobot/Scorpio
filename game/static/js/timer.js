@@ -2,11 +2,12 @@ let announceRound2 = true
 let announceRound3 = true
 let minute_multiplier = 60
 
-function timer(){
-    console.log("timer", roundOneEndTime)
+function timer(roundOneEndTime, roundTwoEndTime, roundThreeEndTime){
+    console.log("timer", roundTwoEndTime)
     var now = new Date().getTime() / 1000
     now = Math.round(now)
     var endTime1 = roundOneEndTime
+    console.log("endTime1", endTime1)
     var timeLeft1 = endTime1 - now 
     var min1 = Math.floor(timeLeft1/60)
     var sec1 = timeLeft1 % 60
@@ -25,7 +26,11 @@ function timer(){
     if(sec3 < 10) sec3 = "0"+sec3
     // document.getElementById('timer3').innerHTML = min3+":"+sec3
     console.log({timeLeft3})
-    if(timeLeft1 > 0){
+    if (roundOneEndTime == 0){
+        document.getElementById('timer').innerHTML = "00:00"
+        document.getElementById('round').innerHTML = "Get Ready"
+    }
+    else if(timeLeft1 > 0){
         document.getElementById('timer').innerHTML = min1+":"+sec1
         document.getElementById('round').innerHTML = 1
     } else if(timeLeft2 > 0){

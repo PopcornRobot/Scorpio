@@ -77,7 +77,9 @@
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
+                    <th>Actions</th>
                     <th>Nickname</th>
                     <th>Partner</th>
                     <th>Screen</th>
@@ -92,9 +94,10 @@
             <tbody>
                 {% for player in players%}
                 <tr>
+                    <td>{{ player.id }}</td>
+                    <td>{{ player.name }}</td>
                     <td>
-                        <a href="/{{ player.name }}/bulletin">
-                            {{ player.name }}
+                        <a href="/bulletin/{{ player.name }}">
                         </a>
                         <a href="killPlayer/{{ player.name }}"><button style="background-color: red;">Kill</button></a>
                         <a href="setPlayerScreen/{{ player.name }}/wait_screen"><button wait_screen')">Wait</button></a>
@@ -176,21 +179,25 @@
         let roundThreeEndTime = ""  
         polling = () => {
             // setInterval(() => {getMessages()}, 5000)
-            setInterval(() => {getTimerData()}, 1000)
-        }
-        getTimerData = () => {
-            const url = "/checkPlayerScreen/null"
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data["roundThreeEndTime"])
-                    roundOneEndTime = data["roundOneEndTime"]
-                    roundTwoEndTime = data["roundTwoEndTime"]
-                    roundThreeEndTime = data["roundThreeEndTime"]
-                    console.log("data",roundOneEndTime,roundTwoEndTime,roundThreeEndTime)
-                    timer()                    
-                })
-        }
+            // setInterval(() => {getTimerData()}, 5000)
+            setInterval(function() {timer(
+                {{roundOneEndTime}},
+                {{roundTwoEndTime}},
+                {{roundThreeEndTime}}                
+                )}, 1000)        }
+        // getTimerData = () => {
+        //     const url = "/checkPlayerScreen/null"
+        //     fetch(url)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log(data["roundThreeEndTime"])
+        //             roundOneEndTime = data["roundOneEndTime"]
+        //             roundTwoEndTime = data["roundTwoEndTime"]
+        //             roundThreeEndTime = data["roundThreeEndTime"]
+        //             console.log("data",roundOneEndTime,roundTwoEndTime,roundThreeEndTime)
+        //             timer()                    
+        //         })
+        // }
         countSelected = () => {
             console.log("countSelected")
             var xhttp = new XMLHttpRequest()

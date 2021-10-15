@@ -10,7 +10,7 @@
 </head>
 <body>
     <h1>Bulletin</h1>
-    <h4>User: {{ user }}</h4>
+    <h4>User: {{ player.name }}</h4>
 
     <div style="border:1px solid black">
             <div style="border: 1px solid black">
@@ -19,7 +19,7 @@
             </div>
             <span id="activeScreen">
                 
-                {% include activeScreen %}
+                {% include activeScreen with tip_on_mafia_one=tip_on_mafia_one %}
                 
             </span> 
     </div>
@@ -32,12 +32,16 @@
 
 
     <script>
-        let player = "{{ user }}"
-        // console.log({player})
+        let player_id = "{{ player.id }}"
+        console.log({player_id})
         polling = () => {
         //     setInterval(function() {getMessages()}, 2000)
-            setInterval(function() {checkPlayerScreen()}, 1000)
-            setInterval(function() {timer()}, 1000)
+            // setInterval(function() {checkPlayerScreen()}, 1000)
+            setInterval(function() {timer(
+                {{roundOneEndTime}},
+                {{roundTwoEndTime}},
+                {{roundThreeEndTime}}                
+                )}, 1000)
       
         }
         // getMessages = () => {
@@ -47,9 +51,9 @@
         //     xhttp.send()
         // }
 
-       getPlayerMessages = (user) => {
+       getPlayerMessages = (player_id) => {
         //    const user = {{ user }}
-           const url = "/getPlayerMessages/" + user
+           const url = "/getPlayerMessages/" + player_id
            fetch(url)
                 .then(response => response.text())
                 .then(data => console.log(data))
@@ -57,7 +61,7 @@
        }
        getPlayerScreen = () => {
         //    console.log("player----", player)
-           const url  ="/getPlayerScreen/" + player
+           const url  ="/getPlayerScreen/" + player_id
            fetch(url)
                 .then(response => response.text())
                 .then(data => {
@@ -72,7 +76,7 @@
        checkPlayerScreen = () => {
            
            //    console.log("check player screen", playerActiveScreen)
-           const url = "/checkPlayerScreen/" + player
+           const url = "/checkPlayerScreen/" + player_id
            fetch(url)
            .then(response => response.json())
            .then(data => {

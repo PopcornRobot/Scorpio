@@ -2,7 +2,7 @@
 <!-- {% include "screens/timer.html" with roundOneEndTime=roundOneEndTime roundTwoEndTime=roundTwoEndTime roundThreeEndTime=roundThreeEndTime %} -->
 
 <h2>You are a detective</h2>
-<p>{{ private_tip }}</p>
+
 <p class=''><img src="{% static "img/detective.jpg" %}"  /></p>
 
 <p>Today was supposed to be a good day. You are finally making some inroads on
@@ -10,10 +10,13 @@
 
 <p>Now you just heard over the police radio that someone put two shots in your informant's head.
   Police on the scene believe the perpetrator fled on foot and could be hiding at this very party.</p>
+<div style="background-color: yellow;">
 
-<p>%%INCLUDE_TIP%% (e.g. "Early analysis of the scene makes police believe the suspect likes to travel.")</p>
-
-<p>While your informant's death is tragic, your mind is bothered by something else. </p>
+  <p>%%INCLUDE_TIP%% (e.g. "Early analysis of the scene makes police believe the suspect likes to travel.")</p>
+  <p>tip_on_mafia_one</p>
+  {{ tip_on_mafia_one }}
+  <p>While your informant's death is tragic, your mind is bothered by something else. </p>
+</div>
 
 <p>"There's no way anyone could have found out he was my informant. Not this fast."</p>
 
