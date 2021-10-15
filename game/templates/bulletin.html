@@ -9,7 +9,6 @@
     <script src="{% static 'js/timer.js' %}"></script>
 </head>
 <body style="color:white; background-color: black"  >
-    <h1>Bulletin</h1>
     <h4>User: {{ player.name }}</h4>
 
     <div style="border:1px solid black">
@@ -36,7 +35,7 @@
         console.log({player_id})
         polling = () => {
         //     setInterval(function() {getMessages()}, 2000)
-            // setInterval(function() {checkPlayerScreen()}, 1000)
+            setInterval(function() {checkPlayerScreen()}, 1000)
             setInterval(function() {timer(
                 {{roundOneEndTime}},
                 {{roundTwoEndTime}},
@@ -82,7 +81,7 @@
            .then(data => {
                console.log("data", data["active_screen"], playerActiveScreen)
                if(playerActiveScreen != data["active_screen"]){
-                   // console.log("update screen")
+                   console.log("update screen")
                    roundOneEndTime = data["roundOneEndTime"]
                    roundTwoEndTime = data["roundTwoEndTime"]
                    roundThreeEndTime = data["roundThreeEndTime"]
