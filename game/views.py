@@ -489,12 +489,21 @@ def timerStart(request, time):
     return HttpResponse("timer started")
 
 def roundLengthSet(request):
-
     game = Game.objects.get_or_create(id=1)[0]
     if game.debug:
         game.debug_roundLength = request.POST['roundLength']
     else:
         game.roundLength = request.POST['roundLength']
+        
+    game.save()
+    return redirect("/dashboard")
+
+def pregameLengthSet(request):
+    game = Game.objects.get_or_create(id=1)[0]
+    if game.debug:
+        game.debug_pregameLength = request.POST['pregameLength']
+    else:
+        game.pregameLength = request.POST['pregameLength']
         
     game.save()
     return redirect("/dashboard")
@@ -590,7 +599,7 @@ def start_game2(request):
     setTimerEnd()
     # assign_roles()
     assign_mafia_role("request")
-    assign_informants("request")
+    # assign_informants("request")
     update_screens()
     return HttpResponseRedirect("/dashboard")
 
@@ -612,12 +621,15 @@ def setTimerEnd():
     if game.debug:
         minute_multiplier = 1
         roundLength = game.debug_roundLength
+        pregameLength = game.debug_pregameLength
     else: 
         minute_multiplier = 60
         roundLength = game.roundLength
-    game.roundOneEndTime = now + roundLength * minute_multiplier
-    game.roundTwoEndTime = now + (roundLength * 2) * minute_multiplier
-    game.roundThreeEndTime = now + (roundLength * 3) * minute_multiplier
+        pregameLength = game.pregameLength
+    game.roundZeroEndTime = now + pregameLength * minute_multiplier
+    game.roundOneEndTime = now + pregameLength + roundLength * minute_multiplier
+    game.roundTwoEndTime = now  + pregameLength+ (roundLength * 2) * minute_multiplier
+    game.roundThreeEndTime = now + pregameLength + (roundLength * 3) * minute_multiplier
     game.announce_round_2 = True
     game.announce_round_3 = True
     game.save()
@@ -763,9 +775,11 @@ def dashboard(request):
     player_answers = PlayerAnswer.objects.all()
     if game.debug:
         roundLength = game.debug_roundLength
+        pregameLength = game.debug_pregameLength
         time = "sec"
     else:
         roundLength = game.roundLength
+        pregameLength = game.pregameLength
         time = "min"
     # print('players', players)
     context = {
@@ -778,11 +792,13 @@ def dashboard(request):
         'low_accuracy': low_accuracy,
         'high_accuracy': high_accuracy,
         'player_answers': player_answers,
+        'roundZeroEndTime': game.roundZeroEndTime,
         'roundOneEndTime': game.roundOneEndTime,
         'roundTwoEndTime': game.roundTwoEndTime,
         'roundThreeEndTime': game.roundThreeEndTime,    
         'debug': game.debug,   
         'time': time, 
+        'pregameLength': pregameLength,
 
     }
     return render(request, "dashboard.html", context)
@@ -1057,6 +1073,10 @@ def resurrect_all_players(request):
 
 def new_round(request, round):
     game = Game.objects.get(id=1)
+    if round == 1 and game.announce_round_1 == True:
+        game.announce_round_1 = False
+        game.save()
+        assign_informants("request")
     if round == 2 and game.announce_round_2 == True:
         game.announce_round_2 = False
         game.save()

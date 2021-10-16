@@ -27,6 +27,7 @@ urlpatterns = [
 # timer test
     path('timer', views.timer),
     path('roundLengthSet', views.roundLengthSet),
+    path('pregameLengthSet', views.pregameLengthSet),
     path('setTimerEnd', views.setTimerEnd),
 
 # bulletin/dashboard test

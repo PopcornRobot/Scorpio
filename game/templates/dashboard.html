@@ -36,15 +36,20 @@
             </span>
         </h1>
         <div>
+            <form action="/pregameLengthSet" method="Post">
+                {% csrf_token %}
+                <label for="pregameLength">Pregame ({{ time }})</label>
+                <input id="pregameLength" name="pregameLength" type="text">
+                <input type="submit" value="submit">
+                {{ pregameLength }} {{ time }}
+            </form>
             <form action="/roundLengthSet" method="Post">
                 {% csrf_token %}
-                <label for="roundLength">Round Length ({{ time }})</label>
+                <label for="roundLength">Rounds ({{ time }})</label>
                 <input id="roundLength" name="roundLength" type="text">
                 <input type="submit" value="submit">
+                {{ roundLength }} {{ time }}
             </form>
-            <div>
-                Round Length: {{ roundLength }} {{ time }}
-            </div>
         </div>
         <div>
 
@@ -194,6 +199,7 @@
             // setInterval(() => {getMessages()}, 5000)
             // setInterval(() => {getTimerData()}, 5000)
             setInterval(function() {timer(
+                {{roundZeroEndTime}},
                 {{roundOneEndTime}},
                 {{roundTwoEndTime}},
                 {{roundThreeEndTime}}                
