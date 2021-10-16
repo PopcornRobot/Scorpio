@@ -1075,8 +1075,8 @@ def debug_switch(request):
     game.save()
     return HttpResponseRedirect('/dashboard')
 
-def submit_safe_list(request, user ):
-    player = Player.objects.get(name=user)
+def submit_safe_list(request, id ):
+    player = Player.objects.get(id=id)
     selected_players = request.POST.getlist('players')
     mafia = Player.objects.filter(role="mafia")
     game = Game.objects.get(id=1)
@@ -1100,7 +1100,7 @@ def submit_safe_list(request, user ):
         else:
             print("no match")
     print("submit safe list", selected_players)
-    return HttpResponseRedirect('/bulletin/' + user)
+    return HttpResponseRedirect('/bulletin/' + str(id))
 
 def scan(request):
     print("scan")

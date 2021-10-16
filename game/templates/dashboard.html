@@ -78,7 +78,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Actions</th>
+                    <th>Select Screen</th>
                     <th>Nickname</th>
                     <th>Partner</th>
                     <th>Screen</th>
@@ -100,14 +100,25 @@
                         </a>
                     </td>
                     <td>
-                        <a href="killPlayer/{{ player.name }}"><button style="background-color: red;">Kill</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/wait_screen"><button wait_screen')">Wait</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/death_alert"><button death_alert')">Death</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/informant"><button informant')">Informant</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/mafia"><button mafia')">Mafia</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/tip_received_mafia"><button tip_received_mafia')">Mafia Tipped</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/tip_received_townpeople"><button tip_received_townpeople')">Tip</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/theres_a_rat"><button theres_a_rat')">Rat</button>    </a>
+                        <select name="{{ player.id }}" id="{{ player.id }}">
+                            <option value=""></option>
+                            <option value="announcement">announcement</option>
+                            <option value="character_assign_detective">character_assign_detective</option>
+                            <option value="character_assign_mafia">character_assign_mafia</option>
+                            <option value="death_alert">death_alert</option>
+                            <option value="informant_tip_submitted">informant_tip_submitted</option>
+                            <option value="informant">informant</option>
+                            <option value="lock_screen_vote">lock_screen_vote</option>
+                            <option value="lock_screen">lock_screen</option>
+                            <option value="mafia_find_informant">mafia_find_informant</option>
+                            <option value="mafia">mafia</option>
+                            <option value="theres_a_rat">theres_a_rat</option>
+                            <option value="tip_received_detective">tip_received_detective</option>
+                            <option value="tip_received_mafia">tip_received_mafia</option>
+                            <option value="wait_screen">wait_screen</option>
+                            <option value="you_have_been_killed">you_have_been_killed</option>
+                        </select>
+                        <button onclick="setScreen('{{ player.id }}')">Go</button>
                     </td>
                     <td>{{ player.nickname }}</td>
                     <td>{{ player.partner }}</td>
@@ -178,6 +189,7 @@
         let roundOneEndTime = ""
         let roundTwoEndTime = ""
         let roundThreeEndTime = ""  
+        let playerId = "{{ player.id }}"
         polling = () => {
             // setInterval(() => {getMessages()}, 5000)
             // setInterval(() => {getTimerData()}, 5000)
@@ -252,11 +264,13 @@
                     
                 })
         }
-        setScreen = (player, screen) => {
-            const url = "/setPlayerScreen/" + player + "/" + screen
+        setScreen = (selectId) => {
+            const screen = document.getElementById(selectId).value
+            const id = document.getElementById(selectId).name
+            const url = "/setPlayerScreen/" + id + "/" + screen
             fetch(url)
                 .then(response => response.text())
-                .then(data => console.log({data}))
+                // .then(data => console.log({data}))
         }
         document.onload(polling())
     </script>
