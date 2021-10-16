@@ -77,11 +77,9 @@
             <h4>Round: <span id="round"></span></h4>
             <h4>Timer: <span id="timer"></span></h4>
         </div>
+        
+        <div>
         <h3>Players</h3>
-       
-    <div>
-        <h3>Player Table 2</h3>
-        <button onclick="getPlayerData()">get player data</button>
         <table>
             <thead>
                 <tr>
@@ -162,6 +160,7 @@
         let roundThreeEndTime = ""  
         let playerId = "{{ player.id }}"
         polling = () => {
+            console.log("polling")
             setInterval(() => {getPlayerData()}, 1000)
             // setInterval(() => {getTimerData()}, 5000)
             setInterval(function() {timer(
@@ -170,6 +169,7 @@
                 {{roundTwoEndTime}},
                 {{roundThreeEndTime}}                
                 )}, 1000)        }
+                
         // getTimerData = () => {
         //     const url = "/checkPlayerScreen/null"
         //     fetch(url)
@@ -266,6 +266,7 @@
                 })
         }
         document.onload(polling())
+
     </script>
 </body>
 </html>

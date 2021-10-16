@@ -32,14 +32,19 @@
 
     <script>
         let player_id = "{{ player.id }}"
-        console.log({player_id})
+        let roundZeroEndTime = "{{ roundZeroEndTime }}" 
+        let roundOneEndTime = "{{ roundOneEndTime }}" 
+        let roundTwoEndTime = "{{ roundTwoEndTime }}"
+        let roundThreeEndTime = "{{ roundThreeEndTime }}"        
         polling = () => {
+            console.log("polling", {{roundZeroEndTime}})
         //     setInterval(function() {getMessages()}, 2000)
             setInterval(function() {checkPlayerScreen()}, 1000)
             setInterval(function() {timer(
-                {{roundOneEndTime}},
-                {{roundTwoEndTime}},
-                {{roundThreeEndTime}}                
+                roundZeroEndTime,
+                roundOneEndTime,
+                roundTwoEndTime,
+                roundThreeEndTime               
                 )}, 1000)
       
         }
@@ -69,9 +74,7 @@
        }
     
         let playerActiveScreen = "{{ playerActiveScreen }}"
-        let roundOneEndTime = ""
-        let roundTwoEndTime = ""
-        let roundThreeEndTime = ""   
+ 
        checkPlayerScreen = () => {
            
            //    console.log("check player screen", playerActiveScreen)
@@ -86,6 +89,10 @@
                    roundTwoEndTime = data["roundTwoEndTime"]
                    roundThreeEndTime = data["roundThreeEndTime"]
                    playerActiveScreen = data["active_screen"]
+                   roundZeroEndTime = data["roundZeroEndTime"]
+                   roundOneEndTime = data["roundOneEndTime"]
+                   roundTwoEndTime = data["roundTwoEndTime"]
+                   roundThreeEndTime = data["roundThreeEndTime"]
                    getPlayerScreen()
                 } else { 
                         // timer()

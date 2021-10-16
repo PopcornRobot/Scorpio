@@ -4,6 +4,7 @@ let announceRound3 = true
 let minute_multiplier = 60
 
 function timer(roundZeroEndTime, roundOneEndTime, roundTwoEndTime, roundThreeEndTime){
+    console.log("-----Timer")
     var now = new Date().getTime() / 1000
     now = Math.round(now)
     var endTime0 = roundZeroEndTime

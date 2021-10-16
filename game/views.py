@@ -668,6 +668,7 @@ def bulletin(request, id):
         'role': player.role,
         'informant': player.informant,
         'messages': "messages",
+        'roundZeroEndTime': game.roundZeroEndTime,
         'roundOneEndTime': game.roundOneEndTime,
         'roundTwoEndTime': game.roundTwoEndTime,
         'roundThreeEndTime': game.roundThreeEndTime,
@@ -695,7 +696,11 @@ def checkPlayerScreen(request, id):
                 "active_screen": user.active_screen,
                 "roundOneEndTime": game.roundOneEndTime,
                 "roundTwoEndTime": game.roundTwoEndTime,
-                "roundThreeEndTime": game.roundThreeEndTime
+                "roundThreeEndTime": game.roundThreeEndTime,
+                "roundZeroEndTime" : game.roundZeroEndTime,
+                "roundOneEndTime" : game.roundOneEndTime,
+                "roundTwoEndTime" : game.roundTwoEndTime,
+                "roundThreeEndTime" : game.roundThreeEndTime,
             })
     else:
         return JsonResponse(
