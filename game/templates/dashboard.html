@@ -78,12 +78,15 @@
             <h4>Timer: <span id="timer"></span></h4>
         </div>
         <h3>Players</h3>
+       
+    <div>
+        <h3>Player Table 2</h3>
+        <button onclick="getPlayerData()">get player data</button>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Select Screen</th>
                     <th>Nickname</th>
                     <th>Partner</th>
                     <th>Screen</th>
@@ -92,50 +95,13 @@
                     <th>Alive</th>
                 </tr>
             </thead>
-
-            
-            
-            <tbody>
-                {% for player in players%}
+            <tbody id="playerData">
                 <tr>
-                    <td>{{ player.id }}</td>
-                    <td>
-                        <a href="/bulletin/{{ player.id }}">
-                            {{ player.name }}
-                        </a>
-                    </td>
-                    <td>
-                        <select name="{{ player.id }}" id="{{ player.id }}">
-                            <option value=""></option>
-                            <option value="announcement">announcement</option>
-                            <option value="character_assign_detective">character_assign_detective</option>
-                            <option value="character_assign_mafia">character_assign_mafia</option>
-                            <option value="death_alert">death_alert</option>
-                            <option value="informant_tip_submitted">informant_tip_submitted</option>
-                            <option value="informant">informant</option>
-                            <option value="lock_screen_vote">lock_screen_vote</option>
-                            <option value="lock_screen">lock_screen</option>
-                            <option value="mafia_find_informant">mafia_find_informant</option>
-                            <option value="mafia">mafia</option>
-                            <option value="theres_a_rat">theres_a_rat</option>
-                            <option value="tip_received_detective">tip_received_detective</option>
-                            <option value="tip_received_mafia">tip_received_mafia</option>
-                            <option value="wait_screen">wait_screen</option>
-                            <option value="you_have_been_killed">you_have_been_killed</option>
-                        </select>
-                        <button onclick="setScreen('{{ player.id }}')">Go</button>
-                    </td>
-                    <td>{{ player.nickname }}</td>
-                    <td>{{ player.partner }}</td>
-                    <td>{{ player.active_screen }}</td>
-                    <td style="background-color: {% if player.role == "informant"%}green{%elif player.role == "mafia"%}red{% endif %};">{{ player.role }}</td>
-                    <!-- <td>{{ player.informant }}</td> -->
-                    <td style="background-color: {% if player.has_been_informant == True%}green{% endif %};">{{ player.has_been_informant }}</td>
-                    <td>{{ player.alive }}</td>
+                    <td></td>
                 </tr>
-                {% endfor %}
             </tbody>
         </table>
+    </div>
     <div style="border:1px solid black;">
         <h1>Questions v2</h1>
         <button onclick="countSelected2()">countSelected2</button>
@@ -196,7 +162,7 @@
         let roundThreeEndTime = ""  
         let playerId = "{{ player.id }}"
         polling = () => {
-            // setInterval(() => {getMessages()}, 5000)
+            setInterval(() => {getPlayerData()}, 1000)
             // setInterval(() => {getTimerData()}, 5000)
             setInterval(function() {timer(
                 {{roundZeroEndTime}},
@@ -277,6 +243,27 @@
             fetch(url)
                 .then(response => response.text())
                 // .then(data => console.log({data}))
+        }
+        setPlayerRole = (selectId) => {
+            const role = document.getElementById(selectId + "-role").value
+            console.log("setPlayerRole", selectId, role)
+            const url = "/setPlayerRole/" + selectId + "/" + role
+            fetch(url)
+        }
+        getPlayerData = () => {
+            const url = "/getPlayerData"
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    let current = document.getElementById("playerData").innerHTML
+                    if(current != data) {
+                        console.log("new data, refresh")
+                        document.getElementById("playerData").innerHTML = data
+                    } else {
+                        console.log("same data, no action")
+                    }
+
+                })
         }
         document.onload(polling())
     </script>
