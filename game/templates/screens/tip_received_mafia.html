@@ -7,16 +7,14 @@
       <div class="container-fluid">
           <div class="row no-gutter">
 
-              <br>
-              <br>
+            <br>
+            <br>
 
-              <h1 class="animated__word text-center" style="color:red">Informant exposed!!</h1>
+            <h1 class="animated__word text-center" style="color:red">Informant exposed!!</h1>
 
-              <div class="col-lg-4 col-sm-6">
-                <img src="{% static "img/tip_sent.jpg" %}" max width="100%" class="text-center"/>
-              </div>
+            <img src="{% static "img/tip_sent.jpg" %}" max width="100%" class="text-center"/>
 
-              <br>
+            <br>
 
           </div>
       </div>
@@ -25,66 +23,64 @@
 
   <section class="container-fluid" id="four">
       <div class="row">
-          <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-              <hr>
-              <div class="media wow fadeInRight">
-                  <div class="media-body media-middle">
-                      <p style="color:white">Your angel face and innocent demeanor served you well. The detective with the package foolishly thought you were trustworthy and
-                          shared this information with you.</p>
-                  </div>
-              </div>
-              <hr>
-              <div class="media wow fadeInRight">
-                  <div class="media-body media-middle">
-                      <p style="color:white"> **Private Tip goes here** {{ private_tip }}</p>
-                      {{ partner.low_accuracy_question }}
-                  </div>
-              </div>
-              <hr>
-              <div class="media wow fadeIn">
-                  <div class="media-body media-middle">
-                      <p style="color:white">Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.</p>
-                  </div>
-              </div>
-              <hr>
-              <div class="media wow fadeIn">
-                  <div class="media-body media-middle">
-                      <p style="color:white">If you decide to announce the tip, it must be announced accurately.
-                          Use this power
-                          wisely.</p>
-                  </div>
-              </div>
-              <hr>
-              <div class="media wow fadeInRight">
-                  <div class="media-body media-middle">
-                      <p style="color:white">The informant is...</p>
-                  </div>
-              </div>
-              <hr>
-              <div class="media wow fadeIn"> 
-                  <div class="media-body media-middle">
-                      <p class="text-center" style="color:white"> {{ partner.name }}</p>
-                  </div>
-              </div>
-              <hr>
-              <div class="media wow fadeInRight">
-                  <div class="media-body media-middle">
-                      <p style="color:white"> Kill them and rid yourself of this annoying problem. 
-                        Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
-                  </div>
-              </div>
-              <hr>
-              <div class="media wow fadeInRight">
-                  <div class="media-body media-middle">
-                      <p style="color:white">Do you kill {{ partner.name }}?</p>
-                      <a href="/kill_informant2/{{ partner.name}}/{{ user }}">
-                        <button>Kill Informant</button>
-                      </a>
-                      <button>Ignore</button>
-                  </div>
-              </div>
-              <hr>
-          </div>
+        <hr>
+        <div class="media wow fadeInRight">
+            <div class="media-body media-middle">
+                <p style="color:white">Your angel face and innocent demeanor served you well. The detective with the package foolishly thought you were trustworthy and
+                    shared this information with you.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="media wow fadeInRight">
+            <div class="media-body media-middle">
+                <p style="color:white"> **Private Tip goes here** {{ private_tip }}</p>
+                {{ partner.low_accuracy_question }}
+            </div>
+        </div>
+        <hr>
+        <div class="media wow fadeIn">
+            <div class="media-body media-middle">
+                <p style="color:white">Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="media wow fadeIn">
+            <div class="media-body media-middle">
+                <p style="color:white">If you decide to announce the tip, it must be announced accurately.
+                    Use this power
+                    wisely.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="media wow fadeInRight">
+            <div class="media-body media-middle">
+                <p style="color:white">The informant is...</p>
+            </div>
+        </div>
+        <hr>
+        <div class="media wow fadeIn"> 
+            <div class="media-body media-middle">
+                <p class="text-center" style="color:white"> {{ partner.name }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="media wow fadeInRight">
+            <div class="media-body media-middle">
+                <p style="color:white"> Kill them and rid yourself of this annoying problem. 
+                Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="media wow fadeInRight">
+            <div class="media-body media-middle">
+                <p style="color:white">Do you kill {{ partner.name }}?</p>
+                <a href="/kill_informant2/{{ partner.name}}/{{ user }}">
+                <button>Kill Informant</button>
+                </a>
+                <button>Ignore</button>
+            </div>
+        </div>
+        <hr>
       </div>
     </section>
 
