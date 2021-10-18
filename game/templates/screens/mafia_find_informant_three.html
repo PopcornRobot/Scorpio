@@ -11,14 +11,22 @@
             <br>
 
             <h2 class="animated__word text-center" style="color:orangered">Informant detective #3</h2>
-
             <img src="{% static "img/rat_one.jpg" %}" max width="100%" class="text-center"/>
-
             <h2 class="animated__word_two text-center" style="color:orangered">Smells like a rat</h2>
-
             <img src="{% static "img/rat_two.jpg" %}" max width="100%" class="text-center"/>
 
             <br>
+
+            <h1 class="animated__words text-center" style="color:orangered">Informant detective #3</h1>
+            <br>
+            <ul class="image-cycle" 
+                    data-target="li" 
+                    data-interval="2500" 
+                    data-width="100%" 
+                    data-speed="1000">
+                <li class="active" ><img src="{% static "img/rat_one.jpg" %}"/></li>
+                <li><img src="{% static "img/rat_two.jpg" %}" /></li>
+            </ul>
 
             </div>
         </div>
@@ -98,6 +106,12 @@
             LettersRandomPlaces({
             element: ".animated__word_two",
             })
+
+            LettersRandomPlaces({
+            element: ".animated__words",
+            })
+
+            var ex1 = new Cycle('.image-cycle');
 
         }); // page load closing
 
