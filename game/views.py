@@ -1,3 +1,4 @@
+from django import http
 from django.db.models import Q, F, Max, Count
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
@@ -489,12 +490,21 @@ def timerStart(request, time):
     return HttpResponse("timer started")
 
 def roundLengthSet(request):
-
     game = Game.objects.get_or_create(id=1)[0]
     if game.debug:
         game.debug_roundLength = request.POST['roundLength']
     else:
         game.roundLength = request.POST['roundLength']
+        
+    game.save()
+    return redirect("/dashboard")
+
+def pregameLengthSet(request):
+    game = Game.objects.get_or_create(id=1)[0]
+    if game.debug:
+        game.debug_pregameLength = request.POST['pregameLength']
+    else:
+        game.pregameLength = request.POST['pregameLength']
         
     game.save()
     return redirect("/dashboard")
@@ -590,7 +600,7 @@ def start_game2(request):
     setTimerEnd()
     # assign_roles()
     assign_mafia_role("request")
-    assign_informants("request")
+    # assign_informants("request")
     update_screens()
     return HttpResponseRedirect("/dashboard")
 
@@ -598,6 +608,7 @@ def stop_game2(request):
     print("stop game")
     game = Game.objects.get(id=1)
     game.roundEndTime = 0
+    game.roundZeroEndTime = 0
     game.roundOneEndTime = 0
     game.roundTwoEndTime = 0
     game.roundThreeEndTime = 0
@@ -612,12 +623,16 @@ def setTimerEnd():
     if game.debug:
         minute_multiplier = 1
         roundLength = game.debug_roundLength
+        pregameLength = game.debug_pregameLength
     else: 
         minute_multiplier = 60
         roundLength = game.roundLength
-    game.roundOneEndTime = now + roundLength * minute_multiplier
-    game.roundTwoEndTime = now + (roundLength * 2) * minute_multiplier
-    game.roundThreeEndTime = now + (roundLength * 3) * minute_multiplier
+        pregameLength = game.pregameLength
+    game.roundZeroEndTime = now + pregameLength * minute_multiplier
+    game.roundOneEndTime = now + pregameLength + roundLength * minute_multiplier
+    game.roundTwoEndTime = now  + pregameLength+ (roundLength * 2) * minute_multiplier
+    game.roundThreeEndTime = now + pregameLength + (roundLength * 3) * minute_multiplier
+    game.announce_round_1 = True
     game.announce_round_2 = True
     game.announce_round_3 = True
     game.save()
@@ -653,6 +668,7 @@ def bulletin(request, id):
         'role': player.role,
         'informant': player.informant,
         'messages': "messages",
+        'roundZeroEndTime': game.roundZeroEndTime,
         'roundOneEndTime': game.roundOneEndTime,
         'roundTwoEndTime': game.roundTwoEndTime,
         'roundThreeEndTime': game.roundThreeEndTime,
@@ -680,7 +696,11 @@ def checkPlayerScreen(request, id):
                 "active_screen": user.active_screen,
                 "roundOneEndTime": game.roundOneEndTime,
                 "roundTwoEndTime": game.roundTwoEndTime,
-                "roundThreeEndTime": game.roundThreeEndTime
+                "roundThreeEndTime": game.roundThreeEndTime,
+                "roundZeroEndTime" : game.roundZeroEndTime,
+                "roundOneEndTime" : game.roundOneEndTime,
+                "roundTwoEndTime" : game.roundTwoEndTime,
+                "roundThreeEndTime" : game.roundThreeEndTime,
             })
     else:
         return JsonResponse(
@@ -763,9 +783,11 @@ def dashboard(request):
     player_answers = PlayerAnswer.objects.all()
     if game.debug:
         roundLength = game.debug_roundLength
+        pregameLength = game.debug_pregameLength
         time = "sec"
     else:
         roundLength = game.roundLength
+        pregameLength = game.pregameLength
         time = "min"
     # print('players', players)
     context = {
@@ -778,11 +800,13 @@ def dashboard(request):
         'low_accuracy': low_accuracy,
         'high_accuracy': high_accuracy,
         'player_answers': player_answers,
+        'roundZeroEndTime': game.roundZeroEndTime,
         'roundOneEndTime': game.roundOneEndTime,
         'roundTwoEndTime': game.roundTwoEndTime,
         'roundThreeEndTime': game.roundThreeEndTime,    
         'debug': game.debug,   
         'time': time, 
+        'pregameLength': pregameLength,
 
     }
     return render(request, "dashboard.html", context)
@@ -1057,7 +1081,14 @@ def resurrect_all_players(request):
 
 def new_round(request, round):
     game = Game.objects.get(id=1)
+    print("-----new round", round, game.announce_round_1)
+    if round == 1 and game.announce_round_1 == True:
+        print("----------------assign_informants 1")
+        game.announce_round_1 = False
+        game.save()
+        assign_informants("request")
     if round == 2 and game.announce_round_2 == True:
+        print("----------------assign_informants 2")
         game.announce_round_2 = False
         game.save()
         assign_informants("request")
@@ -1075,8 +1106,8 @@ def debug_switch(request):
     game.save()
     return HttpResponseRedirect('/dashboard')
 
-def submit_safe_list(request, user ):
-    player = Player.objects.get(name=user)
+def submit_safe_list(request, id ):
+    player = Player.objects.get(id=id)
     selected_players = request.POST.getlist('players')
     mafia = Player.objects.filter(role="mafia")
     game = Game.objects.get(id=1)
@@ -1100,8 +1131,71 @@ def submit_safe_list(request, user ):
         else:
             print("no match")
     print("submit safe list", selected_players)
-    return HttpResponseRedirect('/bulletin/' + user)
+    return HttpResponseRedirect('/bulletin/' + str(id))
 
 def scan(request):
     print("scan")
     return render(request, "scan.html")
+
+def get_player_data(request):
+    # print("get_player_data")
+    data = {}
+    players = Player.objects.all()
+    for p in players:
+        data[p.id] = {
+            'name': p.name,
+            'nickname': p.nickname,
+            'role': p.role
+            }
+            
+   # assemble html table body and return 
+    table_body = ""
+    for p in players:
+        table_body += (
+            '<tr>'
+            '<td>' + str(p.id) +'</td>'
+            '<td><a href="/bulletin/'+ str(p.id) +'">' + str(p.name) +'</a></td>'
+            '<td>' + str(p.nickname) +'</td>'
+            '<td>' + str(p.partner) +'</td>'
+            '<td>' + 
+            '<select name="'+ str(p.id) +'" id="'+ str(p.id) +'">' +
+                            '<option value=""></option>' +
+                            '<option value="announcement">announcement</option>' +
+                            '<option value="character_assign_detective">character_assign_detective</option>' +
+                            '<option value="character_assign_mafia">character_assign_mafia</option>' +
+                            '<option value="death_alert">death_alert</option>' +
+                            '<option value="informant_tip_submitted">informant_tip_submitted</option>' +
+                            '<option value="informant">informant</option>' +
+                            '<option value="lock_screen_vote">lock_screen_vote</option>' +
+                            '<option value="lock_screen">lock_screen</option>' +
+                            '<option value="mafia_find_informant">mafia_find_informant</option>' +
+                            '<option value="mafia">mafia</option>' +
+                            '<option value="theres_a_rat">theres_a_rat</option>' +
+                            '<option value="tip_received_detective">tip_received_detective</option>' +
+                            '<option value="tip_received_mafia">tip_received_mafia</option>' +
+                            '<option value="wait_screen">wait_screen</option>' +
+                            '<option value="you_have_been_killed">you_have_been_killed</option>' +
+                        '</select>' +
+                        '<button onclick="setScreen(' + str(p.id) + ')">Go</button>' +
+                        str(p.active_screen) +
+            '</td>'
+            '<td>' + 
+            '<select name="' + str(p.id) + '-role" id="'+ str(p.id) +'-role">'+
+                '<option></option>' +
+                '<option value="detective">detective</option>' +
+                '<option value="mafia">mafia</option>' +
+                '<option value="informant">informant</option>' +
+            '</select>' +
+            '<button onclick="setPlayerRole(' + str(p.id) + ')">Go</button>' +
+            str(p.role) +'</td>'
+            '<td>' + str(p.has_been_informant) +'</td>'
+            '<td>' + str(p.alive) +'</td>'
+            '</tr>')
+    return HttpResponse(table_body)
+
+def set_player_role(request, id, role):
+    print("set_player_role", id, role)
+    player = Player.objects.get(id=id)
+    player.role = role
+    player.save()
+    return HttpResponse('set_player_role')

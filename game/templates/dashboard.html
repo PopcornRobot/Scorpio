@@ -26,7 +26,7 @@
         }
         </style>
 </head>
-<body>
+<body style="background-color: white;color: black;">
     <div style="border:1px solid black;">
         <h1>Dashboard
             <span>
@@ -36,15 +36,20 @@
             </span>
         </h1>
         <div>
+            <form action="/pregameLengthSet" method="Post">
+                {% csrf_token %}
+                <label for="pregameLength">Pregame ({{ time }})</label>
+                <input id="pregameLength" name="pregameLength" type="text">
+                <input type="submit" value="submit">
+                {{ pregameLength }} {{ time }}
+            </form>
             <form action="/roundLengthSet" method="Post">
                 {% csrf_token %}
-                <label for="roundLength">Round Length ({{ time }})</label>
+                <label for="roundLength">Rounds ({{ time }})</label>
                 <input id="roundLength" name="roundLength" type="text">
                 <input type="submit" value="submit">
+                {{ roundLength }} {{ time }}
             </form>
-            <div>
-                Round Length: {{ roundLength }} {{ time }}
-            </div>
         </div>
         <div>
 
@@ -68,18 +73,18 @@
         <button onclick="sendMessage('All')">Message all users</button>
         <button onclick="deleteAllPlayerMessages()">Delete all messages</button>
         <a href="/resurrectAllPlayers"><button>Resurrect Players</button></a>
-        <!-- {% include "screens/timer.html" %} -->
         <div style="border: 1px solid black">
             <h4>Round: <span id="round"></span></h4>
             <h4>Timer: <span id="timer"></span></h4>
         </div>
+        
+        <div>
         <h3>Players</h3>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Actions</th>
                     <th>Nickname</th>
                     <th>Partner</th>
                     <th>Screen</th>
@@ -88,39 +93,13 @@
                     <th>Alive</th>
                 </tr>
             </thead>
-
-            
-            
-            <tbody>
-                {% for player in players%}
+            <tbody id="playerData">
                 <tr>
-                    <td>{{ player.id }}</td>
-                    <td>
-                        <a href="/bulletin/{{ player.id }}">
-                            {{ player.name }}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="killPlayer/{{ player.name }}"><button style="background-color: red;">Kill</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/wait_screen"><button wait_screen')">Wait</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/death_alert"><button death_alert')">Death</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/informant"><button informant')">Informant</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/mafia"><button mafia')">Mafia</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/tip_received_mafia"><button tip_received_mafia')">Mafia Tipped</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/tip_received_townpeople"><button tip_received_townpeople')">Tip</button></a>
-                        <a href="setPlayerScreen/{{ player.name }}/theres_a_rat"><button theres_a_rat')">Rat</button>    </a>
-                    </td>
-                    <td>{{ player.nickname }}</td>
-                    <td>{{ player.partner }}</td>
-                    <td>{{ player.active_screen }}</td>
-                    <td style="background-color: {% if player.role == "informant"%}green{%elif player.role == "mafia"%}red{% endif %};">{{ player.role }}</td>
-                    <!-- <td>{{ player.informant }}</td> -->
-                    <td style="background-color: {% if player.has_been_informant == True%}green{% endif %};">{{ player.has_been_informant }}</td>
-                    <td>{{ player.alive }}</td>
+                    <td></td>
                 </tr>
-                {% endfor %}
             </tbody>
         </table>
+    </div>
     <div style="border:1px solid black;">
         <h1>Questions v2</h1>
         <button onclick="countSelected2()">countSelected2</button>
@@ -179,14 +158,18 @@
         let roundOneEndTime = ""
         let roundTwoEndTime = ""
         let roundThreeEndTime = ""  
+        let playerId = "{{ player.id }}"
         polling = () => {
-            // setInterval(() => {getMessages()}, 5000)
+            console.log("polling")
+            setInterval(() => {getPlayerData()}, 1000)
             // setInterval(() => {getTimerData()}, 5000)
             setInterval(function() {timer(
+                {{roundZeroEndTime}},
                 {{roundOneEndTime}},
                 {{roundTwoEndTime}},
                 {{roundThreeEndTime}}                
                 )}, 1000)        }
+                
         // getTimerData = () => {
         //     const url = "/checkPlayerScreen/null"
         //     fetch(url)
@@ -253,13 +236,37 @@
                     
                 })
         }
-        setScreen = (player, screen) => {
-            const url = "/setPlayerScreen/" + player + "/" + screen
+        setScreen = (selectId) => {
+            const screen = document.getElementById(selectId).value
+            const id = document.getElementById(selectId).name
+            const url = "/setPlayerScreen/" + id + "/" + screen
             fetch(url)
                 .then(response => response.text())
-                .then(data => console.log({data}))
+                // .then(data => console.log({data}))
+        }
+        setPlayerRole = (selectId) => {
+            const role = document.getElementById(selectId + "-role").value
+            console.log("setPlayerRole", selectId, role)
+            const url = "/setPlayerRole/" + selectId + "/" + role
+            fetch(url)
+        }
+        getPlayerData = () => {
+            const url = "/getPlayerData"
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    let current = document.getElementById("playerData").innerHTML
+                    if(current != data) {
+                        console.log("new data, refresh")
+                        document.getElementById("playerData").innerHTML = data
+                    } else {
+                        console.log("same data, no action")
+                    }
+
+                })
         }
         document.onload(polling())
+
     </script>
 </body>
 </html>

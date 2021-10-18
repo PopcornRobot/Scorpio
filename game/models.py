@@ -54,16 +54,20 @@ class Timer(models.Model):
 class Game(models.Model):
     id = models.AutoField(primary_key=True)
     roundLength = models.IntegerField(default=30)
+    pregameLength = models.IntegerField(default=30)
     timer = models.IntegerField(default=0)
     gameOver = models.DateTimeField(null=True)
     roundEndTime = models.IntegerField(default=0)
+    roundZeroEndTime = models.IntegerField(default=0)
     roundOneEndTime = models.IntegerField(default=0)
     roundTwoEndTime = models.IntegerField(default=0)
     roundThreeEndTime = models.IntegerField(default=0)
+    announce_round_1 = models.BooleanField(default=True)
     announce_round_2 = models.BooleanField(default=True)
     announce_round_3 = models.BooleanField(default=True)
     debug = models.BooleanField(default=True)
     debug_roundLength = models.IntegerField(default=30)
+    debug_pregameLength = models.IntegerField(default=30)
 
 
 class PlayerMessages(models.Model):

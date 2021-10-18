@@ -27,6 +27,7 @@ urlpatterns = [
 # timer test
     path('timer', views.timer),
     path('roundLengthSet', views.roundLengthSet),
+    path('pregameLengthSet', views.pregameLengthSet),
     path('setTimerEnd', views.setTimerEnd),
 
 # bulletin/dashboard test
@@ -57,10 +58,10 @@ urlpatterns = [
     path('new_round/<int:round>', views.new_round),
     path('process_survey', views.process_survey),
     path('debugSwitch', views.debug_switch),
-    path('submitSafeList/<str:user>', views.submit_safe_list),
+    path('submitSafeList/<int:id>', views.submit_safe_list),
     path('scan', views.scan),
-    
-    
+    path('getPlayerData', views.get_player_data),    
+    path('setPlayerRole/<int:id>/<str:role>', views.set_player_role)    
 
 
 ]
