@@ -660,7 +660,7 @@ def bulletin(request, id):
         partner = player.partner
     else:
         partner = "none"
-    print("------", partner)
+    print("------ partner", partner)
     context = {
         # 'user': user,
         'player': player,
@@ -1056,7 +1056,7 @@ def assign_all_to_detective(request=""):
         player.role = "detective"
         player.nickname = "none"
         player.has_been_informant = False
-        player.active_screen = 'wait_screen'
+        player.active_screen = 'rules'
         player.alive = True
         player.partner = None
         player.safe_list_1 = None
@@ -1106,7 +1106,7 @@ def debug_switch(request):
     game.save()
     return HttpResponseRedirect('/dashboard')
 
-def submit_safe_list(request, id ):
+def submit_safe_list(request, id='None' ):
     player = Player.objects.get(id=id)
     selected_players = request.POST.getlist('players')
     mafia = Player.objects.filter(role="mafia")
@@ -1132,6 +1132,60 @@ def submit_safe_list(request, id ):
             print("no match")
     print("submit safe list", selected_players)
     return HttpResponseRedirect('/bulletin/' + str(id))
+
+def submit_safe_list2(request, id="None", list="None"):
+    print(id, list)
+    game = Game.objects.get(id=1)    # check if list len 0
+    mafia = Player.objects.filter(role="mafia")
+    player = Player.objects.get(id=id)
+    selected_players = list.split(',')
+    print(selected_players)
+    if game.announce_round_2 == True:
+            player.safe_list_1 = selected_players
+    elif game.announce_round_2 == False and game.announce_round_3 == True:
+        player.safe_list_2 = selected_players
+    elif game.announce_round_3 == True:
+        player.safe_list_3 = selected_players
+    else:
+        print("game over, no more subissions")
+    # player.active_screen = "informant_tip_submitted"
+    player.save()
+
+    
+# if no mafia in safe list
+    if list != "None":
+        safe_list_clean = True
+        for s in selected_players:
+    # if mafia in safe list
+            if Player.objects.filter(id=int(s)) \
+                .exclude(role="detective") \
+                .exclude(role="informant") \
+                .count() != 0:
+                print("mafia in safe list")
+                # send tip to mafia
+                mafia = Player.objects.get(id=int(s))
+                mafia.private_tip = player.low_accuracy_question
+                mafia.save()
+
+                safe_list_clean = False
+
+    if safe_list_clean == True:
+    # send tip to random det
+        detective = Player.objects.get(id=int(random.choice(selected_players)))
+        print("random choice", detective.id)
+        
+
+# wrong game mechanics, update
+    # for m in mafia:
+    #     if m.name in selected_players:
+    #         print("match", m.name)
+    #         m.private_tip = player.low_accuracy_question
+    #         m.active_screen = "mafia_find_informant"
+    #         m.save()
+    #     else:
+    #         print("no match")
+    return HttpResponseRedirect('/bulletin/' + str(id))
+
 
 def scan(request):
     print("scan")
@@ -1160,6 +1214,7 @@ def get_player_data(request):
             '<td>' + 
             '<select name="'+ str(p.id) +'" id="'+ str(p.id) +'">' +
                             '<option value=""></option>' +
+                            '<option value="rules">rules</option>' +
                             '<option value="announcement">announcement</option>' +
                             '<option value="character_assign_detective">character_assign_detective</option>' +
                             '<option value="character_assign_mafia">character_assign_mafia</option>' +
