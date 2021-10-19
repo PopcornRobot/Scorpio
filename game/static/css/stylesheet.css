@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'old_londonregular';
+    src: url("/css/fonts/oldlondon-webfont.woff2") format('woff2');
+    src: "{% static "fonts/oldlondon-webfont.woff" %}" format('woff');
+         /* url('oldlondon-webfont.woff') format('woff'); */
+    font-weight: normal;
+    font-style: normal;
+}
+

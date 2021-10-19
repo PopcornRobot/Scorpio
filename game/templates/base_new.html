@@ -14,10 +14,32 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
     <link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
     <!-- <link rel="stylesheet" href="css/styles.css" /> -->
     <script src="{% static "js/animated_texts.min.js" %}"></script> 
     <script src="{% static "css/arlene_custom.css" %}"></script>
     <script src="{% static "js/cycle.js" %}"></script>
+    <script src="{% static "css/stylesheet.js" %}"></script>
+    <style> 
+        /* body {
+            font-family: 'EB Garamond', serif;
+            font-size: 20px;
+        } */
+
+        @font-face {
+            font-family: 'old_londonregular';
+            src: url("{% static "fonts/oldlondon-webfont.woff2" %}") format("woff2"),
+            src: url("{% static "fonts/oldlondon-webfont.woff" %}") format("woff")
+        }
+
+        .news_title {
+        font-family: 'old_londonregular', Arial, sans-serif;
+        font-weight:normal;
+        font-style:normal;
+        }
+    </style>
     <!-- <script src="js/animated_texts.min.js"></script> -->
   </head>
 
