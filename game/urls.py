@@ -58,7 +58,10 @@ urlpatterns = [
     path('new_round/<int:round>', views.new_round),
     path('process_survey', views.process_survey),
     path('debugSwitch', views.debug_switch),
+    path('submitSafeList/', views.submit_safe_list),
     path('submitSafeList/<int:id>', views.submit_safe_list),
+    path('submitSafeList2/<int:id>/', views.submit_safe_list2),
+    path('submitSafeList2/<int:id>/<list>', views.submit_safe_list2),
     path('scan', views.scan),
     path('getPlayerData', views.get_player_data),    
     path('setPlayerRole/<int:id>/<str:role>', views.set_player_role)    
