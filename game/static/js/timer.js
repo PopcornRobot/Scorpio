@@ -1,6 +1,7 @@
 let announceRound1 = true
 let announceRound2 = true
 let announceRound3 = true
+let announceRound4 = true
 let minute_multiplier = 60
 
 function timer(roundZeroEndTime, roundOneEndTime, roundTwoEndTime, roundThreeEndTime){
@@ -71,7 +72,11 @@ function timer(roundZeroEndTime, roundOneEndTime, roundTwoEndTime, roundThreeEnd
         var xhttp = new XMLHttpRequest()
         xhttp.open("GET", "/new_round/3", true)
         xhttp.send()        
-    }
+    } else if(round == "Game Over" && announceRound4 == true) {
+        console.log("---- round 4 hit")
+        const url = "/new_round/4"
+        fetch(url)
+    }    
 
 }  
 

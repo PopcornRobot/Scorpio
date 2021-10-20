@@ -88,6 +88,7 @@
                     <th>Nickname</th>
                     <th>Partner</th>
                     <th>Screen</th>
+                    <th>Override</th>
                     <th>Role</th>
                     <th>Has Been Informant</th>
                     <th>Alive</th>
@@ -243,6 +244,14 @@
             fetch(url)
                 .then(response => response.text())
                 // .then(data => console.log({data}))
+        }
+        setOverrideScreen = (selectId) => {
+            const screen = document.getElementById(selectId + "-override").value
+            const id = document.getElementById(selectId).name
+            const url = "/setOverrideScreen/" + id + "/" + screen
+            console.log("override", screen, id, url)
+            
+            fetch(url)            
         }
         setPlayerRole = (selectId) => {
             const role = document.getElementById(selectId + "-role").value
