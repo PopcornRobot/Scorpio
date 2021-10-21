@@ -26,6 +26,18 @@
                 <li><img src="{% static "img/rat_two.jpg" %}" /></li>
             </ul> -->
 
+            <img src="{% static "img/find_one.jpg" %}" max width="100%" class="text-center"/>
+
+            <p class="animated__words text-center" style="font-size:25px; color:black">INFORMANT DETECTIVE #2</p>
+            <p class="animated__words text-center" style="font-size:21px; color:black">SMELLS LIKE A RAT</p>
+
+            <img src="{% static "img/find_one.jpg" %}" max width="100%" class="text-center"/>
+
+            <p class="animated__words text-center" style="font-size:25px; color:black">INFORMANT DETECTIVE #3</p>
+            <p class="animated__words text-center" style="font-size:21px; color:black">SMELLS LIKE A RAT</p>
+
+            <img src="{% static "img/find_one.jpg" %}" max width="100%" class="text-center"/>
+
             </div>
         </div>
     </section>
@@ -42,6 +54,11 @@
 
                     <p class="animated__word text-left" style="color:black">They don't remember which detective they sent it
                       to, but you know this:</p>
+                    wrong at the same time?</p>
+
+                    <p class="animated__word text-left" style="color:black">They believe that a traitor sent the items to the detectives
+                    at this party. You don't know which detective has it, but you know this:</p>
+>>>>>>> 6a34e0856aaaa7aa1446a8325d611d25f95e7dc7
                 </div>
             </div>
 
@@ -50,8 +67,8 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:black">INFORMANT DETECTIVE #1: {{ private_tip }}</p>
-                    <p class="animated__word text-center" style="color:black">INFORMANT DETECTIVE #1: {{ player_low_accuracy_question }}</p>
+                    <p style="color:black; font-size:15px" class="garamond">INFORMANT DETECTIVE #1: {{ private_tip }}</p>
+                    <p style="color:black; font-size:15px" class="garamond">INFORMANT DETECTIVE #1: {{ player_low_accuracy_question }}</p>
                 </div>
             </div>
 
@@ -59,7 +76,7 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-left" style="color:black">The only way to stop the tip from being released is to kill the informant
+                    <p style="color:black; font-size:15px" class="garamond">The only way to stop the tip from being released is to kill the informant
                     before they share the items with other detectives. This clue expires when the time runs out.</p>
                     <p class="animated__word text-left" style="color:black">Warning: If you kill a detective that is not an
                     informant, you will be exposed and the police will kill you.</p>
@@ -70,7 +87,7 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:black">Scorpio members: {{ other_mafia_display }}</p>
+                    <p style="color:black; font-size:15px" class="garamond">Scorpio members: {{ other_mafia_display }}</p>
                 </div>
             </div>
 

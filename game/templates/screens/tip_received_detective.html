@@ -9,11 +9,19 @@
         <div class="container-fluid">
             <div class="row no-gutter">
 
+<<<<<<< HEAD
+                <p class="garamond text-center" style="font-size:30px; color:black">YOU RECEIVED A TIP</p>
+                
+                <img src="{% static "img/tip_one22.jpg" %}" max width="100%" class="text-center"/>
+=======
+>>>>>>> 4ed00594f4f9ec442f42c476f651cb02c334f0e4
                 <!-- <h1 class="animated__word text-center" style="color:rgb(138, 17, 17)">You received a tip</h1> -->
                 <!-- <img src="{% static "img/tip_two.jpg" %}" max width="100%" class="text-center"/> -->
 
                 <!-- <br> -->
 
+<<<<<<< HEAD
+=======
                 <p class="animated__words text-center" style="font-size:30px; color:black">YOU RECEIVED A TIP</p>
 
                 <img src="{% static "img/tip_one.jpg" %}" max width="100%" class="text-center"/>
@@ -27,6 +35,7 @@
                     <li><img src="{% static "img/tip_two.jpg" %}" /></li>
                 </ul> -->
 
+>>>>>>> 4ed00594f4f9ec442f42c476f651cb02c334f0e4
             </div>
         </div>
     </section>
@@ -34,11 +43,20 @@
     <section class="container-fluid" id="four">
         <div class="row">
 
+<<<<<<< HEAD
+            <hr>
+            
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p style="color:black; font-size:15px" class="garamond">An informant risked their life to deliver this information to you. Please make this
+                    public announcement to everyone.</p>
+=======
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
                     <p style="color:black">An informant risked their life to deliver this information to you. Please
                       inform a moderator that you would like to make a
                     public announcement.</p>
+>>>>>>> 4ed00594f4f9ec442f42c476f651cb02c334f0e4
                 </div>
             </div>
 
@@ -46,12 +64,12 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black">%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information
+                    <p style="color:black; font-size:15px" class="garamond">%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information
                     <!-- <p style="color:white">%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information
                     has come to light. Sources informed me
                     that one of the mafia members likes to travel. Thank you.")</p> -->
-                    <p style="color:black">{{ private_tip }}</p>
-                    <p style="color:black">Once you click the button, this tip will no longer be available</p>
+                    <p style="color:black; font-size:15px" class="garamond">{{ private_tip }}</p>
+                    <p style="color:black; font-size:15px" class="garamond">Once you click the button, this tip will no longer be available</p>
                     <a href="/clearOverrideScreen/{{ player_id }}">
                         <button style="color:black">I have read the tip</button>
                     </a>
