@@ -1,4 +1,4 @@
-{% extends 'base_new.html' %}
+{% extends 'base_newspaper.html' %}
 {% load static %}
 
 {% block content %}
@@ -10,22 +10,22 @@
             <br>
             <br>
 
-            <h2 class="animated__word text-center" style="color:orangered">Informant detective #2</h2>
+            <!-- <h2 class="animated__word text-center" style="color:orangered">Informant detective #2</h2> -->
             <img src="{% static "img/rat_one.jpg" %}" max width="100%" class="text-center"/>
-            <h2 class="animated__word_two text-center" style="color:orangered">Smells like a rat</h2>
-            <img src="{% static "img/rat_two.jpg" %}" max width="100%" class="text-center"/>
+            <!-- <h2 class="animated__word_two text-center" style="color:orangered">Smells like a rat</h2> -->
+            <!-- <img src="{% static "img/rat_two.jpg" %}" max width="100%" class="text-center"/> -->
             <br>
 
-            <h1 class="animated__words text-center" style="color:orangered">Informant detective #2 | Smells like a rat</h1>
+            <h1 class="animated__words text-center" style="color:black">Informant detective #2 | Smells like a rat</h1>
             <br>
-            <ul class="image-cycle" 
+            <!-- <ul class="image-cycle" 
                     data-target="li" 
                     data-interval="2500" 
                     data-width="100%" 
                     data-speed="1000">
                 <li class="active" ><img src="{% static "img/rat_one.jpg" %}"/></li>
                 <li><img src="{% static "img/rat_two.jpg" %}" /></li>
-            </ul>
+            </ul> -->
 
             </div>
         </div>
@@ -36,7 +36,7 @@
             <hr>
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">Someone just called and told you there are missing items from the warehouse. 
+                    <p class="animated__word text-center" style="color:black">Someone just called and told you there are missing items from the warehouse. 
                     Items that can expose you and your crew's identity.The whole thing feels like a setup. How could so many things go 
                     wrong at the same time?</p>
                 </div>
@@ -44,40 +44,40 @@
             <hr>
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">They believe that a traitor sent the items to the detectives 
+                    <p class="animated__word text-center" style="color:black">They believe that a traitor sent the items to the detectives 
                     at this party. You don't know which detective has it, but you know this:</p>
                 </div>
             </div>
             <hr>
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">INFORMANT DETECTIVE #2: {{ private_tip }}</p>
+                    <p class="animated__word text-center" style="color:black">INFORMANT DETECTIVE #2: {{ private_tip }}</p>
                 </div>
             </div>
             <hr>
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">The only way to stop the tip from being released is to kill the informant
+                    <p class="animated__word text-center" style="color:black">The only way to stop the tip from being released is to kill the informant
                     before they share the items with other detectives. This clue expires when the time runs out.</p>
                 </div>
             </div>
             <hr>
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">Warning: If you kill a detective that is not an 
+                    <p class="animated__word text-center" style="color:black">Warning: If you kill a detective that is not an 
                     informant, you will be exposed and the police will kill you.</p>
                 </div>
             </div>
             <hr>
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">Scorpio members: Joe, Stephanie</p>
+                    <p class="animated__word text-center" style="color:black">Scorpio members: Joe, Stephanie</p>
                 </div>
             </div>
             <hr>
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">*** INSERT FORM CONTROL TO SUBMIT ONE PERSON ***</p>
+                    <p class="animated__word text-center" style="color:black">*** INSERT FORM CONTROL TO SUBMIT ONE PERSON ***</p>
                 </div>
             </div>
             <hr>
@@ -91,19 +91,19 @@
         // Page load
         document.addEventListener("DOMContentLoaded", () => {
 
-            LettersRandomPlaces({
-            element: ".animated__word",
-            })
+            // LettersRandomPlaces({
+            // element: ".animated__word",
+            // })
 
-            LettersRandomPlaces({
-            element: ".animated__word_two",
-            })
+            // LettersRandomPlaces({
+            // element: ".animated__word_two",
+            // })
 
-            LettersRandomPlaces({
-            element: ".animated__words",
-            })
+            // LettersRandomPlaces({
+            // element: ".animated__words",
+            // })
 
-            var ex1 = new Cycle('.image-cycle');
+            // var ex1 = new Cycle('.image-cycle');
 
         }); // page load closing
 

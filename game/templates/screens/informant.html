@@ -1,22 +1,18 @@
-{% extends 'base_new.html' %}
+{% extends 'base_newspaper.html' %}
 {% load static %}
 <!-- {% include "screens/timer.html" %} -->
 
 {% block content %}
 
+<div class="container-fluid">
+
     <section id="three" class="no-padding">
         <div class="container-fluid">
             <div class="row no-gutter">
 
-                <br>
-                <br>
-            
-                <h1 class="animated__word text-center" style="color: rgb(216, 122, 46)">Death Alert</h1>
-                <h5 class="animated__word_a text-center" style="color: rgb(216, 122, 46)">your life is in danger</h5>
+                <p class="animated__word text-center" style="font-size:30px; color: black">Death Alert</p>
+                <p class="animated__word_a text-center" style="font-size:15px; color: black">your life is in danger</p>
                 <img src="{% static "img/un_warning_two.jpg" %}" max width="100%" class="text-center"/>
-
-                <br>
-                <br>
 
             </div>
         </div>
@@ -24,53 +20,55 @@
 
     <section class="container-fluid" id="four">
         <div class="row">
+
             <hr>
+
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:white">You just received an anonymous package, but you can't make sense of it. Your gut feeling is
+                    <p style="color:black">You just received an anonymous package, but you can't make sense of it. Your gut feeling is
                     it's important. You need the help of other detectives but which ones do you trust?</p>
                 </div>
             </div>
-            <hr>
+            
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:white"><em>GOAL:</em> Create a list of detectives you trust before the timer ends. The bigger the list, the juicier
+                    <p style="color:black"><em>GOAL:</em> Create a list of detectives you trust before the timer ends. The bigger the list, the juicier
                     the tip.</p>
                 </div>
             </div>
-            <hr>
+            
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
             <div class="media wow fadeIn">
                 <div class="media-body media-middle">
-                    <p style="color:white"><em>WARNING:</em> If the murderer is on your list, they may kill you. What makes things worse is they
+                    <p style="color:black"><em>WARNING:</em> If the murderer is on your list, they may kill you. What makes things worse is they
                     are tracking the package, which means...</p>
                 </div>
             </div>
-            <hr>
+            
+            <div style="background-color:#000000; height:2px; width:100%;"></div> 
+
             <div class="media wow fadeIn">
                 <div class="media-body media-middle">
-                    <h4 class="text-center" style="color:red">THEY ARE LOOKING FOR YOU.</h4>
+                    <p class="text-center" style="font-size: 20px; color:black">THEY ARE LOOKING FOR YOU.</p>
+                    <p style="color:black">If they find you before you submit your list, you and your tip are gone, forever.</p>
                 </div>
             </div>
-            <hr>
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <p style="color:white">If they find you before you submit your list, you and your tip are gone, forever.</p>
-                </div>
-            </div>
-            <hr>
+            
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
             <div class="media wow fadeIn"> 
                 <div class="media-body media-middle">
-                    <p style="color:white">The good news is they don't know who you are exactly yet.
+                    <p style="color:black">The good news is they don't know who you are exactly yet.
                     So don’t disclose your role as the informant to anyone or they will find out.</p>
+                    <p class="text-center" style="font-size: 20px; color:black">TRUST NO ONE.</p>
                 </div>
             </div>
-            <hr>
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <h4 class="text-center" style="color:red">TRUST NO ONE.</h4>
-                </div>
-            </div>
-            <hr>
+            
+            <div style="background-color:#000000; height:2px; width:100%;"></div> 
+
             <div class="media wow fadeIn"> 
                 <div class="media-body media-middle">
                     <!-- <p style="color:rgb(104, 100, 100)">*** INSERT FORM CONTROLS TO SUBMIT A LIST OF MULIPLE PEOPLE ***</p> -->
@@ -78,9 +76,25 @@
                 </div>
             </div>
            
+   
+            
+            
         </div>
     </section>
     
+    <form action="/submitSafeList/{{ player.id }}" method="POST">
+        {% csrf_token %}
+        <ul>
+          {% for p in other_players %}
+          <li style="list-style-type: none;">
+            <input type="checkbox" name="players" value="{{ p.name }}">
+            {{ p.name }}
+            
+          </li>
+          {% endfor %}
+        </ul>
+        <input type="submit" value="Submit" style="background-color:white; color:black;">
+    </form>
     <div id="divList"></div>
         <ul>
           {% for p in other_players %}
@@ -101,6 +115,7 @@
         <button onclick="submitSafeList()" 
             style="background-color:white; color:black; position: relative; left: 15%">
             Submit Safe List</button>
+
     <script>
         let playerId = "{{ player.id }}"
         let safeList = []
@@ -165,6 +180,7 @@
   
     </script>
 
+</div>
 
 {% endblock %}
 

@@ -1,23 +1,22 @@
-{% extends 'base_new.html' %}
+{% extends 'base_newspaper.html' %}
 {% load static %}
 
 {% block content %}
 
+<div class="container-fluid">
+
     <section id="three" class="no-padding">
         <div class="container-fluid">
             <div class="row no-gutter">
-
-                <br>
-                <br>
                 
                 <img src="{% static "img/tip_one.jpg" %}" max width="100%" class="text-center"/>
-                <h1 class="animated__word text-center" style="color:rgb(138, 17, 17)">You received a tip</h1>
-                <img src="{% static "img/tip_two.jpg" %}" max width="100%" class="text-center"/>
+                <!-- <h1 class="animated__word text-center" style="color:rgb(138, 17, 17)">You received a tip</h1> -->
+                <!-- <img src="{% static "img/tip_two.jpg" %}" max width="100%" class="text-center"/> -->
 
                 <br>
 
-                <h1 class="animated__words text-center" style="color:rgb(138, 17, 17)">You received a tip</h1>
-                <br>
+                <p class="animated__words text-center" style="font-size:30px; color:black">YOU RECEIVED A TIP</p>
+                <!-- <br>
                 <ul class="image-cycle" 
                         data-target="li" 
                         data-interval="2500" 
@@ -25,7 +24,7 @@
                         data-speed="1000">
                     <li class="active" ><img src="{% static "img/tip_one.jpg" %}"/></li>
                     <li><img src="{% static "img/tip_two.jpg" %}" /></li>
-                </ul>
+                </ul> -->
               
             </div>
         </div>
@@ -33,16 +32,19 @@
 
     <section class="container-fluid" id="four">
         <div class="row">
-            <hr>
+            
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:white">An informant risked their life to deliver this information to you. Please make this
+                    <p style="color:black">An informant risked their life to deliver this information to you. Please make this
                     public announcement to everyone.</p>
                 </div>
             </div>
-            <hr>
+            
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
+                    <p style="color:black">%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information
                     <!-- <p style="color:white">%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information
                     has come to light. Sources informed me
                     that one of the mafia members likes to travel. Thank you.")</p> -->
@@ -64,15 +66,15 @@
         // Page load
         document.addEventListener("DOMContentLoaded", () => {
     
-            LettersRandomPlaces({
-            element: ".animated__word",
-            })
+            // LettersRandomPlaces({
+            // element: ".animated__word",
+            // })
 
-            LettersRandomPlaces({
-            element: ".animated__words",
-            })
+            // LettersRandomPlaces({
+            // element: ".animated__words",
+            // })
 
-            var ex1 = new Cycle('.image-cycle');
+            // var ex1 = new Cycle('.image-cycle');
     
         }); // page load closing
     
@@ -104,5 +106,7 @@
         })
         
     </script>
+
+</div>
 
 {% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base_newspaper.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- <img src="{% static "img/newspaper_two.jpg" %}" id="bg2" alt=""/> -->
+
+
+<!-- <style>
+    @font-face { font-family: Olondona; src: url('{% static "fonts/old_london/Olondona.otf" %}'); }
+    .news_headline { font-family: Olondona, sans-serif; }
+</style> -->
+
+
+<style>
+/* .container {
+  position: relative;
+  text-align: center;
+  color: black;
+  background-image: url("{% static "img/newspaper_two.jpg" %}");
+  background-repeat: repeat;
+}
+
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 60px;
+} */
+
+
+</style>
+<!-- </head>
+<body> -->
+
+<div class="container">
+    <!-- <img src="{% static "img/newspaper_two.jpg" %}" alt="" style="width:10%; height:10%;"/> -->
+    <p style="font-size:50px; color:black;" class="news_headline center">The Popcorn Robot Times</p>
+
+    <section id="three" class="no-padding">
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <!-- <br> -->
+                <!-- <h1>.</h1> -->
+                <!-- <h1>.</h1> -->
+                <div style="background-color:#000000; height:7px; width:100%;"></div>
+                <h4 style="color:black; text-align:right;"> Los Angeles, CA 2021</h4>
+                <p style="color:black; text-align:right;"> Volumn 1</p>
+                <div style="background-color:#000000; height:7px; width:100%;"></div>
+                <br>
+                <img src="{% static "img/police.jpg" %}" max width="100%" class="text-center"/>
+            </div>
+            <br>
+        </div>
+    </section>
+
+    <div style="background-color:#000000; height:3px; width:100%;"></div>
+    <p style="font-size:60px; color:black;" class="news_headline">You are a Detective</p>
+
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus ut at alias cumque commodi neque molestiae est magni reiciendis non. Voluptates nobis illo nostrum qui natus eius aut ratione nemo.
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore aliquid ducimus a odio atque beatae praesentium? Autem alias ipsa fugiat totam dignissimos beatae dolores officiis blanditiis, quo dicta. Alias, inventore?
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum culpa beatae sit dolores ut dolorum aliquam maxime ipsum? Explicabo temporibus commodi doloribus sed. Nam sequi architecto exercitationem iste similique consequatur!
+    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Est tempore repudiandae laudantium velit incidunt dolorem id praesentium culpa consectetur ducimus vero soluta temporibus eaque, autem voluptate aperiam, alias assumenda pariatur.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae accusantium dolore non, obcaecati aliquam magnam vero saepe debitis, corrupti doloribus dolor nesciunt. Facere fugit, necessitatibus voluptate commodi assumenda impedit obcaecati!
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque quisquam ipsum suscipit illum qui aliquid harum officia exercitationem optio ipsa labore, assumenda quaerat, quod doloremque amet! Laboriosam aspernatur sequi quam.
+</div>
+
+{% endblock %}
