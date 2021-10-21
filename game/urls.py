@@ -67,6 +67,7 @@ urlpatterns = [
     path('getPlayerData', views.get_player_data),    
     path('setPlayerRole/<int:id>/<str:role>', views.set_player_role),
     path('clearOverrideScreen/<int:id>', views.clear_override_screen),
+    path('clearAllOverrideScreens/<int:id>', views.clear_all_override_screens),
     path('mafia_find_informant_submit/<int:id>', views.mafia_find_informant_submit),
 
 ]

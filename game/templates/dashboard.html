@@ -87,6 +87,7 @@
                     <th>Name</th>
                     <th>Nickname</th>
                     <th>Partner</th>
+                    <th>Tip</th>
                     <th>Screen</th>
                     <th>Override</th>
                     <th>Role</th>
@@ -267,6 +268,8 @@
                     let current = document.getElementById("playerData").innerHTML
                     if(current != data) {
                         console.log("new data, refresh")
+                        console.log({current})
+                        console.log({data})
                         document.getElementById("playerData").innerHTML = data
                     } else {
                         console.log("same data, no action")

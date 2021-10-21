@@ -74,38 +74,13 @@
             <div class="media wow fadeIn"> 
                 <div class="media-body media-middle">
                     <!-- <p style="color:rgb(104, 100, 100)">*** INSERT FORM CONTROLS TO SUBMIT A LIST OF MULIPLE PEOPLE ***</p> -->
-                    <form action="/submitSafeList/{{ player.id }}" method="POST">
-                        {% csrf_token %}
-                        <ul>
-                          {% for p in other_players %}
-                          <li style="list-style-type: none;">
-                            <input type="checkbox" name="players" value="{{ p.name }}">
-                            {{ p.name }}
-                            
-                          </li>
-                          {% endfor %}
-                        </ul>
-                        <input type="submit" value="Submit" style="background-color:white; color:black;">
-                    </form>
+                   
                 </div>
             </div>
-            <hr>
-            <hr>
+           
         </div>
     </section>
-    <form action="/submitSafeList/{{ player.id }}" method="POST">
-        {% csrf_token %}
-        <ul>
-          {% for p in other_players %}
-          <li style="list-style-type: none;">
-            <input type="checkbox" name="players" value="{{ p.name }}">
-            {{ p.name }}
-            
-          </li>
-          {% endfor %}
-        </ul>
-        <input type="submit" value="Submit" style="background-color:white; color:black;">
-    </form>
+    
     <div id="divList"></div>
         <ul>
           {% for p in other_players %}
@@ -116,14 +91,15 @@
                 style="background-color: darkgray;
                 color:black;
                 border:none;
-                width: 20%;
+                width: 50%;
                 position: relative;
                 left: 5%;
                 margin: 4px 2px">{{ p.name }}</button>
           </li>
           {% endfor %}
         </ul>
-        <button onclick="submitSafeList()" style="background-color:white; color:black;">
+        <button onclick="submitSafeList()" 
+            style="background-color:white; color:black; position: relative; left: 15%">
             Submit Safe List</button>
     <script>
         let playerId = "{{ player.id }}"
@@ -154,9 +130,9 @@
         // Page load
         document.addEventListener("DOMContentLoaded", () => {
     
-            LettersRandomPlaces({
-            element: ".animated__word",
-            })
+            // LettersRandomPlaces({
+            // element: ".animated__word",
+            // })
     
         }); // page load closing
     

@@ -18,7 +18,7 @@
             </div>
             <span id="activeScreen">
                 
-                {% include activeScreen with tip_on_mafia_one=tip_on_mafia_one %}
+                {% include activeScreen %}
                 
             </span> 
     </div>
@@ -42,6 +42,7 @@
 
 // enabled
             setInterval(function() {checkPlayerScreen()}, 1000)
+            getPlayerScreen()
             
             
             

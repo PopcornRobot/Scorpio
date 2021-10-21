@@ -53,7 +53,7 @@
             <hr>
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:white">You are the murderer known as %%INSERT_MOB_NAME%% (e.g. The Blade) "{{ nickname }}".
+                    <p style="color:white">You are the murderer known as "{{ nickname }}".
                     You are a part of the criminal organization called Scorpio.</p>
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <hr>
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:white">An hour ago, you and %%INSERT_NUMBER_MEMBERS%% {{ mafia_count_text }}  (e.g. three) others ran a hit and murdered an informant.
+                    <p style="color:white">An hour ago, you and {{ mafia_count_text }} ran a hit and murdered an informant.
                     Due to bad luck, a police car blocked your escape route, so you hid in
                     this large group of people. Little did you know, it's a party of off-duty detectives.</p>
                 </div>
@@ -83,10 +83,8 @@
                 </div>
             </div>
             <hr>
-            <p style="color:white">Scorpio member(s):</p>
-            {% for m in other_mafia %}
-            {{ m.name }}
-            {% endfor %}
+            <p style="color:white">Scorpio member(s): {{ other_mafia_display }}</p>
+ 
             <hr>
         </div>
     </section>
