@@ -9,10 +9,13 @@
     <section id="three" class="no-padding">
         <div class="container">
 
+<<<<<<< HEAD
                 <p class="text-center" style="font-size:25px; color: black" class="garamond">YOU HAVE BEEN ASSIGNED AS AN INFORMANT</p>
                 <br>
                 <p class="text-center" style="font-size:15px; color: black;" class="garamond">your life is in danger</p>
                 <img src="{% static "img/informant22.jpg" %}" max width="100%" class="text-center"/>
+=======
+>>>>>>> 4aecdbac85c85bb8e608f0f9557f910409000747
                 <h3 class="text-center" >A clue appears</h3>
                 <!-- <p class="animated__word_a text-center" style="font-size:15px; color: black">your life is in danger</p> -->
                 <!-- <img src="{% static "img/un_warning_two.jpg" %}" max width="100%" class="text-center"/> -->
@@ -26,10 +29,17 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
+<<<<<<< HEAD
                     <p style="color:black; font-size:15px;" class="garamond">You just received an anonymous package, but you can't make sense of it. Your gut feeling is
                     it's important. You need the help of other detectives but which ones do you trust?</p>
                     <p style="color:black">Someone sent you an anonymous package, but you can't make sense of it. Your gut feeling is
                     it's important. You need the help of another detective. </p>
+=======
+                    <p style="color:black">Someone sent you an anonymous package, but you can't make sense of it.
+                      You were never good at analysis because you
+                      cheated your way through the academy.
+                      You need the help of another detective. </p>
+>>>>>>> 4aecdbac85c85bb8e608f0f9557f910409000747
 
                     <p>Who do you trust?</p>
                 </div>
@@ -39,8 +49,11 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
+<<<<<<< HEAD
                     <p style="color:black; font-size:15px" class="garamond"><em>GOAL:</em> Create a list of detectives you trust before the timer ends. The bigger the list, the juicier
                     the tip.</p>
+=======
+>>>>>>> 4aecdbac85c85bb8e608f0f9557f910409000747
                     <p style="color:black"><em>GOAL:</em> Send the clue to a person you trust before the timer ends. Be careful,
                     if you send the clue to the murderer, they may kill you.</p>
                     <p style="color:black"><em>WARNING:</em> The murderer is already tracking the package, which means...</p>
@@ -50,6 +63,7 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             <div class="media wow fadeIn">
                 <div class="media-body media-middle">
                     <p style="color:black; font-size:15px" class="garamond"><em>WARNING:</em> If the murderer is on your list, they may kill you. What makes things worse is they
@@ -89,24 +103,29 @@
 
 
 
+=======
+
+
+
+
+>>>>>>> 4aecdbac85c85bb8e608f0f9557f910409000747
         </div>
     </section>
-
-    <!-- <form action="/submitSafeList/{{ player.id }}" method="POST">
+    
+    <form action="/submitSafePerson/{{ player_id }}" method="POST">
         {% csrf_token %}
         <ul>
           {% for p in other_players %}
-          <li style="list-style-type: none;">
-            <input type="checkbox" name="players" value="{{ p.name }}">
+          <li style="list-style-type: none; color: black">
+            <input type="radio" name="players" value="{{ p.id }}">
             {{ p.name }}
 
           </li>
           {% endfor %}
         </ul>
         <input type="submit" value="Submit" style="background-color:white; color:black;">
-    </form> -->
-    <div id="divList"></div>
-        <ul>
+    </form>
+        <!-- <ul>
           {% for p in other_players %}
           <li style="list-style-type: none;">
             <button
@@ -124,7 +143,7 @@
         </ul>
         <button onclick="submitSafeList()"
             style="background-color:white; color:black; position: relative; left: 15%">
-            Submit Safe List</button>
+            Submit Safe List</button> -->
 
     <script>
         let playerId = "{{ player.id }}"
