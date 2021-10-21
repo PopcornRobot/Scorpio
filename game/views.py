@@ -185,8 +185,10 @@ def survey_save(request):
 
     player = Player.objects.create( \
         name=request.POST['name'], \
-        role='', \
-        active_screen='wait_screen'
+        role='detective', \
+        nickname='none', \
+        active_screen='rules', \
+        override_screen='none'
         # nickname=request.POST['gangsterNameDropdown'] \
             )
     print(player.id)
@@ -597,6 +599,8 @@ def update_screens():
 
 def start_game2(request):
     print("start game")
+    countSelected()
+    process_survey()
     setTimerEnd()
     # assign_roles()
     assign_mafia_role("request")
@@ -759,7 +763,10 @@ def getPlayerScreen(request, id):
     game = Game.objects.get(id=1)
     user = Player.objects.get(id=id)
     mafia = Player.objects.filter(role="mafia")
-    tip_on_mafia = mafia[0].low_accuracy_question
+    if mafia:
+        tip_on_mafia = mafia[0].low_accuracy_question
+    else:
+        tip_on_mafia = "none"
     if user.override_screen == "none":
         active_screen = user.active_screen
     else:
@@ -771,7 +778,7 @@ def getPlayerScreen(request, id):
     for m in other_mafia:
         other_mafia_display += m.name + ", "
     other_mafia_display = other_mafia_display[:-2]        
-    other_players = Player.objects.exclude(name=user.name).exclude(alive=False).exclude(role="mafia")
+    other_players = Player.objects.exclude(name=user.name).exclude(alive=False)
     if user.partner:
         print("user.partner", user.partner.low_accuracy_question)
         partner = user.partner
@@ -833,18 +840,22 @@ def dashboard(request):
                 Question(text='q9', news_report=""),
             ]
         )  
-    questions_answered = Question.objects.filter(selected_count__gt=0)
-    if questions_answered.count() == 0:
-        game = Game.objects.get_or_create(id=1)
-    else:
-        game = Game.objects.get(id=1)
+    # questions_answered = Question.objects.filter(selected_count__gt=0)
+    # if questions_answered.count() == 0:
+    #     game = Game.objects.get_or_create(id=1)
+    # else:
+    #     game = Game.objects.get(id=1)
+    game = Game.objects.get(id=1)
     players = Player.objects.all().order_by('name')
     playerMessages = PlayerMessages.objects.all()
     mafia = Player.objects.filter(role='Mafia')
     townpeople = Player.objects.filter(role='Townpeople')
     questions = Question.objects.all().order_by('-selected_count')
     low_accuracy = Question.objects.all().order_by('-selected_count')[:1][0]
-    high_accuracy = Question.objects.filter(selected_count__gt=0).order_by('selected_count')[:1][0]
+    if Question.objects.filter(selected_count__gt=0).order_by('selected_count')[:1]:
+        high_accuracy = Question.objects.filter(selected_count__gt=0).order_by('selected_count')[:1][0]
+    else: 
+        high_accuracy = ""
     max_selected = Question.objects.aggregate(Max('selected_count'))
     # print("max selected", max_selected)
     answered_questions = Question.objects.filter(selected_count__gt=0)
@@ -879,7 +890,8 @@ def dashboard(request):
     }
     return render(request, "dashboard.html", context)
 
-def process_survey(request):
+def process_survey(request=""):
+    print("process_survey")
     questions = Question.objects.all().order_by("-selected_count")
     # for q in questions:
     #     print("q", q.selected_count, q.text)
@@ -914,7 +926,7 @@ def process_survey(request):
     return HttpResponseRedirect(reverse('game:dashboard'))
 
 
-def countSelected(request):
+def countSelected(request=""):
     print('count selected')
     player_answers = PlayerAnswer.objects.all()
     for answer in player_answers:
@@ -923,7 +935,7 @@ def countSelected(request):
 
         print(question_id)
 
-    return HttpResponse("countSelected")
+    return HttpResponseRedirect("/dashboard")
 
 def countSelected2(request):
     print('count selected 2')
@@ -941,7 +953,8 @@ def countSelected2(request):
             print("not in q, add object")
             q[answer.question_id] = 1
     print("------", q)
-    return JsonResponse(q)
+    # return JsonResponse(q)
+    return HttpResponseRedirect("/dashboard")
     # return HttpResponse(q)
 
 def clearCountSelected(request):
@@ -952,7 +965,7 @@ def clearCountSelected(request):
         Question.objects.filter(id=question_id).update(selected_count=0)
 
         print(question_id)
-    return HttpResponse("countSelected")
+    return HttpResponseRedirect("/dashboard")
 
 def setMessage(request):
     return HttpResponse("message set")
@@ -1120,20 +1133,33 @@ def assign_informants(request):
 
 
 def assign_all_to_detective(request=""):
-    players = Player.objects.all()
-    for player in players:
-        player.role = "detective"
-        player.nickname = "none"
-        player.has_been_informant = False
-        player.active_screen = 'rules'
-        player.override_screen = 'none'
-        player.private_tip = ""
-        player.alive = True
-        player.partner = None
-        player.safe_list_1 = None
-        player.safe_list_2 = None
-        player.safe_list_3 = None
-        player.save()
+    Player.objects.all().update(
+        role = "detective",
+        nickname = "none",
+        has_been_informant = False,
+        active_screen = 'rules',
+        override_screen = 'none',
+        private_tip = "",
+        alive = True,
+        partner = None,
+        safe_list_1 = None,
+        safe_list_2 = None,
+        safe_list_3 = None
+    )
+    # players = Player.objects.all()
+    # for player in players:
+    #     player.role = "detective"
+    #     player.nickname = "none"
+    #     player.has_been_informant = False
+    #     player.active_screen = 'rules'
+    #     player.override_screen = 'none'
+    #     player.private_tip = ""
+    #     player.alive = True
+    #     player.partner = None
+    #     player.safe_list_1 = None
+    #     player.safe_list_2 = None
+    #     player.safe_list_3 = None
+    #     player.save()
     return HttpResponseRedirect("/dashboard")
 
 def kill_player(request, player):
@@ -1265,6 +1291,18 @@ def submit_safe_list2(request, id="None", list="None"):
         player.save()
     return HttpResponseRedirect('/bulletin/' + str(id))
 
+def submit_safe_person(request, id):
+    print("==============submitSafePerson", id, request.POST['players'])
+    safe_person = Player.objects.get(id=request.POST['players'])
+    informant = Player.objects.get(id=id)
+    safe_person.private_tip = informant.partner.low_accuracy_question
+    if safe_person.role == "mafia":
+        safe_person.override_screen = "tip_received_mafia"
+    else:
+        safe_person.override_screen = "tip_received_detective"
+    safe_person.save()
+
+    return HttpResponseRedirect('/bulletin/' + str(id))
 
 def scan(request):
     print("scan")

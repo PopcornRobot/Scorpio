@@ -130,8 +130,12 @@
     </div>
     <div style="border:1px solid black;">
         <h1>Questions v1</h1>
-        <button onclick="countSelected()">Count answers</button>
-        <button onclick="clearCountSelected()">Clear count answers</button>
+        <a href="/countSelected">
+            <button>Count answers</button>
+        </a>
+        <a href="/clearCountSelected">
+            <button>Clear count answers</button>
+        </a>
         <p>Low accuracy question: {{ low_accuracy }}</p>
         <p>High accuracy question: {{ high_accuracy }}</p>
         <table>
