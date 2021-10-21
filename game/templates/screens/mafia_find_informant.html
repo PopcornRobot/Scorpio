@@ -55,7 +55,7 @@
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
                     <p class="animated__word text-center" style="color:black">INFORMANT DETECTIVE #1: {{ private_tip }}</p>
-                    <p class="animated__word text-center" style="color:white">INFORMANT DETECTIVE #1: {{ player_low_accuracy_question }}</p>
+                    <p class="animated__word text-center" style="color:black">INFORMANT DETECTIVE #1: {{ player_low_accuracy_question }}</p>
                 </div>
             </div>
             
@@ -81,7 +81,7 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">Scorpio members: {{ other_mafia_display }}</p>
+                    <p class="animated__word text-center" style="color:black">Scorpio members: {{ other_mafia_display }}</p>
                 </div>
             </div>
             
@@ -89,13 +89,15 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">*** INSERT FORM CONTROL TO SUBMIT ONE PERSON ***</p>
+                    <div style="color: black">
                     <form action="/mafia_find_informant_submit/{{ player_id }}">
                         {% for player in other_players %}
+
                             <input type="radio" name="player" id="{{ player.id }}" value="{{ player.name}}">
                             <label for="{{ player.id }}">{{ player.name }}</label><br>
-                        {% endfor   %}
-                        <input type="submit" value="submit">
+                            {% endfor   %}
+                            <input type="submit" value="submit">
+                        </div>
                     </form>
                 </div>
             </div>

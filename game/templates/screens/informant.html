@@ -82,7 +82,7 @@
         </div>
     </section>
     
-    <form action="/submitSafeList/{{ player.id }}" method="POST">
+    <!-- <form action="/submitSafeList/{{ player.id }}" method="POST">
         {% csrf_token %}
         <ul>
           {% for p in other_players %}
@@ -94,7 +94,7 @@
           {% endfor %}
         </ul>
         <input type="submit" value="Submit" style="background-color:white; color:black;">
-    </form>
+    </form> -->
     <div id="divList"></div>
         <ul>
           {% for p in other_players %}

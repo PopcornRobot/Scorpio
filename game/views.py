@@ -1321,9 +1321,9 @@ def get_player_data(request):
                             '<option value="death_alert">death_alert</option>' +
                             '<option value="informant_tip_submitted">informant_tip_submitted</option>' +
                             '<option value="lock_screen">lock_screen</option>' +
-                            '<option value="mafia_find_informant">mafia_find_informant</option>' +
                             '<option value="tip_received_detective">tip_received_detective</option>' +
                             '<option value="tip_received_mafia">tip_received_mafia</option>' +
+                            # '<option value="mafia_find_informant">mafia_find_informant</option>' +
                             # '<option value="rules">rules</option>' +
                             # '<option value="announcement">announcement</option>' +
                             # '<option value="character_assign_detective">character_assign_detective</option>' +
