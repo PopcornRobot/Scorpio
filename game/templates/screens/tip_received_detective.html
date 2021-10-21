@@ -9,14 +9,33 @@
         <div class="container-fluid">
             <div class="row no-gutter">
 
+<<<<<<< HEAD
                 <p class="garamond text-center" style="font-size:30px; color:black">YOU RECEIVED A TIP</p>
                 
                 <img src="{% static "img/tip_one22.jpg" %}" max width="100%" class="text-center"/>
+=======
+>>>>>>> 4ed00594f4f9ec442f42c476f651cb02c334f0e4
                 <!-- <h1 class="animated__word text-center" style="color:rgb(138, 17, 17)">You received a tip</h1> -->
                 <!-- <img src="{% static "img/tip_two.jpg" %}" max width="100%" class="text-center"/> -->
 
-                <br>
+                <!-- <br> -->
 
+<<<<<<< HEAD
+=======
+                <p class="animated__words text-center" style="font-size:30px; color:black">YOU RECEIVED A TIP</p>
+
+                <img src="{% static "img/tip_one.jpg" %}" max width="100%" class="text-center"/>
+                <!-- <br>
+                <ul class="image-cycle"
+                        data-target="li"
+                        data-interval="2500"
+                        data-width="100%"
+                        data-speed="1000">
+                    <li class="active" ><img src="{% static "img/tip_one.jpg" %}"/></li>
+                    <li><img src="{% static "img/tip_two.jpg" %}" /></li>
+                </ul> -->
+
+>>>>>>> 4ed00594f4f9ec442f42c476f651cb02c334f0e4
             </div>
         </div>
     </section>
@@ -24,15 +43,23 @@
     <section class="container-fluid" id="four">
         <div class="row">
 
+<<<<<<< HEAD
             <hr>
             
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
                     <p style="color:black; font-size:15px" class="garamond">An informant risked their life to deliver this information to you. Please make this
                     public announcement to everyone.</p>
+=======
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p style="color:black">An informant risked their life to deliver this information to you. Please
+                      inform a moderator that you would like to make a
+                    public announcement.</p>
+>>>>>>> 4ed00594f4f9ec442f42c476f651cb02c334f0e4
                 </div>
             </div>
-            
+
             <div style="background-color:#000000; height:2px; width:100%;"></div>
 
             <div class="media wow fadeInRight">
@@ -53,12 +80,12 @@
     </section>
 
     <script>
-    
+
         // global variables
-    
+
         // Page load
         document.addEventListener("DOMContentLoaded", () => {
-    
+
             // LettersRandomPlaces({
             // element: ".animated__word",
             // })
@@ -68,36 +95,36 @@
             // })
 
             // var ex1 = new Cycle('.image-cycle');
-    
+
         }); // page load closing
-    
+
         // Our functions
-    
+
         LettersRandomPlaces({
             element: ".animated__text",
-    
+
             // delay in ms
             start_delay_time: 1000,
-    
+
             // or 'random'
             delay_type: "sequential",
-    
+
             // duration of the animation
             animation_duration: 5000,
-    
+
             // type: number
             force: 200,
-    
+
             // direction
             direction: ['x', 'y'],
-    
+
             // scale text randomly
             random_scale: false,
-    
+
             // -1 for random
             rotate: -1,
         })
-        
+
     </script>
 
 </div>
