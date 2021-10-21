@@ -1,182 +1,160 @@
-{% extends "base.html" %}
+{% extends 'base_newspaper.html' %}
 {% load static %}
-
-{% block body %}
-
-<!--
-
-github commands
-
-git pull
-git add .
-git commit
-git push origin main
-
-git status
-
--->
-
-  <!-- Header -->
-  <!-- <header class="masthead">
-    <div class="container">
-      <div class="intro-text">
-        <div class="intro-lead-in">Space Dragons presents...</div>
-        <div class="intro-heading text-uppercase">A Halloween Murder Mystery</div>
-      </div>
-    </div>
-  </header> -->
+{% block content %}
 
 <div class="container-fluid">
 
-  <!-- Services -->
-  <section class="page-section" id="services">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">A murderer walks in...</h2>
-          <!-- <h3 class="section-subheading text-muted">Land of the Dead Customs and Border Protection</h3> -->
+    <section id="three" class="no-padding" style="border: 10px solid clear">
+        <div class="container-fluid">
+            <div class="row no-gutter">
+
+                <p class="animated__words text-center" style="color:black; font-size:30px;">A MURDER WALKS IN...</p>
+
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <p>An hour ago, there was a murder down the street.
-            The suspect fled on foot and hid amongst our group here. Little did they know
-            they hid in a party of seasoned detectives. Police are relying on us to find them.</p>
+    </section>
 
-                    <p>&nbsp;</p>
-          <hr />
+    <section class="container-fluid" id="four">
+        <div class="row">
 
-          <h4>How the game works</h4>
-
-          <p>The game is similar to Mafia. Our goal is to find the criminal hidden in our group.
-            At the end of the game, we vote on who is the murderer.</p>
-
-            <p class=''><img src="{% static "img/spy.jpg" %}"  /></p>
-
-            <p>To help our search, we rely on tips that reveal information about the murderer.
-            Real facts like “this person skydived" that lead to real people.
-            It’s your job to talk to each other and find out who the murderer is. </p>
-
-          <p>&nbsp;</p>
-
-          <hr />
-
-          <h4>Roles</h4>
-
-          <div style="padding-top:20px">
-            <div class="row">
-              <div class="col-lg-2">
-                <p><img class="float-left" src="{% static "img/police.jpeg" %}" style="width: 100px" /></p>
-              </div>
-              <div class="col-lg-10">
-                <p><strong>Detective</strong></p>
-                <!-- <p><em>Goal</em> </p> -->
-                <ol>
-                  <li>Interrogate everyone. </li>
-                  <li>Find murderer.</li>
-                  <li>Trust no one.</li>
-                </ol>
-              </div>
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p style="color:black; font-size:15px" class="garamond">An hour ago, there was a murder down the street.
+                    The suspect fled on foot and hid amongst our group here. Little did they know 
+                    they hid in a party of seasoned detectives. Police are relying on us to find them.</p>
+                </div>
             </div>
-          </div>
+           
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-          <div style="clear: left; padding-top:40px">
-            <div class="row">
-              <div class="col-lg-2">
-                <p><img class="float-left" src="{% static "img/informant.jpg" %}" style="width: 100px" /></p>
-              </div>
-              <div class="col-lg-10">
-                <p><strong>Informant</strong></p>
-                <!-- <p><em>Goal</em> </p> -->
-                <ol>
-                  <li>Deliver tip to trusted detectives. </li>
-                  <li>The murderer is hunting you. Keep your identity a secret to stay alive. </li>
-                  <!-- <li>Trust no one.</li> -->
-                </ol>
-              </div>
+            <div class="media wow fadeIn">
+                <div class="media-body media-middle">
+                    <p style="font-size: 20px; color:black">HOW THE GAME WORKS</p>
+                    <p style="color:black; font-size:15px" class="garamond">The game is similar to Mafia. Our goal is to find the criminal hidden in our group.
+                    At the end of the game, we vote on who is the murderer.</p>
+
+                    <img src="{% static "img/police22.jpg" %}" max width="100%" class="text-center"/>
+
+                    <br>
+                    <br>
+
+                    <p style="color:black; font-size:15px" class="garamond">To help our search, we rely on tips that reveal information about the murderer.
+                    Real facts like “this person skydived" that lead to real people.
+                    It’s your job to talk to each other and find out who the murderer is. </p>
+                    
+                </div>
             </div>
-          </div>
+           
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-          <div style="clear: left; padding-top:40px">
-            <div class="row">
-              <div class="col-lg-2">
-                <p><img class="float-left" src="{% static "img/criminal.jpg" %}" style="width: 100px" /></p>
-              </div>
-              <div class="col-lg-10">
-                <p><strong>Murderer</strong></p>
-                <!-- <p><em>Goal</em> </p> -->
-                <ol>
-                  <li>Convince everyone you are not the murderer. </li>
-                  <li>Kill informants before they spread information about you.</li>
-                </ol>
-              </div>
+            <div class="media wow fadeIn">
+                    <div class="media-body media-middle">
+                        <p style="font-size:25px; color:black">ROLES</p>
+                    </div>
             </div>
-          </div>
 
-          <p>&nbsp;</p>
-          <!-- <p>&nbsp;</p> -->
+            <!-- <div class="media wow fadeIn"> -->
+                <!-- <div class="media-body media-middle">
+                    <p style="font-size:25px; color:black">ROLES</p>
+                </div> -->
+            <!-- </div> -->
+            
+            <!-- <div style="background-color:#000000; height:2px; width:100%;"></div> -->
 
-          <p>&nbsp;</p>
+                <div class="media wow fadeInRight">
+                    <div class="media-body media-middle">
+                        <div class="col-lg-2">
+                            <p><img class="float-left" src="{% static "img/male_dete22.jpg" %}" style="width: 100px" /></p>
+                        </div>
 
-          <hr />
+                        <div class="col-lg-10">
 
-          <h4>3 Cardinal Rules</h4>
+                            <p class="float-left" style="color:black; font-size:15px" class="garamond"><strong>Detective</strong></p>
+                        
+                            <ol>
+                                <li>Interrogate everyone. </li>
+                                <li>Find murderer.</li>
+                                <li>Trust no one.</li>
+                            </ol>
+                        </div>
 
+                    </div>
+                </div>
 
-          <ol style="padding-top:20px">
-            <li><p><em>No lies</em>. If someone asks you a question about your life,
-               tell them the truth (within reasonable bounds, of course). </p>
-               <p>You can lie about who you think
-             is the murderer.</p></li>
-             <li><p><em>Check  phone every 10 minutes</em>. Your screen updates with new objectives and important information
-               as the game progresses.
-             </p>
-             </li>
-             <li><p><em>Hide your screen!</em> Don't compromise your identity. Your screen reveals information
-               about your identity.</p></li>
+                <div class="media wow fadeInRight">
+                    <div class="media-body media-middle">
 
-            <!-- <li><p><em>Don't die.</em> If you get killed, you must quietly inform the Chief of Police
-              of your death and the character role you played. The Chief will
-              announce it to the public.</p>
+                        <div class="col-lg-2">
+                            <p><img class="float-left" src="{% static "img/inform22.jpg" %}" style="width: 100px" /></p>
+                        </div>
 
-              <p>There are two ways to die:</p>
-              <ol>
-                <li><em>Informant dies</em>. Murderer pulls an informant <em>without</em> an orb aside and says, "I'm the murderer. You're dead."</li>
-                <li><em>Murderer dies</em>. Murderer tries to kill an informant <em>with</em> an orb. Murderer dies.
-                  Informant remains in the game.</li>
-              </ol>
-            </li> -->
-          </ol>
+                        <div class="col-lg-10">
 
+                            <p class="float-left" style="color:black; font-size:15px" class="garamond"><strong>Informant</strong></p>
+                            <br>
+                            <ol>
+                                <li>Deliver tip to trusted detectives. </li>
+                                <li>The murderer is hunting you. Keep your identity a secret to stay alive. </li>
+                            </ol>
 
+                        </div>
 
-          <p>&nbsp;</p>
-<!--
-          <hr />
+                    </div>
+                </div>
 
-          <h4>Summary</h4>
+                <div class="media wow fadeInRight">
+                    <div class="media-body media-middle">
 
-          <p>Our goal is to find the murderer.
-            Everyone is given an Orb of Truth (golf ball).
-            Each orb, when given to the Chief, reveals a fact about the murderer.
-            Be careful though, once we give up our orb, we can be killed by the murderer.</p> -->
+                        <div class="col-lg-2">
+                            <p><img class="float-left" src="{% static "img/criminal22.jpg" %}" style="width: 100px" /></p>
+                        </div>
 
+                        <div class="col-lg-10">
+                            <p class="float-left" style="color:black; font-size:15px" class="garamond"><strong>Criminal</strong></p>
+                            
+                            <ol>
+                                <li>Convince everyone you are not the murderer. </li>
+                                <li>Kill informants before they spread information about you.</li>
+                            </ol>
+                        </div>
 
-          <p><a href="/role_assignment?pid={{ player_id }}"><button type="button" class="btn btn-secondary">Assign character</button></a></p>
+                    </div>
+                </div>
 
+            <p>.</p>
 
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
 
+            <div class="media wow fadeIn"> 
+                <div class="media-body media-middle">
+                    <p style="font-size:25px; color:black">3 Cardinal Rules</p>
 
+                    <ol style="padding-top:15px">
 
+                        <li><p class="garamond" style="font-size:13px"><em style="font-size:18px">No lies</em>. If someone asks you a question about your life,
+                        tell them the truth (within reasonable bounds, of course). </p>
+                        <p>You can lie about who you think is the murderer.</p></li>
 
+                        <li><p class="garamond" style="font-size:13px"><em style="font-size:18px">Check  phone every 10 minutes</em>. Your screen updates with new objectives and important information
+                        as the game progresses.</p></li>
 
+                        <li><p class="garamond" style="font-size:13px"><em style="font-size:18px">Hide your screen!</em> Don't compromise your identity. Your screen reveals information
+                        about your identity.</p></li>
 
+                    </ol>
+                </div>
+            </div>
+            
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p><a href="/role_assignment?pid={{ player_id }}"><button type="button" style="color:white;" class="btn btn-secondary">Assign character</button></a></p>
+                </div>
+            </div>
+        
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
 </div>
 

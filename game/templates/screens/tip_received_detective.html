@@ -8,34 +8,27 @@
     <section id="three" class="no-padding">
         <div class="container-fluid">
             <div class="row no-gutter">
+
+                <p class="garamond text-center" style="font-size:30px; color:black">YOU RECEIVED A TIP</p>
                 
-                <img src="{% static "img/tip_one.jpg" %}" max width="100%" class="text-center"/>
+                <img src="{% static "img/tip_one22.jpg" %}" max width="100%" class="text-center"/>
                 <!-- <h1 class="animated__word text-center" style="color:rgb(138, 17, 17)">You received a tip</h1> -->
                 <!-- <img src="{% static "img/tip_two.jpg" %}" max width="100%" class="text-center"/> -->
 
                 <br>
 
-                <p class="animated__words text-center" style="font-size:30px; color:black">YOU RECEIVED A TIP</p>
-                <!-- <br>
-                <ul class="image-cycle" 
-                        data-target="li" 
-                        data-interval="2500" 
-                        data-width="100%" 
-                        data-speed="1000">
-                    <li class="active" ><img src="{% static "img/tip_one.jpg" %}"/></li>
-                    <li><img src="{% static "img/tip_two.jpg" %}" /></li>
-                </ul> -->
-              
             </div>
         </div>
     </section>
 
     <section class="container-fluid" id="four">
         <div class="row">
+
+            <hr>
             
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black">An informant risked their life to deliver this information to you. Please make this
+                    <p style="color:black; font-size:15px" class="garamond">An informant risked their life to deliver this information to you. Please make this
                     public announcement to everyone.</p>
                 </div>
             </div>
@@ -44,12 +37,12 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black">%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information
+                    <p style="color:black; font-size:15px" class="garamond">%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information
                     <!-- <p style="color:white">%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information
                     has come to light. Sources informed me
                     that one of the mafia members likes to travel. Thank you.")</p> -->
-                    <p style="color:black">{{ private_tip }}</p>
-                    <p style="color:black">Once you click the button, this tip will no longer be available</p>
+                    <p style="color:black; font-size:15px" class="garamond">{{ private_tip }}</p>
+                    <p style="color:black; font-size:15px" class="garamond">Once you click the button, this tip will no longer be available</p>
                     <a href="/clearOverrideScreen/{{ player_id }}">
                         <button style="color:black">I have read the tip</button>
                     </a>

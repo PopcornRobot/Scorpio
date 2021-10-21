@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!--
+
+github commands
+
+git pull
+git add .
+git commit
+git push origin main
+
+git status
+
+-->
+
+  <!-- Header -->
+  <!-- <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">Space Dragons presents...</div>
+        <div class="intro-heading text-uppercase">A Halloween Murder Mystery</div>
+      </div>
+    </div>
+  </header> -->
+
+<div class="container-fluid">
+
+  <!-- Services -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">A murderer walks in...</h2>
+          <!-- <h3 class="section-subheading text-muted">Land of the Dead Customs and Border Protection</h3> -->
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>An hour ago, there was a murder down the street.
+            The suspect fled on foot and hid amongst our group here. Little did they know
+            they hid in a party of seasoned detectives. Police are relying on us to find them.</p>
+
+                    <p>&nbsp;</p>
+          <hr />
+
+          <h4>How the game works</h4>
+
+          <p>The game is similar to Mafia. Our goal is to find the criminal hidden in our group.
+            At the end of the game, we vote on who is the murderer.</p>
+
+            <p class=''><img src="{% static "img/spy.jpg" %}"  /></p>
+
+            <p>To help our search, we rely on tips that reveal information about the murderer.
+            Real facts like “this person skydived" that lead to real people.
+            It’s your job to talk to each other and find out who the murderer is. </p>
+
+          <p>&nbsp;</p>
+
+          <hr />
+
+          <h4>Roles</h4>
+
+          <div style="padding-top:20px">
+            <div class="row">
+              <div class="col-lg-2">
+                <p><img class="float-left" src="{% static "img/police.jpeg" %}" style="width: 100px" /></p>
+              </div>
+              <div class="col-lg-10">
+                <p><strong>Detective</strong></p>
+                <!-- <p><em>Goal</em> </p> -->
+                <ol>
+                  <li>Interrogate everyone. </li>
+                  <li>Find murderer.</li>
+                  <li>Trust no one.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="clear: left; padding-top:40px">
+            <div class="row">
+              <div class="col-lg-2">
+                <p><img class="float-left" src="{% static "img/informant.jpg" %}" style="width: 100px" /></p>
+              </div>
+              <div class="col-lg-10">
+                <p><strong>Informant</strong></p>
+                <!-- <p><em>Goal</em> </p> -->
+                <ol>
+                  <li>Deliver tip to trusted detectives. </li>
+                  <li>The murderer is hunting you. Keep your identity a secret to stay alive. </li>
+                  <!-- <li>Trust no one.</li> -->
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="clear: left; padding-top:40px">
+            <div class="row">
+              <div class="col-lg-2">
+                <p><img class="float-left" src="{% static "img/criminal.jpg" %}" style="width: 100px" /></p>
+              </div>
+              <div class="col-lg-10">
+                <p><strong>Murderer</strong></p>
+                <!-- <p><em>Goal</em> </p> -->
+                <ol>
+                  <li>Convince everyone you are not the murderer. </li>
+                  <li>Kill informants before they spread information about you.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <!-- <p>&nbsp;</p> -->
+
+          <p>&nbsp;</p>
+
+          <hr />
+
+          <h4>3 Cardinal Rules</h4>
+
+
+          <ol style="padding-top:20px">
+            <li><p><em>No lies</em>. If someone asks you a question about your life,
+               tell them the truth (within reasonable bounds, of course). </p>
+               <p>You can lie about who you think
+             is the murderer.</p></li>
+             <li><p><em>Check  phone every 10 minutes</em>. Your screen updates with new objectives and important information
+               as the game progresses.
+             </p>
+             </li>
+             <li><p><em>Hide your screen!</em> Don't compromise your identity. Your screen reveals information
+               about your identity.</p></li>
+
+            <!-- <li><p><em>Don't die.</em> If you get killed, you must quietly inform the Chief of Police
+              of your death and the character role you played. The Chief will
+              announce it to the public.</p>
+
+              <p>There are two ways to die:</p>
+              <ol>
+                <li><em>Informant dies</em>. Murderer pulls an informant <em>without</em> an orb aside and says, "I'm the murderer. You're dead."</li>
+                <li><em>Murderer dies</em>. Murderer tries to kill an informant <em>with</em> an orb. Murderer dies.
+                  Informant remains in the game.</li>
+              </ol>
+            </li> -->
+          </ol>
+
+
+
+          <p>&nbsp;</p>
+<!--
+          <hr />
+
+          <h4>Summary</h4>
+
+          <p>Our goal is to find the murderer.
+            Everyone is given an Orb of Truth (golf ball).
+            Each orb, when given to the Chief, reveals a fact about the murderer.
+            Be careful though, once we give up our orb, we can be killed by the murderer.</p> -->
+
+
+          <p><a href="/role_assignment?pid={{ player_id }}"><button type="button" class="btn btn-secondary">Assign character</button></a></p>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+{% endblock %}

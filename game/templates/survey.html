@@ -1,192 +1,58 @@
-{% extends "base.html" %}
+{% extends 'base_newspaper.html' %}
+{% load static %}
+{% block content %}
 
-{% block body %}
-  <!-- Header -->
-  <p>TEST</p>
-  <header class="masthead">
-    <div class="container">
-      <div class="intro-text">
-        <!-- <div class="intro-lead-in">Space Dragons presents...</div> -->
-        <div class="intro-heading text-uppercase">A murderer walks in...</div>
-        <!-- <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a> -->
-      </div>
-    </div>
-  </header>
+<div class="container-fluid">
 
-  <!-- Services -->
-  <section class="page-section" id="services">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 style="color:white;" class="section-heading text-uppercase">Survey</h2>
-          <!-- <h3 class="section-subheading text-muted">Fill out the survey.</h3> -->
+      <!-- Header -->
+ 
+    <header class="masthead">
+        <div class="container">
+        <div class="intro-text">
+            <div class="intro-heading text-uppercase">A murderer walks in...</div>
         </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-
-          <form action="/survey_save" method="post">
-            {% csrf_token %}
-
-            <ol style="color:rgba(255, 255, 255, 0.849);">
-              {% for question in questions %}
-                <li><p><input type="checkbox" name="survey" value="{{ question.id }}"> {{ question.text|safe }}</p></li>
-              {% endfor %}
-            </ol>
-
-            <!-- SELECT YOUR GENDER:
-
-            <input type="radio" id="male" name="gender" value="male" onclick="checkRadio()">
-            <label for="male">Male</label>
-            <input type="radio" id="female" name="gender" value="female" onclick="checkRadio()">
-            <label for="female">Female</label><br>
-
-            <p id="gangsterNameDropdownError" class="DropDownListClass text-danger" style="display:none">* Please chose another Gangster Name.</p>
-
-            <select name="gangsterNameDropdown" id="gangsterNameDropdownList">
-              <option selected="selected" disabled>Select Your Gangster Name</option>
-                <option class="maleName" value="The Boss">The Boss</option>
-                <option class="maleName" value="Bugsy">Bugsy</option>
-                <option class="maleName" value="Cottonmouth">Cottonmouth</option>
-                <option class="maleName" value="The Prophet">The Prophet</option>
-                <option class="maleName" value="Sharkie">Sharkie</option>
-                <option class="maleName" value="Fat Tony">Fat Tony</option>
-                <option class="maleName" value="Snake Eyes">Snake Eyes</option>
-                <option class="maleName" value="T-Bone">T-Bone</option>
-                <option class="maleName" value="Ice Box">Ice Box</option>
-                <option class="maleName" value="Vito">Vito</option>
-                <option class="maleName" value="Knuckles">Knuckles</option>
-                <option class="femaleName" value="Lucky">Lucky</option>
-                <option class="femaleName" value="AceOfSpades">Ace of Spades</option>
-                <option class="femaleName" value="Bonnie">Bonnie</option>
-                <option class="femaleName" value="Brooklyn">Brooklyn</option>
-                <option class="femaleName" value="Red">Red</option>
-                <option class="femaleName" value="Pearl">Pearl</option>
-                <option class="femaleName" value="TheFlamingo">The Flamingo</option>
-                <option class="femaleName" value="Missy">Missy</option>
-                <option class="femaleName" value="Magnolia">Magnolia</option>
-                <option class="femaleName" value="StilettoAA">StilettoAA</option>
-                <option class="femaleName" value="NEW12">NEW12</option>
-            </select>
-
-            <p></p>
-
-            <p id="error" class="text-danger" style="display:none">* Please enter your name.</p> -->
-            <!-- TODO: ADD VALIDATION -->
-            <p><input id="txt_name" type="text" name="name" placeholder="Name" /></p>
-            <p><button id="submit" type="submit">Submit</button></p>        <!-- button -->
-
-            {% if not game_is_started %}
-              <!-- <p><button id="submit" type="submit">Submit</button></p>        button -->
-            {% elif game_is_started %}
-              <p style="color:white;"> Signup closed. Game has already started.</p>
-            {% endif %}
-          </form>
-
         </div>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <script>
+    <!-- Services -->
+    <section class="page-section" id="services">
+        <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+            <h2 style="color:black;" class="section-heading text-uppercase">Survey</h2>
+            <!-- <h3 class="section-subheading text-muted">Fill out the survey.</h3> -->
+            </div>
+        </div>
+        </div>
+        <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
 
-    // var isValid = false;
+            <form action="/survey_save" method="post">
+                {% csrf_token %}
 
-    // // Page load
-    // document.addEventListener("DOMContentLoaded", () => {
+                <ol style="color:black;">
+                {% for question in questions %}
+                    <li><p><input type="checkbox" name="survey" value="{{ question.id }}"> {{ question.text|safe }}</p></li>
+                {% endfor %}
+                </ol>
 
-    //   console.log('page hit')
+                <p id="error" class="text-danger" style="display:none">* Please enter your name.</p> 
+                <!-- TODO: ADD VALIDATION -->
+                <p><input id="txt_name" type="text" name="name" placeholder="Name" /></p>
+                <p><button id="submit" type="submit">Submit</button></p>        <!-- button -->
 
-    //   let surveySubmitButton = document.getElementById("submit");
-    //   let gangsterNameDropdownList = document.getElementById("gangsterNameDropdownList");
+                {% if not game_is_started %}
+                <!-- <p><button id="submit" type="submit">Submit</button></p>        button -->
+                {% elif game_is_started %}
+                <p style="color:black"> Signup closed. Game has already started.</p>
+                {% endif %}
+            </form>
 
-    //   gangsterNameDropdownList.addEventListener("change", () => {
-    //     fetch('/validate_name?' + new URLSearchParams({         // TODO #1: UPDATE URL
-    //       gangsterName: document.getElementById("gangsterNameDropdownList").value,            // TODO #2: ADD PARAMETERS
-    //     }))
-    //       .then(response => response.text())    // read response body and parse as text
-    //       .then((text) => {
-    //         // return false
-    //         console.log('request succeeded with JSON response', text)      // TODO #3: SHOW ERROR MESSAGE
-    //         if (text == 'true') {
+            </div>
+        </div>
+        </div>
+    </section>
 
-    //           isValid = true;
-
-    //           console.log("hi")
-    //           // this.click()
-    //           $("#gangsterNameDropdownError").hide();
-    //           return true
-    //         }
-    //         else {
-    //           $("#gangsterNameDropdownError").show();
-
-    //           return false
-    //       }})
-    //   });
-
-
-    //   document.getElementById("gangsterNameDropdownList").style.display = "none" //.disabled = true;
-
-    //   if (document.getElementById('female').checked || document.getElementById('male').checked) {
-    //       console.log("ere")
-    //       document.getElementById("gangsterNameDropdownList").style.display = "block"
-    //       // document.getElementById("gangsterNameDropdownList").disabled = false;
-    //   }
-
-    //   surveySubmitButton.addEventListener("click", () => {
-    //     checkRadio()
-    //   });
-      
-    //   console.log("eredfd")
-    //   console.log(document.getElementById('female').checked || document.getElementById('male').checked)
-
-    // });//Page load closing
-
-    // function checkRadio() {
-
-    //   var maleName = document.querySelectorAll(".maleName")
-    //   var femaleName = document.querySelectorAll(".femaleName")
-
-    //   // document.getElementById("gangsterNameDropdownList").disabled = false;
-
-    //   document.getElementById("gangsterNameDropdownList").style.display = "block"
-
-    //     if (male.checked == true) {
-    //       for (var i = 0; i < maleName.length; i++) {
-    //         maleName[i].style.display = 'block'
-    //       }
-    //       for (var i = 0; i < femaleName.length; i++) {
-    //         femaleName[i].style.display = 'none'
-    //       }
-    //     }
-
-    //     if (female.checked == true) {
-    //       for (var i = 0; i < maleName.length; i++) {
-    //         maleName[i].style.display = 'none'
-    //       }
-    //       for (var i = 0; i < femaleName.length; i++) {
-    //         femaleName[i].style.display = 'block'
-    //       }
-    //     }
-    // }//end checkRadio() function
-
-    // $(function() {
-    //   $('#submit').click(function() {
-
-    //     if ($("#txt_name").val() == "")
-    //     {
-    //       $("#error").show()
-    //       return false
-    //     }
-
-    //     if (!isValid) {
-    //       return false;
-    //     }
-
-
-    //   })
-    // });
-  </script>
+</div>
 {% endblock %}

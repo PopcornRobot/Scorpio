@@ -1,4 +1,4 @@
-{% extends 'base_newspaper.html' %}
+{% extends 'base_mafia.html' %}
 {% load static %}
 <!-- {% include "screens/timer.html" %} -->
 
@@ -22,10 +22,10 @@
         <div class="container-fluid">
             <div class="row no-gutter">
 
-                <p class="animated__words text-center" style="font-size:30px; color:black">YOU ARE THE MAFIA </p>
+                <p class="blocktext nerko" style="font-size:30px; color:black">YOU ARE THE MAFIA </p>
 
                 <!-- <h1 class="animated__word_youAre text-center @font-face" style="color:red">YOU ARE</h1> -->
-                <img src="{% static "img/mafia_one.jpg" %}" max width="100%" class="text-center" style="overflow-x: auto; white-space: nowrap;"/>
+                <img src="{% static "img/mafia_one2.jpg" %}" max width="100%" class="text-center" style="overflow-x: auto; white-space: nowrap;"/>
                 
                 <!-- <h1 class="animated__word_a text-center" style="color:red">THE</h1> -->
                 <!-- <img src="{% static "img/mafia_two.jpg" %}" max width="100%" class="text-center" style="overflow-x: auto; white-space: nowrap;"/>
@@ -57,7 +57,7 @@
             
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black">You are the murderer known as "{{ nickname }}".
+                    <p style="color:black; font-size:19px" class="handwriting">You are the murderer known as "{{ nickname }}".
                     You are a part of the criminal organization called Scorpio.</p>
                 </div>
             </div>
@@ -66,7 +66,7 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black">An hour ago, you and {{ mafia_count_text }} ran a hit and murdered an informant.
+                    <p style="color:black; font-size:15px" class="handtwo">An hour ago, you and {{ mafia_count_text }} ran a hit and murdered an informant.
                     Due to bad luck, a police car blocked your escape route, so you hid in
                     this large group of people. Little did you know, it's a party of off-duty detectives.</p>
                 </div>
@@ -88,11 +88,12 @@
 
             <div class="media wow fadeIn">
                 <div class="media-body media-middle">
-                    <p style="color:black">While your informant's death is tragic, your mind is bothered by something else.</p>
+                    <p style="color:black; font-size:15px" class="garamond">While your informant's death is tragic, your mind is bothered by something else.</p>
+                    <p style="color:black; font-size:15px" class="garamond">Scorpio member(s): {{ other_mafia_display }}</p>
                 </div>
             </div>
             <hr>
-            <p style="color:black">Scorpio member(s): {{ other_mafia_display }}</p>
+            
  
             <hr>
         </div>
