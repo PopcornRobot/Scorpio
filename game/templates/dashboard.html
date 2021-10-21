@@ -87,7 +87,9 @@
                     <th>Name</th>
                     <th>Nickname</th>
                     <th>Partner</th>
+                    <th>Tip</th>
                     <th>Screen</th>
+                    <th>Override</th>
                     <th>Role</th>
                     <th>Has Been Informant</th>
                     <th>Alive</th>
@@ -244,6 +246,14 @@
                 .then(response => response.text())
                 // .then(data => console.log({data}))
         }
+        setOverrideScreen = (selectId) => {
+            const screen = document.getElementById(selectId + "-override").value
+            const id = document.getElementById(selectId).name
+            const url = "/setOverrideScreen/" + id + "/" + screen
+            console.log("override", screen, id, url)
+            
+            fetch(url)            
+        }
         setPlayerRole = (selectId) => {
             const role = document.getElementById(selectId + "-role").value
             console.log("setPlayerRole", selectId, role)
@@ -258,6 +268,8 @@
                     let current = document.getElementById("playerData").innerHTML
                     if(current != data) {
                         console.log("new data, refresh")
+                        console.log({current})
+                        console.log({data})
                         document.getElementById("playerData").innerHTML = data
                     } else {
                         console.log("same data, no action")

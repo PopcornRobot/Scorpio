@@ -602,7 +602,22 @@ def start_game2(request):
     assign_mafia_role("request")
     # assign_informants("request")
     update_screens()
+    game = Game.objects.get(id=1)
+    Log(game.id, "admin", "start game")
     return HttpResponseRedirect("/dashboard")
+
+def Log(game, player, event):
+    print("====== Log ", game, player, event)
+    game = Game.objects.get(id=game)
+    GameLog.objects.create(
+        game=game,
+        event=event,
+        player=player,
+        datetime = time.asctime()
+        )
+    
+
+    return HttpResponse("log")
 
 def stop_game2(request):
     print("stop game")
@@ -612,6 +627,11 @@ def stop_game2(request):
     game.roundOneEndTime = 0
     game.roundTwoEndTime = 0
     game.roundThreeEndTime = 0
+    game.announce_round_1 = True
+    game.announce_round_2 = True
+    game.announce_round_3 = True
+    game.announce_round_4 = True
+    game.death_alert = ""
     game.save()
     assign_all_to_detective()
     return HttpResponseRedirect("/dashboard")
@@ -635,6 +655,7 @@ def setTimerEnd():
     game.announce_round_1 = True
     game.announce_round_2 = True
     game.announce_round_3 = True
+    game.announce_round_4 = True
     game.save()
     return HttpResponse("ajaxTest")
 
@@ -644,44 +665,52 @@ def bulletin(request, id):
     player = Player.objects.get(id=id)
     mafia = Player.objects.filter(role="mafia")
     game = Game.objects.get(id=1)
-    all_townpeople = Player.objects.filter(role='Townpeople')
-    activeScreen = "screens/" + player.active_screen + ".html"
+    if player.override_screen == "none":
+        activeScreen = "screens/" + player.active_screen + ".html"
+    else:
+        activeScreen = "screens/" + player.override_screen + ".html"
+        
     count_words = ["zero", "one", "two", "three", "four"]
-    mafia_count_text = "one other " if mafia.count() == 2 else count_words[mafia.count()] + " others"
-    other_mafia = Player.objects.filter(role='mafia').exclude(name=player.name).exclude(alive=False)
-    other_players = Player.objects.exclude(name=player.name).exclude(alive=False)
-    
+    mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
+    other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
+    other_mafia_display = ""
+    for m in other_mafia:
+        other_mafia_display += m.name + ", "
+    other_mafia_display = other_mafia_display[:-2]
+    other_players = Player.objects.exclude(name=player.name).exclude(alive=False).exclude(role="mafia")
     if mafia:
         tip_on_mafia_one = mafia[0].low_accuracy_question
     else:
         tip_on_mafia_one = "none"
-
     if player.partner:
         partner = player.partner
     else:
-        partner = "none"
-    print("------ partner", partner)
+        partner = player
     context = {
         # 'user': user,
         'player': player,
-        'nickname': player.nickname,
-        'role': player.role,
-        'informant': player.informant,
-        'messages': "messages",
+        # 'player_id': player.id,
+        # 'nickname': player.nickname,
+        # 'role': player.role,
+        # 'informant': player.informant,
+        # 'messages': "messages",
         'roundZeroEndTime': game.roundZeroEndTime,
         'roundOneEndTime': game.roundOneEndTime,
         'roundTwoEndTime': game.roundTwoEndTime,
         'roundThreeEndTime': game.roundThreeEndTime,
         'activeScreen': activeScreen,
-        'all_townpeople': all_townpeople,
-        'playerActiveScreen': player.active_screen,
-        'other_mafia': other_mafia,
-        'mafia_count_text': mafia_count_text,
-        'other_players': other_players,
-        'partner': partner,
-        'game': game,
-        'private_tip': player.private_tip,
-        'tip_on_mafia_one': tip_on_mafia_one,
+        # 'playerActiveScreen': player.active_screen,
+        # 'other_mafia_display': other_mafia_display,
+        # 'mafia_count_text': mafia_count_text,
+        # 'other_players': other_players,
+        # 'partner': "partner",
+        # 'game': game,
+        # 'private_tip': player.private_tip,
+        # 'tip_on_mafia_one': tip_on_mafia_one,
+        # 'partner_id': partner.id,
+        # 'partner_name': partner.name,
+        # 'partner_low_accuracy_question': partner.low_accuracy_question,        
+        # 'player_low_accuracy_question': player.low_accuracy_question,    
 
     }
     return render(request, "bulletin.html", context)
@@ -691,16 +720,19 @@ def checkPlayerScreen(request, id):
     game = Game.objects.get(id=1)
     if id != "null":
         user = Player.objects.get(id=id)
+        if user.override_screen == "none":
+            active_screen = user.active_screen
+        else:
+            active_screen = user.override_screen
         return JsonResponse(
             {
-                "active_screen": user.active_screen,
+                "active_screen": active_screen,
+                "player_id": user.id,
                 "roundOneEndTime": game.roundOneEndTime,
                 "roundTwoEndTime": game.roundTwoEndTime,
                 "roundThreeEndTime": game.roundThreeEndTime,
                 "roundZeroEndTime" : game.roundZeroEndTime,
-                "roundOneEndTime" : game.roundOneEndTime,
-                "roundTwoEndTime" : game.roundTwoEndTime,
-                "roundThreeEndTime" : game.roundThreeEndTime,
+              
             })
     else:
         return JsonResponse(
@@ -723,20 +755,48 @@ def getMessages(request):
     return HttpResponse(json.dumps(output))
 
 def getPlayerScreen(request, id):
+    print("getplayerscreen")
+    game = Game.objects.get(id=1)
     user = Player.objects.get(id=id)
-    all_townpeople = Player.objects.filter(role="Townpeople")
+    mafia = Player.objects.filter(role="mafia")
+    tip_on_mafia = mafia[0].low_accuracy_question
+    if user.override_screen == "none":
+        active_screen = user.active_screen
+    else:
+        active_screen = user.override_screen
+    count_words = ["zero", "one", "two", "three", "four"]
+    mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
     other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
-    other_players = Player.objects.exclude(id=id)
+    other_mafia_display = ""
+    for m in other_mafia:
+        other_mafia_display += m.name + ", "
+    other_mafia_display = other_mafia_display[:-2]        
+    other_players = Player.objects.exclude(name=user.name).exclude(alive=False).exclude(role="mafia")
+    if user.partner:
+        print("user.partner", user.partner.low_accuracy_question)
+        partner = user.partner
+    else:
+        partner = user    
+    death_name = game.death_alert
     context =  {
         'user': user.name,
-        'all_townpeople': all_townpeople,
+        'player_id': user.id,
         'nickname': user.nickname,
-        'other_mafia': other_mafia,
+        'other_mafia_display': other_mafia_display,
         'other_players': other_players,
-        'private_tip': "test private tip",
+        'private_tip': user.private_tip,
+        'partner_id': partner.id,
+        'partner_name': partner.name,
+        'partner_low_accuracy_question': partner.low_accuracy_question,
+        'death_name': death_name,
+        'player_low_accuracy_question': user.low_accuracy_question, 
+        'mafia_count_text': mafia_count_text,
+        'tip_on_mafia': tip_on_mafia,
+       
+
 
         }
-    return render(request, "screens/"+ user.active_screen  + ".html", context)
+    return render(request, "screens/"+ active_screen  + ".html", context)
 
 def setPlayerScreen(request, id, screen):
     print("setPlayerScreen", id, screen)
@@ -744,6 +804,14 @@ def setPlayerScreen(request, id, screen):
     user.active_screen = screen
     user.save()
     return HttpResponseRedirect("/dashboard")
+
+def setOverrideScreen(request, id, screen):
+    print("setOverrideScreen", id, screen)
+    user = Player.objects.get(id=id)
+    user.override_screen = screen
+    user.save()
+    return HttpResponseRedirect("/dashboard")
+    
 
 def getPlayerMessages(request, player):
     print("----- getPlayerMessages", player)
@@ -934,15 +1002,16 @@ def kill_informant(request):
 
 def kill_informant2(request, informant, killer):
     print("kill informant", informant, killer)
-    i_player = Player.objects.get(name=informant)
-    k_player = Player.objects.get(name=killer)
+    game = Game.objects.get(id=1)
+    i_player = Player.objects.get(id=informant)
+    game.death_alert = i_player.name
+    game.save()
+    k_player = Player.objects.get(id=killer)
     i_player.alive = False
     i_player.active_screen = "you_have_been_killed"
     i_player.save()
-
-    other_players = Player.objects.exclude(name=informant)
-    for p in other_players:
-        p.active_screen = "death_alert"
+    for p in Player.objects.all():
+        p.override_screen = "death_alert"
         p.save()
     return HttpResponseRedirect("/bulletin/" + killer)
 
@@ -1057,6 +1126,8 @@ def assign_all_to_detective(request=""):
         player.nickname = "none"
         player.has_been_informant = False
         player.active_screen = 'rules'
+        player.override_screen = 'none'
+        player.private_tip = ""
         player.alive = True
         player.partner = None
         player.safe_list_1 = None
@@ -1079,23 +1150,37 @@ def resurrect_all_players(request):
         player.save()
     return HttpResponseRedirect('/dashboard')
 
+
+
 def new_round(request, round):
     game = Game.objects.get(id=1)
-    print("-----new round", round, game.announce_round_1)
+    print("-----new round", round)
     if round == 1 and game.announce_round_1 == True:
         print("----------------assign_informants 1")
         game.announce_round_1 = False
         game.save()
         assign_informants("request")
+        Log(game.id, "timer", "round 1 start")
     if round == 2 and game.announce_round_2 == True:
         print("----------------assign_informants 2")
         game.announce_round_2 = False
         game.save()
         assign_informants("request")
+        Log(game.id, "timer", "round 2 start")
     if round == 3 and game.announce_round_3 == True:
         game.announce_round_3 = False
         game.save()
         assign_informants("request")
+        Log(game.id, "timer", "round 3 start")
+    if round == 4 and game.announce_round_4 == True:
+        Log(game.id, "timer", "game over")
+        print("---round 0 hit")
+        game.announce_round_4 = False
+        game.save()        
+        players = Player.objects.all()
+        for p in players:
+            p.active_screen = "lock_screen_vote"
+            p.save()
 
 
     return HttpResponseRedirect('/dashboard')
@@ -1141,7 +1226,7 @@ def submit_safe_list2(request, id="None", list="None"):
     selected_players = list.split(',')
     print(selected_players)
     if game.announce_round_2 == True:
-            player.safe_list_1 = selected_players
+        player.safe_list_1 = selected_players
     elif game.announce_round_2 == False and game.announce_round_3 == True:
         player.safe_list_2 = selected_players
     elif game.announce_round_3 == True:
@@ -1152,9 +1237,8 @@ def submit_safe_list2(request, id="None", list="None"):
     player.save()
 
     
-# if no mafia in safe list
     if list != "None":
-        safe_list_clean = True
+        safe_list_is_clean = True
         for s in selected_players:
     # if mafia in safe list
             if Player.objects.filter(id=int(s)) \
@@ -1167,23 +1251,18 @@ def submit_safe_list2(request, id="None", list="None"):
                 mafia.private_tip = player.low_accuracy_question
                 mafia.save()
 
-                safe_list_clean = False
+                safe_list_is_clean = False
 
-    if safe_list_clean == True:
-    # send tip to random det
-        detective = Player.objects.get(id=int(random.choice(selected_players)))
-        print("random choice", detective.id)
-        
-
-# wrong game mechanics, update
-    # for m in mafia:
-    #     if m.name in selected_players:
-    #         print("match", m.name)
-    #         m.private_tip = player.low_accuracy_question
-    #         m.active_screen = "mafia_find_informant"
-    #         m.save()
-    #     else:
-    #         print("no match")
+        if safe_list_is_clean == True:
+        # send tip to random det
+            detective = Player.objects.get(id=int(random.choice(selected_players)))
+            print("---mafia tip", mafia[0].low_accuracy_question)
+            detective.private_tip = mafia[0].low_accuracy_question
+            detective.save()
+            
+        player.override_screen = "informant_tip_submitted"
+        player.active_screen = "character_assign_detective"
+        player.save()
     return HttpResponseRedirect('/bulletin/' + str(id))
 
 
@@ -1211,37 +1290,62 @@ def get_player_data(request):
             '<td><a href="/bulletin/'+ str(p.id) +'">' + str(p.name) +'</a></td>'
             '<td>' + str(p.nickname) +'</td>'
             '<td>' + str(p.partner) +'</td>'
+            '<td>' + str(p.private_tip) + '</td>'
             '<td>' + 
             '<select name="'+ str(p.id) +'" id="'+ str(p.id) +'">' +
                             '<option value=""></option>' +
                             '<option value="rules">rules</option>' +
-                            '<option value="announcement">announcement</option>' +
                             '<option value="character_assign_detective">character_assign_detective</option>' +
                             '<option value="character_assign_mafia">character_assign_mafia</option>' +
-                            '<option value="death_alert">death_alert</option>' +
-                            '<option value="informant_tip_submitted">informant_tip_submitted</option>' +
                             '<option value="informant">informant</option>' +
                             '<option value="lock_screen_vote">lock_screen_vote</option>' +
-                            '<option value="lock_screen">lock_screen</option>' +
                             '<option value="mafia_find_informant">mafia_find_informant</option>' +
-                            '<option value="mafia">mafia</option>' +
-                            '<option value="theres_a_rat">theres_a_rat</option>' +
-                            '<option value="tip_received_detective">tip_received_detective</option>' +
-                            '<option value="tip_received_mafia">tip_received_mafia</option>' +
-                            '<option value="wait_screen">wait_screen</option>' +
                             '<option value="you_have_been_killed">you_have_been_killed</option>' +
+                            # '<option value="death_alert">death_alert</option>' +
+                            # '<option value="informant_tip_submitted">informant_tip_submitted</option>' +
+                            # '<option value="lock_screen">lock_screen</option>' +
+                            # '<option value="tip_received_detective">tip_received_detective</option>' +
+                            # '<option value="tip_received_mafia">tip_received_mafia</option>' +
+                            # '<option value="mafia">mafia</option>' +
+                            # '<option value="theres_a_rat">theres_a_rat</option>' +
+                            # '<option value="wait_screen">wait_screen</option>' +
+                            # '<option value="announcement">announcement</option>' +
                         '</select>' +
-                        '<button onclick="setScreen(' + str(p.id) + ')">Go</button>' +
+                        '<button onclick="setScreen(' + str(p.id) + ')">Set</button>' +
                         str(p.active_screen) +
             '</td>'
-            '<td>' + 
+            '<td>'
+            '<select name="'+ str(p.id) +'-override" id="'+ str(p.id) +'-override">' +
+                            '<option value=""></option>' +
+                            '<option value="none">none</option>' +
+                            '<option value="death_alert">death_alert</option>' +
+                            '<option value="informant_tip_submitted">informant_tip_submitted</option>' +
+                            '<option value="lock_screen">lock_screen</option>' +
+                            '<option value="tip_received_detective">tip_received_detective</option>' +
+                            '<option value="tip_received_mafia">tip_received_mafia</option>' +
+                            # '<option value="mafia_find_informant">mafia_find_informant</option>' +
+                            # '<option value="rules">rules</option>' +
+                            # '<option value="announcement">announcement</option>' +
+                            # '<option value="character_assign_detective">character_assign_detective</option>' +
+                            # '<option value="character_assign_mafia">character_assign_mafia</option>' +
+                            # '<option value="informant">informant</option>' +
+                            # '<option value="lock_screen_vote">lock_screen_vote</option>' +
+                            # '<option value="mafia">mafia</option>' +
+                            # '<option value="theres_a_rat">theres_a_rat</option>' +
+                            # '<option value="wait_screen">wait_screen</option>' +
+                            # '<option value="you_have_been_killed">you_have_been_killed</option>' +
+                        '</select>' +
+                        '<button onclick="setOverrideScreen(' + str(p.id) + ')">Set</button>' +
+                        str(p.override_screen) +
+            '</td>'
+            '<td>' 
             '<select name="' + str(p.id) + '-role" id="'+ str(p.id) +'-role">'+
                 '<option></option>' +
                 '<option value="detective">detective</option>' +
                 '<option value="mafia">mafia</option>' +
                 '<option value="informant">informant</option>' +
             '</select>' +
-            '<button onclick="setPlayerRole(' + str(p.id) + ')">Go</button>' +
+            '<button onclick="setPlayerRole(' + str(p.id) + ')">Set</button>' +
             str(p.role) +'</td>'
             '<td>' + str(p.has_been_informant) +'</td>'
             '<td>' + str(p.alive) +'</td>'
@@ -1254,3 +1358,45 @@ def set_player_role(request, id, role):
     player.role = role
     player.save()
     return HttpResponse('set_player_role')
+
+def clear_override_screen(request, id):
+    print("clear override screen ")
+    player = Player.objects.get(id=id)
+    player.override_screen = "none"
+    player.save()
+    return HttpResponseRedirect("/bulletin/" + str(id))
+
+def clear_all_override_screens(request, id):
+    players = Player.objects.all()
+    for p in players:
+        p.override_screen = "none"
+        p.save()
+    return HttpResponseRedirect("/bulletin/" + str(id))
+
+def mafia_find_informant_submit(request, id):
+    game = Game.objects.get(id=1)
+    mafia_player = Player.objects.get(id=id)
+    killed_player = Player.objects.get(name=request.GET['player'])
+    if killed_player.role == "informant":
+        killed_player.alive = False
+        killed_player.active_screen = "you_have_been_killed"
+        killed_player.save()
+        game.death_alert = killed_player.name
+        game.save()
+    else:
+        mafia_player.alive = False
+        mafia_player.active_screen = "you_have_been_killed"
+        mafia_player.save()
+        game.death_alert = mafia_player.name
+        game.save()
+    
+    for p in Player.objects.all():
+        p.override_screen = "lock_screen"
+        p.save()
+    death_alert_announcer = random.choice(Player.objects.exclude(id=id).exclude(alive=False))
+    death_alert_announcer.override_screen = "death_alert"
+    death_alert_announcer.save()
+    print("mfi", killed_player, death_alert_announcer)
+    
+    return HttpResponseRedirect("/bulletin/" + str(id))
+    

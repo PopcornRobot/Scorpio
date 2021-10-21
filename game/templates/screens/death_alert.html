@@ -1,22 +1,21 @@
-{% extends 'base_new.html' %}
+{% extends 'base_newspaper.html' %}
 {% load static %}
 
 {% block content %}
 
+<div class="container-fluid">
+
     <section id="three" class="no-padding">
         <div class="container-fluid">
             <div class="row no-gutter">
-
-                <br>
-                <br>
             
-                <h1 class="animated__word text-center" style="color: red">Death Alert</h1>
+                <p class="animated__word text-center" style="font-size:30px; color: black">Death Alert</p>
                 <img src="{% static "img/death_butterflies.jpg" %}" max width="100%" class="text-center"/>
 
                 <br>
                 <br>
                 
-                <h4 class="animated__word_detective text-center" style="color:rgb(82, 82, 82)">Please make this public announcement:</h4>
+                <p class="animated__word_detective text-left" style="font-size:15px; color:black"><u>Please make this public announcement:</u></p>
 
             </div>
         </div>
@@ -24,25 +23,46 @@
 
     <section class="container-fluid" id="four">
         <div class="row">
+
+            <div class="media wow fadeInRight">
+                <div class="media-body media-middle">
+                    <p style="color:black">It is with a heavy heart that I must announce the passing of one of our dear friends.
+                    Arlene Rangel was found dead moments ago behind the alleyway trash cans.</p>
+                    <p style="color:black">At the moment, we do not have any suspects. #JusticeForArlene</p>
+                </div>
+            </div>
+            
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+            
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
+            <p>*** MAFIA DEAD VERSION ***</p>
+
+            <div class="media wow fadeIn">
+                <div class="media-body media-middle">
+                    <p style="color:black">Ladies and gentlemen, we did it. A few minutes ago, we found evidence that
+                        Arlene Rangel was the murderer.  When we confronted her, the situation quickly
+                        escalated into a shoot-out. Justice deserved.</p>
                 <div class="media wow fadeInRight">
                     <div class="media-body media-middle">
-                        <p style="color:white">It is with a heavy heart that I must announce the passing of one of our dear friends.
-                        Arlene Rangel was found dead moments ago behind the alleyway trash cans.</p>
+                        <p style="color:black">It is with a heavy heart that I must announce the passing of one of our dear friends.
+                        {{ death_name }} was found dead moments ago behind the alleyway trash cans.</p>
                     </div>
                 </div>
                 <hr>
                 <div class="media wow fadeInRight">
                     <div class="media-body media-middle">
-                        <p style="color:white">At the moment, we do not have any suspects. #JusticeForArlene</p>
+                        <p style="color:black">At the moment, we do not have any suspects. #JusticeForArlene</p>
                     </div>
                 </div>
                 <hr>
+                    <a href="/clearAllOverrideScreens/{{ player_id }}"><button style="color:black">Return to game</button></a>
 
                 <p>*** MAFIA DEAD VERSION ***</p>
 
                 <div class="media wow fadeIn">
                     <div class="media-body media-middle">
-                        <p style="color:white">Ladies and gentlemen, we did it. A few minutes ago, we found evidence that
+                        <p style="color:black">Ladies and gentlemen, we did it. A few minutes ago, we found evidence that
                             Arlene Rangel was the murderer.  When we confronted her, the situation quickly
                             escalated into a shoot-out. Justice deserved.</p>
                     </div>
@@ -50,7 +70,8 @@
                         <i class="icon-lg ion-ios-snowy"></i>
                     </div>
                 </div>
-                <hr>
+            </div>
+            
         </div>
     </section>
 
@@ -61,13 +82,13 @@
     // Page load
     document.addEventListener("DOMContentLoaded", () => {
 
-        LettersRandomPlaces({
-        element: ".animated__word",
-        })
+        // LettersRandomPlaces({
+        // element: ".animated__word",
+        // })
 
-        LettersRandomPlaces({
-        element: ".animated__word_a",
-        })
+        // LettersRandomPlaces({
+        // element: ".animated__word_a",
+        // })
 
     }); // page load closing
 
@@ -104,5 +125,6 @@
 </body>
 </html>
 
+</div>
 
 {% endblock %}

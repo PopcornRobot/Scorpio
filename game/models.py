@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
+from datetime import date
 
 # Contains information on the actual card itself
 class Question(models.Model):
@@ -19,6 +21,7 @@ class Player(models.Model):
     informant = models.BooleanField(default=False)
     partner = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     active_screen = models.CharField(max_length=100)
+    override_screen = models.CharField(max_length=100)
     alive = models.BooleanField(default=True)
     moderator = models.BooleanField(default=False)
     has_been_informant = models.BooleanField(default=False)
@@ -28,7 +31,7 @@ class Player(models.Model):
     safe_list_1 = models.TextField(null=True, blank=True)
     safe_list_2 = models.TextField(null=True, blank=True)
     safe_list_3 = models.TextField(null=True, blank=True)
-    private_tip = models.CharField(max_length=500, default="none")
+    private_tip = models.CharField(max_length=500, default="none", null=True, blank=True)
     gender = models.CharField(max_length=500, default="none")
 
     def __str__(self):
@@ -65,9 +68,11 @@ class Game(models.Model):
     announce_round_1 = models.BooleanField(default=True)
     announce_round_2 = models.BooleanField(default=True)
     announce_round_3 = models.BooleanField(default=True)
+    announce_round_4 = models.BooleanField(default=True)
     debug = models.BooleanField(default=True)
     debug_roundLength = models.IntegerField(default=30)
     debug_pregameLength = models.IntegerField(default=30)
+    death_alert = models.CharField(max_length=120, default="")
 
 
 class PlayerMessages(models.Model):
@@ -75,3 +80,9 @@ class PlayerMessages(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     text = models.CharField(max_length=120)
     
+class GameLog(models.Model):
+    id = models.AutoField(primary_key=True)
+    game = models.ForeignKey(Game, on_delete=CASCADE)
+    event = models.CharField(max_length=200, default="", null=True)
+    player = models.CharField(max_length=200, default="", null=True)
+    datetime = models.CharField(max_length=200, default="", null=True)

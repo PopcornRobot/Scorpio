@@ -1,7 +1,9 @@
-{% extends 'base_new.html' %}
+{% extends 'base_newspaper.html' %}
 {% load static %}
 
 {% block content %}
+
+<div class="container-fluid">
 
     <section id="three" class="no-padding">
         <div class="container-fluid">
@@ -15,14 +17,20 @@
 
     <section class="container-fluid" id="four">
         <div class="row">
+
             <hr>
+            
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p class="animated__word text-center" style="color:white">Your tip has been submitted. 
+                    <p class="animated__word text-center" style="color:black">Your tip has been submitted. 
                     If you are right, a hint may be announced shortly. If not, it'll be your death. Good luck.</p>
+                        <a href="/clearOverrideScreen/{{ player_id }}">
+                            <button style="color: black">Return to game</button>
+                        </a>
+                
                 </div>
             </div>
-            <hr>          
+                    
         </div>
     </section>
 
@@ -33,9 +41,9 @@
         // Page load
         document.addEventListener("DOMContentLoaded", () => {
     
-            LettersRandomPlaces({
-            element: ".animated__word",
-            })
+            // LettersRandomPlaces({
+            // element: ".animated__word",
+            // })
     
         }); // page load closing
     
@@ -68,6 +76,6 @@
     
     </script>
     
-    
+</div> 
 
 {% endblock %}
