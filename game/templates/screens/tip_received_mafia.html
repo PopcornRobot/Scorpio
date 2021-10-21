@@ -1,4 +1,4 @@
-{% extends 'base_newspaper.html' %}
+tui\{% extends 'base_newspaper.html' %}
 {% load static %}
 
 {% block content %}
@@ -9,9 +9,9 @@
         <div class="container-fluid">
             <div class="row no-gutter">
 
-                <p class="animated__word text-center" style="font-size:30px; color:black">INFORMANT EXPOSED!!</p>
+                <p class="garamond text-center" style="font-size:30px; color:black">INFORMANT EXPOSED</p>
 
-                <img src="{% static "img/tip_sent.jpg" %}" max width="100%" class="text-center"/>
+                <img src="{% static "img/tip_sent2_2.jpg" %}" max width="100%" class="text-center"/>
 
             </div>
         </div>
@@ -25,8 +25,14 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black">Your angel face and innocent demeanor served you well. The detective with the package foolishly thought you were trustworthy and
+<<<<<<< HEAD
+                    <p style="color:black; font-size:15px" class="garamond">Your angel face and innocent demeanor served you well. The detective with the package foolishly thought you were trustworthy and
                         shared this information with you.</p>
+=======
+                    <p style="color:black">Your angel face and innocent demeanor served you well.
+                      A detective at the party foolishly thought you were trustworthy and
+                        shared this with you, in hopes that you would announce this tip to everyone.</p>
+>>>>>>> 4ed00594f4f9ec442f42c476f651cb02c334f0e4
                 </div>
             </div>
 
@@ -34,104 +40,123 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black"> **Private Tip goes here** {{ private_tip }}</p>
-                    {{ partner.low_accuracy_question }}
+                    <p style="color:black; font-size:15px" class="garamond"> **Private Tip goes here** {{ private_tip }}</p>
+                    <!-- {{ partner.low_accuracy_question }} -->
                 </div>
             </div>
-        <hr>
-        
-        <div class="media wow fadeInRight">
-            <div class="media-body media-middle">
-                <p style="color:white"> {{ player_low_accuracy_question }}</p>
-                <!-- {{ partner.low_accuracy_question }} -->
+<<<<<<< HEAD
+
+            <div class="media wow fadeInRight">
+                    <div class="media-body media-middle">
+                        <p style="color:black; font-size:15px" class="garamond"> ** Player_low_accuracy_question {{ player_low_accuracy_question }}</p>
+                        <!-- {{ partner.low_accuracy_question }} -->
+                    </div>
             </div>
-            
+
             <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-            <div class="media wow fadeIn">
+            <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black">Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.</p>
+                    <p style="color:black; font-size:15px" class="garamond">Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.</p>
+                    <p style="color:black; font-size:15px" class="garamond">If you decide to announce the tip, it must be announced accurately.
+                            Use this power wisely.</p>
                 </div>
             </div>
-            
+
             <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-            <div class="media wow fadeIn">
+            <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black">If you decide to announce the tip, it must be announced accurately.
-                        Use this power
-                        wisely.</p>
+                    <p style="color:black; font-size:15px" class="garamond">The informant is... {{ partner_name }}</p>
+                    <p style="color:black; font-size:15px" class="garamond"> Kill them and rid yourself of this annoying problem. 
+                            Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
+                    <p style="color:black; font-size:15px" class="garamond">Do you kill {{ partner_name }}?</p>
+                    <a href="/kill_informant2/{{ partner_id }}/{{ player_id }}">
+                        <button  style="color:black">Kill Informant</button>
+                    </a>
                 </div>
             </div>
+
         </div>
-        <hr>
-        <div class="media wow fadeInRight">
-            <div class="media-body media-middle">
+=======
+
+
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
+            <div style="margin-top:10px">
+              <p>Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.
+                But if you announce the tip, it must be announced accurately.
+                  Use this power
+                  wisely.</p>
+            </div>
+
+            <hr>
+
+
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
+            <div>
                 <p style="color:black">The informant is... {{ partner_name }}</p>
             </div>
-            
+
+            <hr>
             <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <p style="color:black"> Kill them and rid yourself of this annoying problem. 
-                    Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
-                </div>
+            <div style="margin-top:10px">
+              <p style="color:black"> Kill them and rid yourself of this annoying problem.
+              Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
+              <p style="color:black">Do you kill {{ partner_name }}?</p>
+              <a href="/kill_informant2/{{ partner_id }}/{{ player_id }}">
+                  <button  style="color:black">Kill Informant</button>
+              </a>
             </div>
-        </div>
-        <hr>
-        <div class="media wow fadeInRight">
-            <div class="media-body media-middle">
-                <p style="color:black">Do you kill {{ partner_name }}?</p>
-                <a href="/kill_informant2/{{ partner_id }}/{{ player_id }}">
-                    <button  style="color:black">Kill Informant</button>
-                </a>
-                <!-- <button>Ignore</button> -->
-            </div>
+
             <hr>
-        </div>
+
+>>>>>>> 4ed00594f4f9ec442f42c476f651cb02c334f0e4
+
     </section>
 
     <script>
-    
+
         // global variables
-    
+
         // Page load
         document.addEventListener("DOMContentLoaded", () => {
-    
+
             // LettersRandomPlaces({
             // element: ".animated__word",
             // })
-    
+
         }); // page load closing
-    
+
         // Our functions
-    
+
         // LettersRandomPlaces({
         //     element: ".animated__text",
-    
+
         //     // delay in ms
         //     start_delay_time: 1000,
-    
+
         //     // or 'random'
         //     delay_type: "sequential",
-    
+
         //     // duration of the animation
         //     animation_duration: 5000,
-    
+
         //     // type: number
         //     force: 200,
-    
+
         //     // direction
         //     direction: ['x', 'y'],
-    
+
         //     // scale text randomly
         //     random_scale: false,
-    
+
         //     // -1 for random
         //     rotate: -1,
         // })
-        
+
     </script>
 
 </div>

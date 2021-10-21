@@ -4,61 +4,63 @@
 
 <div class="container-fluid">
 
-    <section id="three" class="no-padding" style="border: 10px solid clear">
-        <div class="container-fluid">
-            <div class="row no-gutter">
 
-                <p class="animated__words text-center" style="color:black; font-size:30px;">A MURDER WALKS IN...</p>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="container-fluid" id="four">
+    <section class="container" >
         <div class="row">
 
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <p style="color:black">An hour ago, there was a murder down the street.
-                    The suspect fled on foot and hid amongst our group here. Little did they know 
-                    they hid in a party of seasoned detectives. Police are relying on us to find them.</p>
-                </div>
-            </div>
-           
+              <!-- <h3 class="text-center" >POLICE CHIEF RETIREMENT CELEBRATION</h3>
+
+              <p>A Law Enforcement icon is retiring after 50 years of service to the community with the Lee County
+                Sheriff’s Office. Chief Michael Lopez was the first Mexican American hired in the district.</p>
+
+              <p>Lopez's party has celebrities coming from all over the country,
+                as he is one of the most respected law enforcement officials in the state.</p>
+
+              <div style="background-color:#000000; height:2px; width:100%;"></div> -->
+
+              <h3 class="text-center">JIMMY TWO-LIPS SLAIN AT HOME</h3>
+
+
+              <p >An hour ago, small-time gangster Jimmy Two-Lips was found dead in his home.
+                Witnesses heard two gun shots when they called the police.
+                Responding officers found the victim deceased in his underwear,
+                watching The Real Housewives of Pomona.</p>
+              <p>
+                Police officers believe this is the work of criminal organization <em>Scorpio</em>.
+                The suspect fled on foot and hid amongst our group here.
+                Police are relying on us to find them.
+                The suspect is considered armed and dangerous.</p>
+
+
+            <div style="background-color:#000000; height:2px; width:100%; margin-bottom:15px"></div>
+
+
+
+              <p class="text-center" style="font-size: 20px; color:black">HOW THE GAME WORKS</p>
+              <p style="color:black">The goal is to find the criminal hidden in the group.
+                Gather notes and interrogate everyone.
+              At the end of the game, everyone will vote on who is the murderer.</p>
+
+              <img src="{% static "img/male_detective.jpg" %}" max width="100%" class="text-center"/>
+
+              <br>
+              <br>
+
+              <p style="color:black">To aid the search, tips are dropped throughout the game
+                to reveal information about the murderer.
+              Real facts like “this person skydived" that lead to real people.
+              It’s your job to talk to each other and find out who the murderer is. </p>
+
+
             <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-            <div class="media wow fadeIn">
-                <div class="media-body media-middle">
-                    <p style="font-size: 20px; color:black">HOW THE GAME WORKS</p>
-                    <p style="color:black">The game is similar to Mafia. Our goal is to find the criminal hidden in our group.
-                    At the end of the game, we vote on who is the murderer.</p>
-
-                    <img src="{% static "img/male_detective.jpg" %}" max width="100%" class="text-center"/>
-
-                    <br>
-                    <br>
-
-                    <p style="color:black">To help our search, we rely on tips that reveal information about the murderer.
-                    Real facts like “this person skydived" that lead to real people.
-                    It’s your job to talk to each other and find out who the murderer is. </p>
-                    
-                </div>
-            </div>
-           
-            <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-            <div class="media wow fadeIn">
-                    <div class="media-body media-middle">
-                        <p style="font-size:25px; color:black">ROLES</p>
-                    </div>
-            </div>
+            <p style="font-size:25px; color:black">ROLES</p>
 
             <!-- <div class="media wow fadeIn"> -->
                 <!-- <div class="media-body media-middle">
                     <p style="font-size:25px; color:black">ROLES</p>
                 </div> -->
             <!-- </div> -->
-            
+
             <!-- <div style="background-color:#000000; height:2px; width:100%;"></div> -->
 
                 <div class="media wow fadeInRight">
@@ -70,10 +72,10 @@
                         <div class="col-lg-10">
 
                             <p style="color:black"><strong>Detective</strong></p>
-                        
+
                             <ol>
-                                <li>Interrogate everyone. </li>
-                                <li>Find murderer.</li>
+                                <li>Interrogate everyone. Find murderer.</li>
+                                <li>Spread tips</li>
                                 <li>Trust no one.</li>
                             </ol>
                         </div>
@@ -81,7 +83,7 @@
                     </div>
                 </div>
 
-                <div class="media wow fadeInRight">
+                <!-- <div class="media wow fadeInRight">
                     <div class="media-body media-middle">
 
                         <div class="col-lg-2">
@@ -91,16 +93,16 @@
                         <div class="col-lg-10">
 
                             <p class="float-center" style="color:black"><strong>Informant</strong></p>
-            
+
                             <ol>
-                                <li>Deliver tip to trusted detectives. </li>
+                                <li>Spread tip to trusted detectives. </li>
                                 <li>The murderer is hunting you. Keep your identity a secret to stay alive. </li>
                             </ol>
 
                         </div>
 
                     </div>
-                </div>
+                </div> -->
 
                 <div class="media wow fadeInRight">
                     <div class="media-body media-middle">
@@ -111,10 +113,10 @@
 
                         <div class="col-lg-10">
                             <p style="color:black"><strong>Criminal</strong></p>
-                            
+
                             <ol>
                                 <li>Convince everyone you are not the murderer. </li>
-                                <li>Kill informants before they spread information about you.</li>
+                                <li>Kill detectives before they spread information about you.</li>
                             </ol>
                         </div>
 
@@ -125,14 +127,14 @@
 
             <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-            <div class="media wow fadeIn"> 
+            <div class="media wow fadeIn">
                 <div class="media-body media-middle">
                     <p style="font-size:25px; color:black">3 Cardinal Rules</p>
 
                     <ol style="padding-top:15px">
 
                         <li><p><em style="font-size:15px">No lies</em>. If someone asks you a question about your life,
-                        tell them the truth (within reasonable bounds, of course). </p>
+                        tell them the truth (within reason, of course). </p>
                         <p>You can lie about who you think is the murderer.</p></li>
 
                         <li><p><em style="font-size:15px">Check  phone every 10 minutes</em>. Your screen updates with new objectives and important information
@@ -144,15 +146,17 @@
                     </ol>
                 </div>
             </div>
-            
-            <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-            <div class="media wow fadeInRight">
+            <!-- <div style="background-color:#000000; height:2px; width:100%;"></div>
+
+            <h3 >WAIT HERE</h3> -->
+
+            <!-- <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
                     <p><a href="/role_assignment?pid={{ player_id }}"><button type="button" style="color:white;" class="btn btn-secondary">Assign character</button></a></p>
                 </div>
-            </div>
-        
+            </div> -->
+
         </div>
     </section>
 
