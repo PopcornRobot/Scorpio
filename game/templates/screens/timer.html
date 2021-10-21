@@ -58,12 +58,16 @@ function timer(){
             var xhttp = new XMLHttpRequest()
             xhttp.open("GET", "/new_round/2", true)
             xhttp.send()        
-        } else if(round == "3" && announceRound3 == true){
-            console.log("round 3 start")
-            announceRound3 = false
-            var xhttp = new XMLHttpRequest()
-            xhttp.open("GET", "/new_round/3", true)
-            xhttp.send()        
+    } else if(round == "3" && announceRound3 == true){
+        console.log("round 3 start")
+        announceRound3 = false
+        var xhttp = new XMLHttpRequest()
+        xhttp.open("GET", "/new_round/3", true)
+        xhttp.send()        
+    } else if(round == "Game Over") {
+        console.log("---- round 0 hit")
+        const url = "/new_round/game_over"
+        fetch(url)
     }
 
 }  

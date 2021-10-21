@@ -39,6 +39,7 @@ urlpatterns = [
     path('getPlayerMessages/<str:player>', views.getPlayerMessages),
     path('getPlayerScreen/<int:id>', views.getPlayerScreen),
     path('setPlayerScreen/<int:id>/<str:screen>', views.setPlayerScreen),
+    path('setOverrideScreen/<int:id>/<str:screen>', views.setOverrideScreen),
     path('kill_informant', views.kill_informant),
     path('kill_informant2/<str:informant>/<str:killer>', views.kill_informant2),
     path('countSelected', views.countSelected),
@@ -64,7 +65,8 @@ urlpatterns = [
     path('submitSafeList2/<int:id>/<list>', views.submit_safe_list2),
     path('scan', views.scan),
     path('getPlayerData', views.get_player_data),    
-    path('setPlayerRole/<int:id>/<str:role>', views.set_player_role)    
-
+    path('setPlayerRole/<int:id>/<str:role>', views.set_player_role),
+    path('clearOverrideScreen/<int:id>', views.clear_override_screen),
+    path('mafia_find_informant_submit/<int:id>', views.mafia_find_informant_submit),
 
 ]
