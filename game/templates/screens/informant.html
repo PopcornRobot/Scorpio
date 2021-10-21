@@ -7,81 +7,48 @@
 <div class="container-fluid">
 
     <section id="three" class="no-padding">
-        <div class="container-fluid">
-            <div class="row no-gutter">
+        <div class="container">
 
-                <p class="animated__word text-center" style="font-size:30px; color: black">Death Alert</p>
-                <p class="animated__word_a text-center" style="font-size:15px; color: black">your life is in danger</p>
-                <img src="{% static "img/un_warning_two.jpg" %}" max width="100%" class="text-center"/>
+                <h3 class="text-center" >A clue appears</h3>
+                <!-- <p class="animated__word_a text-center" style="font-size:15px; color: black">your life is in danger</p> -->
+                <!-- <img src="{% static "img/un_warning_two.jpg" %}" max width="100%" class="text-center"/> -->
 
-            </div>
         </div>
     </section>
 
     <section class="container-fluid" id="four">
         <div class="row">
 
-            <hr>
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black">You just received an anonymous package, but you can't make sense of it. Your gut feeling is
-                    it's important. You need the help of other detectives but which ones do you trust?</p>
+                    <p style="color:black">Someone sent you an anonymous package, but you can't make sense of it. Your gut feeling is
+                    it's important. You need the help of another detective. </p>
+
+                    <p>Who do you trust?</p>
                 </div>
             </div>
-            
+
             <div style="background-color:#000000; height:2px; width:100%;"></div>
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black"><em>GOAL:</em> Create a list of detectives you trust before the timer ends. The bigger the list, the juicier
-                    the tip.</p>
-                </div>
-            </div>
-            
-            <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-            <div class="media wow fadeIn">
-                <div class="media-body media-middle">
-                    <p style="color:black"><em>WARNING:</em> If the murderer is on your list, they may kill you. What makes things worse is they
-                    are tracking the package, which means...</p>
-                </div>
-            </div>
-            
-            <div style="background-color:#000000; height:2px; width:100%;"></div> 
-
-            <div class="media wow fadeIn">
-                <div class="media-body media-middle">
+                    <p style="color:black"><em>GOAL:</em> Send the clue to a person you trust before the timer ends. Be careful,
+                    if you send the clue to the murderer, they may kill you.</p>
+                    <p style="color:black"><em>WARNING:</em> The murderer is already tracking the package, which means...</p>
                     <p class="text-center" style="font-size: 20px; color:black">THEY ARE LOOKING FOR YOU.</p>
-                    <p style="color:black">If they find you before you submit your list, you and your tip are gone, forever.</p>
+                    <p style="color:black">Keep your objective secret. Trust no one.
+                      If they find you, you and your clue are gone, forever.</p>
                 </div>
             </div>
-            
-            <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-            <div class="media wow fadeIn"> 
-                <div class="media-body media-middle">
-                    <p style="color:black">The good news is they don't know who you are exactly yet.
-                    So don’t disclose your role as the informant to anyone or they will find out.</p>
-                    <p class="text-center" style="font-size: 20px; color:black">TRUST NO ONE.</p>
-                </div>
-            </div>
-            
-            <div style="background-color:#000000; height:2px; width:100%;"></div> 
 
-            <div class="media wow fadeIn"> 
-                <div class="media-body media-middle">
-                    <!-- <p style="color:rgb(104, 100, 100)">*** INSERT FORM CONTROLS TO SUBMIT A LIST OF MULIPLE PEOPLE ***</p> -->
-                   
-                </div>
-            </div>
-           
-   
-            
-            
+
+
+
         </div>
     </section>
-    
+
     <!-- <form action="/submitSafeList/{{ player.id }}" method="POST">
         {% csrf_token %}
         <ul>
@@ -89,7 +56,7 @@
           <li style="list-style-type: none;">
             <input type="checkbox" name="players" value="{{ p.name }}">
             {{ p.name }}
-            
+
           </li>
           {% endfor %}
         </ul>
@@ -100,7 +67,7 @@
           {% for p in other_players %}
           <li style="list-style-type: none;">
             <button
-                id="button-{{ p.id }}" 
+                id="button-{{ p.id }}"
                 onclick="addToSafeList('{{ p.id }}')"
                 style="background-color: darkgray;
                 color:black;
@@ -112,7 +79,7 @@
           </li>
           {% endfor %}
         </ul>
-        <button onclick="submitSafeList()" 
+        <button onclick="submitSafeList()"
             style="background-color:white; color:black; position: relative; left: 15%">
             Submit Safe List</button>
 
@@ -141,47 +108,45 @@
         }
 
         // global variables
-    
+
         // Page load
         document.addEventListener("DOMContentLoaded", () => {
-    
+
             // LettersRandomPlaces({
             // element: ".animated__word",
             // })
-    
+
         }); // page load closing
-    
+
         // Our functions
-// **** BM-caused js to crash on page  
+// **** BM-caused js to crash on page
         // LettersRandomPlaces({
         //     element: ".animated__text",
-    
+
         //     // delay in ms
         //     start_delay_time: 1000,
-    
+
         //     // or 'random'
         //     delay_type: "sequential",
-    
+
         //     // duration of the animation
         //     animation_duration: 5000,
-    
+
         //     // type: number
         //     force: 200,
-    
+
         //     // direction
         //     direction: ['x', 'y'],
-    
+
         //     // scale text randomly
         //     random_scale: false,
-    
+
         //     // -1 for random
         //     rotate: -1,
         // })
-  
+
     </script>
 
 </div>
 
 {% endblock %}
-
-
