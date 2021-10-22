@@ -188,7 +188,7 @@ def survey_save(request):
         role='detective', \
         nickname='', \
         active_screen='rules', \
-        override_screen=''
+        override_screen='none'
         # nickname=request.POST['gangsterNameDropdown'] \
             )
     print(player.id)
