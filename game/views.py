@@ -96,54 +96,54 @@ def stop_game(request):
     PlayerAnswer.objects.all().update(is_used=False)
     return HttpResponseRedirect("/game_menu")
 
-def start_game(request):
+# def start_game(request):
     
-    # assign Chief
+#     # assign Chief
 
-    # get random person
-    chief1 = Player.objects.all().order_by('?').first()
-    chief1.role = "chief1"
-    chief1.save()
+#     # get random person
+#     chief1 = Player.objects.all().order_by('?').first()
+#     chief1.role = "chief1"
+#     chief1.save()
 
-    # get random person with no role
-    chief2 = Player.objects.filter(role="").order_by('?').first()
-    chief2.role = "chief2"
-    chief2.partner = chief1
-    chief2.save()
+#     # get random person with no role
+#     chief2 = Player.objects.filter(role="").order_by('?').first()
+#     chief2.role = "chief2"
+#     chief2.partner = chief1
+#     chief2.save()
 
-    chief1.partner = chief2
-    chief1.save()
-
-
-    # assign murderer
-
-    num_players = Player.objects.all().count()
-    num_murderers = murdererCount(num_players)
-
-    murderer_names = ['the Knife', 'Hammer', 'Death', 'Evil']
-
-    for i in range(num_murderers):
-        murderer = Player.objects.filter(role="").order_by('?').first()
-        murderer.role = "murderer"
-        murderer.nickname = murderer_names[i]
-        murderer.save()
+#     chief1.partner = chief2
+#     chief1.save()
 
 
-    # assign informants
+#     # assign murderer
 
-    Player.objects.filter(role="").update(role='informant')
+#     num_players = Player.objects.all().count()
+#     num_murderers = murdererCount(num_players)
 
-    # assign informant partners
-    if num_players >= 16:
-        assignInformantPartners()
-        assignInformantPartners()
-    elif num_players > 12:
-        assignInformantPartners()
+#     murderer_names = ['the Knife', 'Hammer', 'Death', 'Evil']
+
+#     for i in range(num_murderers):
+#         murderer = Player.objects.filter(role="").order_by('?').first()
+#         murderer.role = "murderer"
+#         murderer.nickname = murderer_names[i]
+#         murderer.save()
+
+
+#     # assign informants
+
+#     Player.objects.filter(role="").update(role='informant')
+
+#     # assign informant partners
+#     if num_players >= 16:
+#         assignInformantPartners()
+#         assignInformantPartners()
+#     elif num_players > 12:
+#         assignInformantPartners()
 
 
 
 
-    return HttpResponseRedirect("/game_menu")
+#     return HttpResponseRedirect("/game_menu")
 
 
 def murdererCount(num_players):
@@ -610,7 +610,7 @@ def start_game2(request):
     game = Game.objects.get(id=1)
     game.game_over = False
     game.save()
-    Log(game.id, "admin", "start game")
+    Log(game.id, "admin", "-----------------------start game")
     return HttpResponseRedirect("/dashboard")
 
 def Log(game, player, event):
@@ -618,9 +618,9 @@ def Log(game, player, event):
     game = Game.objects.get(id=game)
     GameLog.objects.create(
         game=game,
-        event=event,
         player=player,
-        datetime = time.asctime()
+        event=event,
+        datetime = time.asctime(),
         )
     
 
@@ -789,6 +789,12 @@ def getPlayerScreen(request, id):
         partner = user.partner
     else:
         partner = user    
+    if user.informing_player == 0:
+        informing_player = None
+    else: 
+        informing_player = Player.objects.get(id=user.informing_player)
+
+
     context =  {
         'user': user.name,
         'player_id': user.id,
@@ -803,7 +809,8 @@ def getPlayerScreen(request, id):
         'player_low_accuracy_question': user.low_accuracy_question, 
         'mafia_count_text': mafia_count_text,
         'tip_on_mafia': tip_on_mafia,
-        'informing_player': user.informing_player,
+        'informing_player_id': user.informing_player,
+        'informing_player': informing_player,
        
 
 
@@ -1010,6 +1017,7 @@ def deleteAllPlayerMessages(request):
     messages.delete()
     return HttpResponseRedirect(reverse('game:dashboard'))
 
+# not used
 def kill_informant(request):
     player = request.POST.get('player')
     killer = request.POST.get('killer')
@@ -1022,27 +1030,34 @@ def kill_informant(request):
 def kill_informant2(request, informant, killer):
     print("kill informant", informant, killer)
     game = Game.objects.get(id=1)
-    i_player = Player.objects.get(id=informant)
-    game.death_alert = i_player.name
+    informant_player = Player.objects.get(id=informant)
+    game.death_alert = informant_player.name
     game.save()
-    k_player = Player.objects.get(id=killer)
-    i_player.alive = False
-    i_player.active_screen = "you_have_been_killed"
-    i_player.save()
-    announce_player = random.choice(Player.objects.filter().exclude(alive=False). \
-        exclude(id=i_player.id). \
-        exclude(id=k_player.id))
-    print("==== anounce_player", announce_player)
-    announce_player.override_screen = "death_alert"
-    announce_player.save()
+    killer_player = Player.objects.get(id=killer)
+    killer_player.override_screen = "lock_screen"
+    killer_player.save()
+    informant_player.alive = False
+    informant_player.override_screen = "lock_screen"
+    informant_player.active_screen = "you_have_been_killed"
+    informant_player.save()
     lock_screen_players = Player.objects.filter(). \
-        exclude(id=i_player.id). \
-        exclude(id=k_player.id)
+        exclude(id=informant_player.id). \
+        exclude(id=killer_player.id). \
+        exclude(alive=False)
     for p in lock_screen_players:
         p.override_screen = "lock_screen"
         p.save()
+    announce_player = random.choice(Player.objects.filter().exclude(alive=False). \
+        exclude(id=informant_player.id). \
+        exclude(id=killer_player.id))
+    print("==== anounce_player", announce_player)
+    announce_player.override_screen = "death_alert"
+    announce_player.save()
+    message = '{0} announces the death of {1}. Attack from mafia {2}'.format(announce_player.name, informant_player.name, killer_player.name)
+    Log(game.id, killer_player, message)
     return HttpResponseRedirect("/bulletin/" + killer)
-    return HttpResponse("kill informant")
+    # return HttpResponse("kill informant")
+
 def load_player_data(request):
     Player.objects.all().delete()
     Player.objects.bulk_create(
@@ -1077,32 +1092,23 @@ def delete_player_data(request):
 def assign_mafia_role(request):
     mafia_names = ["Pistol Pete", "Ice Pick Willie", "Bootsie"]
     print("assign_mafia_role")
-    players = Player.objects.all()
     player_count = Player.objects.all().count()
     mafia_count = int(round(player_count * .2))
     print(mafia_count, player_count, round(player_count))
     # print(random_number)
     for mafia in range(mafia_count):
-        counter = 1
-        random_number = random.randint(1, player_count)
-        for player in players:
-            print(player.name, random_number, counter)
-            if random_number == counter:
-                print("assign")
-                mafia_name = random.choice(mafia_names)
-                player.role = "mafia"
-                player.nickname = mafia_name
-                player.save()
-                mafia_names.remove(mafia_name)
-                counter+=1
-            else:
-                counter+=1
+        print("mafia created")
+        players = Player.objects.filter(role="detective")
+        random_mafia = random.choice(players)
+        random_mafia.role = "mafia"
+        random_mafia.nickname = random.choice(mafia_names)
+        random_mafia.save()
 
     return HttpResponseRedirect("/dashboard")
 
 
 def assign_informants(request):
-    informants = Player.objects.filter(role='informant')
+    informants = Player.objects.filter(role='informant').exclude(alive=False)
     for p in informants: # reset informants to detectives
         p.role = 'detective'
         p.active_screen = "character_assign_detective"
@@ -1111,40 +1117,37 @@ def assign_informants(request):
     havent_been_informant = Player.objects \
         .exclude(role="mafia") \
         .exclude(has_been_informant=True)
-    if havent_been_informant.count() == 1: # if only one eligible detective remaining 
-        # update - if count less than mafia count , recycle detective
-        inf = havent_been_informant[0]
-        inf.role = "informant"
-        inf.has_been_informant = True
-        inf.active_screen = "informant"
-        inf.save()
-        return HttpResponseRedirect('/dashboard')
-    else:
-        mafia = Player.objects.filter(role="mafia")
-        for m in mafia:
-            players = Player.objects\
-                .exclude(role="mafia")\
-                .exclude(has_been_informant=True)\
-                .exclude(alive=False)
-            random_number = random.randint(1, players.count())
-            counter = 1
-            for player in players:
-                if counter == random_number:
-                    player.role = "informant"
-                    player.has_been_informant = True
-                    player.active_screen = "informant"
-                    player.partner = m
-                    player.save()
-                    m.partner = player
-                    m.save()
-                    counter+=1
-                else:
-                    counter+=1
-        # for m in mafia:
-        #     informant = Player.objects.filter(role="informant", partner=None)[:1][0]
-        #     m.partner = informant
-        #     m.save()
-        return HttpResponseRedirect('/dashboard')
+    # if havent_been_informant.count() == 1: # if only one eligible detective remaining 
+    #     # update - if count less than mafia count , recycle detective
+    #     inf = havent_been_informant[0]
+    #     inf.role = "informant"
+    #     inf.has_been_informant = True
+    #     inf.active_screen = "informant"
+    #     inf.save()
+    #     return HttpResponseRedirect('/dashboard')
+    # else:
+    mafia = Player.objects.filter(role="mafia").exclude(alive=False)
+    for m in mafia:
+        m.active_screen = "mafia_find_informant"
+        m.save()
+    # Log("1", mafia, "mafia----{0}".format(mafia))
+    for i in range(len(mafia)):
+        print("informant create", mafia)
+        players = Player.objects.filter(role="detective") \
+            .exclude(has_been_informant=True) \
+            .exclude(alive=False)
+            # .exclude(role="mafia") \
+            # .filter(role="informant") \
+        informant = random.choice(players)
+        informant.role = "informant"
+        informant.has_been_informant = True
+        informant.active_screen = "informant"
+        informant.save()
+        Log("1", informant, 'changed to informant: {0}'.format(informant.name))
+        Log("1", informant, 'changed to informant: {0}'.format(mafia))
+    
+    
+    return HttpResponseRedirect('/dashboard')
 
 
 def assign_all_to_detective(request=""):
@@ -1316,9 +1319,12 @@ def submit_safe_person(request, id):
     informant = Player.objects.get(id=id)
     informant.active_screen = "character_assign_detective"
     informant.save()
-    safe_person.private_tip = informant.partner.low_accuracy_question
+    random_mafia = random.choice(Player.objects.filter(role="mafia"))
+    safe_person.private_tip = random_mafia.low_accuracy_question
+
     if safe_person.role == "mafia":
         safe_person.override_screen = "tip_received_mafia"
+        safe_person.informing_player = informant.id
     else:
         safe_person.override_screen = "tip_received_detective"
     safe_person.save()
@@ -1446,6 +1452,10 @@ def mafia_find_informant_submit(request, id):
         mafia_player.alive = False
         mafia_player.active_screen = "you_have_been_killed"
         mafia_player.save()
+        mafia_remaining_count = Player.objects.filter(role="mafia").exclude(alive=False).count()
+        if mafia_remaining_count == 0:
+            Log(game.id, mafia_player, "mafia count 0, detectives win")
+            Player.objects.update(active_screen="detectives_win")
         game.death_alert = mafia_player.name
         game.save()
     
@@ -1458,4 +1468,7 @@ def mafia_find_informant_submit(request, id):
     print("mfi", killed_player, death_alert_announcer)
     
     return HttpResponseRedirect("/bulletin/" + str(id))
-    
+
+def logs(request):
+
+    return render(request, 'logs.html', {"logs":GameLog.objects.all().order_by('datetime')})

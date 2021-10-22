@@ -31,7 +31,7 @@ class Player(models.Model):
     safe_list_1 = models.TextField(null=True, blank=True)
     safe_list_2 = models.TextField(null=True, blank=True)
     safe_list_3 = models.TextField(null=True, blank=True)
-    private_tip = models.CharField(max_length=500, default="none", null=True, blank=True)
+    private_tip = models.CharField(max_length=500, default="none")
     gender = models.CharField(max_length=500, default="none")
     informing_player = models.IntegerField(default=0)
 

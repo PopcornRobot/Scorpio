@@ -11,7 +11,7 @@ urlpatterns = [
     path('', views.survey, name='survey'),
     path('rules', views.rules, name='rules'),
     path('game_menu', views.game_menu, name='game_menu'),
-    path('start_game', views.start_game, name='start_game'),
+    # path('start_game', views.start_game, name='start_game'),
     path('stop_game', views.stop_game, name='stop_game'),
     path('reveal_tip', views.reveal_tip, name='reveal_tip'),
     path('delete', views.delete, name='delete'),
@@ -70,5 +70,5 @@ urlpatterns = [
     path('clearOverrideScreen/<int:id>', views.clear_override_screen),
     path('clearAllOverrideScreens/<int:id>', views.clear_all_override_screens),
     path('mafia_find_informant_submit/<int:id>', views.mafia_find_informant_submit),
-
+    path('logs', views.logs),
 ]

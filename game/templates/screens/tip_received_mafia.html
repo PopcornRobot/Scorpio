@@ -62,11 +62,11 @@
 
             <div class="media wow fadeInRight">
                 <div class="media-body media-middle">
-                    <p style="color:black; font-size:15px" class="garamond">The informant is... {{ partner_name }}</p>
+                    <p style="color:black; font-size:15px" class="garamond">The informant is... {{ informing_player.name }}</p>
                     <p style="color:black; font-size:15px" class="garamond"> Kill them and rid yourself of this annoying problem. 
                             Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
-                    <p style="color:black; font-size:15px" class="garamond">Do you kill {{ partner_name }}?</p>
-                    <a href="/kill_informant2/{{ partner_id }}/{{ player_id }}">
+                    <p style="color:black; font-size:15px" class="garamond">Do you kill {{ informing_player.name }}?</p>
+                    <a href="/kill_informant2/{{ informing_player_id }}/{{ player_id }}">
                         <button  style="color:black">Kill Informant</button>
                     </a>
                 </div>
