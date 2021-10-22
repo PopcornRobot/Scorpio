@@ -1,0 +1,23 @@
+{% extends 'base_newspaper.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Heading + Image -->
+    <div class="row no-gutter">
+        <p class="garamond" style="font-size:30px;">TIME IS UP</p>
+        <img src="{% static "img/clockold22.jpg" %}" max width="100%" class="text-center"/>
+    </div>
+
+    <!-- Instructions + Text -->
+    <div class="row">
+
+        <hr>
+        <p>The police need us to deliver the guilty party. Gather up your notes and vote on the 
+        guilty party. To defeat the mafia, you must find them all.</p>
+    
+    </div>
+
+</div>
+{% endblock %}

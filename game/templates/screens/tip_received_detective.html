@@ -1,0 +1,34 @@
+{% extends 'base_newspaper.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Heading + Image -->
+    <div class="row no-gutter">
+        <p class="garamond" style="font-size:30px;">YOU RECEIVED A TIP</p>
+        <img src="{% static "img/tip_one22.jpg" %}" max width="100%" class="text-center"/>
+    </div>
+
+    <!-- Instructions + Text -->
+    <div class="row">
+
+        <hr>
+        <p>An informant risked their life to deliver this information to you. Please
+        inform a moderator that you would like to make a
+        public announcement.</p>
+
+        <div style="background-color:#000000; height:1px; width:100%;"></div>
+
+        <hr>
+        <p>%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information)</p>
+        <p>{{ private_tip }}</p>
+        <p>Once you click the button, this tip will no longer be available</p>
+        <a href="/clearOverrideScreen/{{ player_id }}">
+            <button style="color:black">I have read the tip</button>
+        </a>
+    
+    </div>
+
+</div>
+{% endblock %}

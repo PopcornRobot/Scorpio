@@ -1,0 +1,22 @@
+{% extends 'base_newspaper.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Heading + Image -->
+    <div class="row no-gutter">
+        <p class="garamond" style="font-size:30px;">ANNOUNCEMENT</p>
+        <img src="{% static "img/announcement22.jpg" %}" max width="100%" class="text-center"/>
+    </div>
+
+    <!-- Instructions + Text -->
+    <div class="row">
+
+        <hr>
+        <p>Please stand by for an important public announcement regarding the game.</p>
+
+    </div>
+
+</div>
+{% endblock %}
