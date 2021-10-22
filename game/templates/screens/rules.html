@@ -6,7 +6,7 @@
 
     <!-- Heading + Image -->
     <div class="row no-gutter">
-        <p class="text-center garamond" style="font-size:22px;">JIMMY TWO-LIPS SLAIN AT HOME</p>
+        <p class="blocktext garamond" style="font-size:22px;">JIMMY TWO-LIPS SLAIN AT HOME</p>
         <img src="{% static "img/survey_photo.jpg" %}" max width="100%" class="text-center"/>
     </div>
 
@@ -26,7 +26,7 @@
 
         <div style="background-color:#000000; height:1px; width:100%;"></div>
 
-        <p style="font-size: 20px;">HOW THE GAME WORKS</p>
+        <p class="blocktext" style="font-size: 25px;">HOW THE GAME WORKS</p>
         <p >The goal is to find the criminal hidden in the group.
         Gather notes and interrogate everyone.
         At the end of the game, everyone will vote on who is the murderer.</p>
@@ -38,60 +38,47 @@
 
         <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-        <p style="font-size:25px;">ROLES</p>
+        <p class="blocktext" style="font-size:25px;">ROLES</p>
 
-        <div class="col-lg-2">
-            <img src="{% static "img/male_dete22.jpg" %}" style="width: 100px"/>
-        </div>
+        <div class="rules-column">
 
-        <div class="col-lg-10">
+            <br>
+            <img src="{% static "img/male_dete22.jpg" %}" style="width: 100px" class="text-center"/>
+    
             <p><strong>Detective</strong></p>
-            <ol>
-                <li>Interrogate everyone. Find murderer.</li>
-                <li>Spread tips.</li>
-                <li>Trust no one.</li>
-            </ol>
-        </div>
+            <p>1. Interrogate everyone. Find murderer.</p>
+            <p>2. Spread tips.</p>
+            <p>3. Trust no one.</p>
 
-        <div class="col-lg-2">
-            <img src="{% static "img/inform22.jpg" %}" style="width: 100px"/>
-        </div>
+            <br>
+            <img src="{% static "img/inform22.jpg" %}" style="width: 100px" class="text-center"/>
 
-        <div class="col-lg-10">
             <p><strong>Informant</strong></p>
-            <ol>
-                <li>Spread tip to trusted detectives.</li>
-                <li>The murderer is hunting you. Keep your identity a secret to stay alive.</li>
-            </ol>
-        </div>
+            <p>1. Spread tip to trusted detectives.</p>
+            <p>2. The murderer is hunting you. Keep your identity a secret to stay alive.</p>
 
-        <div class="col-lg-2">
-            <img src="{% static "img/criminal22.jpg" %}" style="width: 100px"/>
-        </div>
+            <br>
+            <img src="{% static "img/criminal22.jpg" %}" style="width: 100px" class="text-center"/>
 
-        <div class="col-lg-10">
             <p><strong>Criminal</strong></p>
-            <ol>
-                <li>Convince everyone you are not the murderer.</li>
-                <li>Kill detectives before they spread information about you.</li>
-            </ol>
+            <p>1. Convince everyone you are not the murderer.</p>
+            <p>2. Kill detectives before they spread information about you.</p>
+
         </div>
 
         <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-        <p style="font-size:25px;">3 Cardinal Rules</p>
+        <p class="blocktext" style="font-size:25px;">The Three Cardinal Rules</p>
 
-        <ol style="padding-top:15px">
-            <li><p><em style="font-size:15px">No lies</em>. If someone asks you a question about your life,
-            tell them the truth (within reason, of course). You can lie about who you think is 
-            the murderer.</p>
+        <p>1. <em style="font-size:15px">No lies</em>. If someone asks you a question about your life,
+        tell them the truth (within reason, of course). You can lie about who you think is 
+        the murderer.</p>
 
-            <li><p><em style="font-size:15px">Check  phone every 10 minutes</em>. Your screen updates with new objectives and important information
-            as the game progresses.</p></li>
+        <p>2. <em style="font-size:15px">Check  phone every 10 minutes</em>. Your screen updates with new objectives and important information
+        as the game progresses.</p>
 
-            <li><p><em style="font-size:15px">Hide your screen!</em> Don't compromise your identity. Your screen reveals information
-            about your identity.</p></li>
-        </ol>
+        <p>3. <em style="font-size:15px">Hide your screen!</em> Don't compromise your identity. Your screen reveals information
+        about your identity.</p>
 
     </div>
 
