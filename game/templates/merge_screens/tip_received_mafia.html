@@ -1,7 +1,8 @@
-{% extends 'base_mafia.html' %}
+tui\{% extends 'base_newspaper.html' %}
 {% load static %}
 
 {% block content %}
+
 <div class="container-fluid">
 
     <section id="three" class="no-padding">
@@ -74,6 +75,40 @@
 
         </div>
 
+
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
+            <div style="margin-top:10px">
+              <p>Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.
+                But if you announce the tip, it must be announced accurately.
+                  Use this power
+                  wisely.</p>
+            </div>
+
+            <hr>
+
+
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
+            <div>
+                <p style="color:black">The informant is... {{ partner_name }}</p>
+            </div>
+
+            <hr>
+            <div style="background-color:#000000; height:2px; width:100%;"></div>
+
+            <div style="margin-top:10px">
+              <p style="color:black"> Kill them and rid yourself of this annoying problem.
+              Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
+              <p style="color:black">Do you kill {{ partner_name }}?</p>
+              <a href="/kill_informant2/{{ partner_id }}/{{ player_id }}">
+                  <button  style="color:black">Kill Informant</button>
+              </a>
+            </div>
+
+            <hr>
+
+
     </section>
 
     <script>
@@ -117,45 +152,7 @@
         // })
 
     </script>
-    <!-- Heading + Image -->
-    <div class="row no-gutter">
-        <p class="blocktext nerko" style="font-size:30px;">INFORMANT EXPOSED</p>
-        <img src="{% static "img/tip_sent2_2.jpg" %}" max width="100%" class="text-center"/>
-    </div>
-
-    <!-- Instructions + Text -->
-    <div class="row">
-
-        <hr>
-        <p class="walter">Your angel face and innocent demeanor served you well.
-        A detective at the party foolishly thought you were trustworthy and
-        shared this with you, in hopes that you would announce this tip to everyone.</p>
-
-        <div style="background-color:#000000; height:1px; width:100%;"></div>
-
-        <p class="walter">**Private Tip goes here** {{ private_tip }}</p>
-        <p class='walter'>** Player_low_accuracy_question {{ player_low_accuracy_question }}</p>
-
-        <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-        <p class="walter">Publicize this information and gain the trust of an adoring public 
-        or keep it to yourself. The choice is yours. If you decide to announce the tip, it must be 
-        announced accurately. Use this power wisely.</p>
-
-        <div style="background-color:#000000; height:2px; width:100%;"></div>
-        
-        <p class="walter">The informant is... {{ partner_name }}</p>
-        <p class="walter">Kill them and rid yourself of this annoying problem. 
-        Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
-        <p class="walter">Do you kill {{ partner_name }}?</p>
-
-        <hr>
-
-        <a href="/kill_informant2/{{ partner_id }}/{{ player_id }}">
-            <button  style="color:black">Kill Informant</button>
-        </a>
-    
-    </div>
 
 </div>
+
 {% endblock %}

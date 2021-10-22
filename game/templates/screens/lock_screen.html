@@ -2,81 +2,21 @@
 {% load static %}
 
 {% block content %}
-
 <div class="container-fluid">
 
-    <section id="three" class="no-padding">
-        <div class="container-fluid">
-            <div class="row no-gutter">
-            
-                <br>
+    <!-- Heading + Image -->
+    <div class="row no-gutter">
+        <p class="blocktext garamond" style="font-size:30px;">ANNOUNCEMENT</p>
+        <img src="{% static "img/announcement22.jpg" %}" max width="100%" class="text-center"/>
+    </div>
 
-                <img src="{% static "img/announcement22.jpg" %}" max width="100%" class="text-center"/>
-                
-                <br>
+    <!-- Instructions + Text -->
+    <div class="row">
 
-            </div>
-        </div>
-    </section>
-  
-    <section class="container-fluid" id="four">
-        <div class="row">
-            
-            <hr>
-            
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <p class="animated__word text-center garamound" style="font-size:15px; color:black">Please stand by for an important public announcement</p>
-                </div>
-            </div>
+        <br>
+        <p class="blocktext" style="font-size:15px;">Please stand by for an important public announcement.</p>
 
-            <hr>
-            
-        </div>
-    </section>
-  
-    <script>
-    
-        // global variables
-    
-        // Page load
-        document.addEventListener("DOMContentLoaded", () => {
-    
-        //   LettersRandomPlaces({
-        //   element: ".animated__word",
-        //   })
-    
-        }); // page load closing
-    
-        // Our functions
-    
-        LettersRandomPlaces({
-            element: ".animated__text",
-    
-            // delay in ms
-            start_delay_time: 1000,
-    
-            // or 'random'
-            delay_type: "sequential",
-    
-            // duration of the animation
-            animation_duration: 5000,
-    
-            // type: number
-            force: 200,
-    
-            // direction
-            direction: ['x', 'y'],
-    
-            // scale text randomly
-            random_scale: false,
-    
-            // -1 for random
-            rotate: -1,
-        })
-    
-    </script>
+    </div>
 
 </div>
-
 {% endblock %}

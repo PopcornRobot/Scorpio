@@ -2,129 +2,34 @@
 {% load static %}
 
 {% block content %}
-
 <div class="container-fluid">
 
-    <section id="three" class="no-padding">
-        <div class="container-fluid">
-            <div class="row no-gutter">
-            
-                <p class="animated__word text-align: center;" style="font-size:30px; color: black; text-align: center;">Death Alert</p>
-                <img src="{% static "img/death_7.jpg" %}" max width="100%" class="text-center"/>
+    <!-- Heading + Image -->
+    <div class="row no-gutter">
+        <p class="garamond blocktext" style="font-size:30px;">DEATH ALERT</p>
+        <img src="{% static "img/death_7.jpg" %}" max width="100%" class="text-center"/>
+    </div>
 
-                <br>
-                <br>
-                
-                <p class="animated__word_detective text-left" style="font-size:18px; color:black"><u>Please make this public announcement:</u></p>
+    <!-- Instructions + Text -->
+    <div class="row">
 
-            </div>
-        </div>
-    </section>
+        <hr>
+        <p>It is with a heavy heart that I must announce the passing of one of our dear friends.
+        {{ death_name}} was found dead moments ago behind the alleyway trash cans.</p>
+        <p>At the moment, we do not have any suspects. #JusticeForArlene</p>
 
-    <section class="container-fluid" id="four">
-        <div class="row">
+        <div style="background-color:#000000; height:1px; width:100%;"></div>
 
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <p style="color:black; font-size:15px">It is with a heavy heart that I must announce the passing of one of our dear friends.
-                    Arlene Rangel was found dead moments ago behind the alleyway trash cans.</p>
-                    <p style="color:black; font-size:15px">At the moment, we do not have any suspects. #JusticeForArlene</p>
-                </div>
-            </div>
-            
-            <div style="background-color:#000000; height:2px; width:100%;"></div>
-            
-            <div style="background-color:#000000; height:2px; width:100%;"></div>
+        <hr>
+        <p>*** MAFIA DEAD VERSION ***</p>
 
-            <p>*** MAFIA DEAD VERSION ***</p>
+        <p>Ladies and gentlemen, we did it. A few minutes ago, we found evidence that
+        Arlene Rangel was the murderer.  When we confronted her, the situation quickly
+        escalated into a shoot-out. Justice deserved.</p>
 
-            <div class="media wow fadeIn">
-                <div class="media-body media-middle">
-                    <p style="color:black; font-size:15px">Ladies and gentlemen, we did it. A few minutes ago, we found evidence that
-                        Arlene Rangel was the murderer.  When we confronted her, the situation quickly
-                        escalated into a shoot-out. Justice deserved.</p>
-                <div class="media wow fadeInRight">
-                    <div class="media-body media-middle">
-                        <p style="color:black; font-size:15px">It is with a heavy heart that I must announce the passing of one of our dear friends.
-                        {{ death_name }} was found dead moments ago behind the alleyway trash cans.</p>
-                    </div>
-                </div>
-                <hr>
-                <div class="media wow fadeInRight">
-                    <div class="media-body media-middle">
-                        <p style="color:black; font-size:15px">At the moment, we do not have any suspects. #JusticeForArlene</p>
-                    </div>
-                </div>
-                <hr>
-                    <a href="/clearAllOverrideScreens/{{ player_id }}"><button style="color:black">Return to game</button></a>
-
-                <p>*** MAFIA DEAD VERSION ***</p>
-
-                <div class="media wow fadeIn">
-                    <div class="media-body media-middle">
-                        <p style="color:black; font-size:15px">Ladies and gentlemen, we did it. A few minutes ago, we found evidence that
-                            Arlene Rangel was the murderer.  When we confronted her, the situation quickly
-                            escalated into a shoot-out. Justice deserved.</p>
-                    </div>
-                    <div class="media-right">
-                        <i class="icon-lg ion-ios-snowy"></i>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-    </section>
-
-<script>
-
-    // global variables
-
-    // Page load
-    document.addEventListener("DOMContentLoaded", () => {
-
-        // LettersRandomPlaces({
-        // element: ".animated__word",
-        // })
-
-        // LettersRandomPlaces({
-        // element: ".animated__word_a",
-        // })
-
-    }); // page load closing
-
-    // Our functions
-
-    LettersRandomPlaces({
-        element: ".animated__text",
-
-        // delay in ms
-        start_delay_time: 1000,
-
-        // or 'random'
-        delay_type: "sequential",
-
-        // duration of the animation
-        animation_duration: 5000,
-
-        // type: number
-        force: 200,
-
-        // direction
-        direction: ['x', 'y'],
-
-        // scale text randomly
-        random_scale: false,
-
-        // -1 for random
-        rotate: -1,
-    })
+        <a href="/clearAllOverrideScreens/{{ player_id }}"><button style="color:black">Return to game</button></a>
     
-</script>
-  
-
-</body>
-</html>
+    </div>
 
 </div>
-
 {% endblock %}
