@@ -599,6 +599,7 @@ def update_screens():
 
 def start_game2(request):
     print("start game")
+    clearCountSelected()
     countSelected()
     process_survey()
     setTimerEnd()
@@ -641,6 +642,7 @@ def stop_game2(request):
     game.game_over = True
     game.save()
     assign_all_to_detective()
+    clearCountSelected()
     return HttpResponseRedirect("/dashboard")
 
 def setTimerEnd():
@@ -960,14 +962,15 @@ def countSelected2(request):
     return HttpResponseRedirect("/dashboard")
     # return HttpResponse(q)
 
-def clearCountSelected(request):
+def clearCountSelected(request=""):
     print('clear count selected')
-    player_answers = PlayerAnswer.objects.all()
-    for answer in player_answers:
-        question_id = answer.question.id
-        Question.objects.filter(id=question_id).update(selected_count=0)
+    Question.objects.update(selected_count=0)
+    # player_answers = PlayerAnswer.objects.all()
+    # for answer in player_answers:
+    #     question_id = answer.question.id
+    #     Question.objects.filter(id=question_id).update(selected_count=0)
 
-        print(question_id)
+    #     print(question_id)
     return HttpResponseRedirect("/dashboard")
 
 def setMessage(request):
