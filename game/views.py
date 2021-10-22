@@ -186,9 +186,9 @@ def survey_save(request):
     player = Player.objects.create( \
         name=request.POST['name'], \
         role='detective', \
-        nickname='none', \
+        nickname='', \
         active_screen='rules', \
-        override_screen='none'
+        override_screen=''
         # nickname=request.POST['gangsterNameDropdown'] \
             )
     print(player.id)
@@ -607,6 +607,8 @@ def start_game2(request):
     # assign_informants("request")
     update_screens()
     game = Game.objects.get(id=1)
+    game.game_over = False
+    game.save()
     Log(game.id, "admin", "start game")
     return HttpResponseRedirect("/dashboard")
 
@@ -636,6 +638,7 @@ def stop_game2(request):
     game.announce_round_3 = True
     game.announce_round_4 = True
     game.death_alert = ""
+    game.game_over = True
     game.save()
     assign_all_to_detective()
     return HttpResponseRedirect("/dashboard")
@@ -784,7 +787,6 @@ def getPlayerScreen(request, id):
         partner = user.partner
     else:
         partner = user    
-    death_name = game.death_alert
     context =  {
         'user': user.name,
         'player_id': user.id,
@@ -795,10 +797,11 @@ def getPlayerScreen(request, id):
         'partner_id': partner.id,
         'partner_name': partner.name,
         'partner_low_accuracy_question': partner.low_accuracy_question,
-        'death_name': death_name,
+        'death_name': game.death_alert,
         'player_low_accuracy_question': user.low_accuracy_question, 
         'mafia_count_text': mafia_count_text,
         'tip_on_mafia': tip_on_mafia,
+        'informing_player': user.informing_player,
        
 
 
@@ -1023,11 +1026,20 @@ def kill_informant2(request, informant, killer):
     i_player.alive = False
     i_player.active_screen = "you_have_been_killed"
     i_player.save()
-    for p in Player.objects.all():
-        p.override_screen = "death_alert"
+    announce_player = random.choice(Player.objects.filter().exclude(alive=False). \
+        exclude(id=i_player.id). \
+        exclude(id=k_player.id))
+    print("==== anounce_player", announce_player)
+    announce_player.override_screen = "death_alert"
+    announce_player.save()
+    lock_screen_players = Player.objects.filter(). \
+        exclude(id=i_player.id). \
+        exclude(id=k_player.id)
+    for p in lock_screen_players:
+        p.override_screen = "lock_screen"
         p.save()
     return HttpResponseRedirect("/bulletin/" + killer)
-
+    return HttpResponse("kill informant")
 def load_player_data(request):
     Player.objects.all().delete()
     Player.objects.bulk_create(
@@ -1181,32 +1193,36 @@ def resurrect_all_players(request):
 def new_round(request, round):
     game = Game.objects.get(id=1)
     print("-----new round", round)
-    if round == 1 and game.announce_round_1 == True:
-        print("----------------assign_informants 1")
-        game.announce_round_1 = False
-        game.save()
-        assign_informants("request")
-        Log(game.id, "timer", "round 1 start")
-    if round == 2 and game.announce_round_2 == True:
-        print("----------------assign_informants 2")
-        game.announce_round_2 = False
-        game.save()
-        assign_informants("request")
-        Log(game.id, "timer", "round 2 start")
-    if round == 3 and game.announce_round_3 == True:
-        game.announce_round_3 = False
-        game.save()
-        assign_informants("request")
-        Log(game.id, "timer", "round 3 start")
-    if round == 4 and game.announce_round_4 == True:
-        Log(game.id, "timer", "game over")
-        print("---round 0 hit")
-        game.announce_round_4 = False
-        game.save()        
-        players = Player.objects.all()
-        for p in players:
-            p.active_screen = "lock_screen_vote"
-            p.save()
+    if game.game_over == False:
+
+        if round == 1 and game.announce_round_1 == True:
+            print("----------------assign_informants 1")
+            game.announce_round_1 = False
+            game.save()
+            assign_informants("request")
+            Log(game.id, "timer", "round 1 start")
+        if round == 2 and game.announce_round_2 == True:
+            print("----------------assign_informants 2")
+            game.announce_round_2 = False
+            game.save()
+            assign_informants("request")
+            Log(game.id, "timer", "round 2 start")
+        if round == 3 and game.announce_round_3 == True:
+            game.announce_round_3 = False
+            game.save()
+            assign_informants("request")
+            Log(game.id, "timer", "round 3 start")
+        if round == 4 and game.announce_round_4 == True:
+            
+            Log(game.id, "timer", "game over")
+            print("---round 0 hit")
+            game.announce_round_4 = False
+            game.game_over = True
+            game.save()        
+            players = Player.objects.all()
+            for p in players:
+                p.active_screen = "lock_screen_vote"
+                p.save()
 
 
     return HttpResponseRedirect('/dashboard')
@@ -1295,6 +1311,8 @@ def submit_safe_person(request, id):
     print("==============submitSafePerson", id, request.POST['players'])
     safe_person = Player.objects.get(id=request.POST['players'])
     informant = Player.objects.get(id=id)
+    informant.active_screen = "character_assign_detective"
+    informant.save()
     safe_person.private_tip = informant.partner.low_accuracy_question
     if safe_person.role == "mafia":
         safe_person.override_screen = "tip_received_mafia"

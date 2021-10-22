@@ -11,14 +11,15 @@ Player.objects.all().delete()
 
 Player.objects.bulk_create(
     [
-        Player(name='AJ', active_screen="wait_screen", nickname="Mugger"),
-        Player(name='Sam', active_screen="wait_screen", nickname="The Knife"),
-        Player(name='Simin', active_screen="wait_screen", nickname="Sticky Fingers"),
-        Player(name='Terry', active_screen="wait_screen", nickname="Tool Shed"),
-        Player(name='Maria', active_screen="wait_screen", nickname="Mumbles"),
-        Player(name='Andre', active_screen="wait_screen", nickname="The Taco"),
-        Player(name='Jose', active_screen="wait_screen", nickname="Shoestring"),
-        Player(name='John', active_screen="wait_screen", nickname="Lefty"),
-        Player(name='Mary', active_screen="wait_screen", nickname="Bulleye"),
+        Player(name='AJ', active_screen="rules", override_screen="none", nickname=""),
+        Player(name='Sam', active_screen="rules", override_screen="none", nickname=""),
+        Player(name='Simin', active_screen="rules", override_screen="none", nickname=""),
+        Player(name='Terry', active_screen="rules", override_screen="none", nickname=""),
+        Player(name='Maria', active_screen="rules", override_screen="none", nickname=""),
+        Player(name='Andre', active_screen="rules", override_screen="none", nickname=""),
+        Player(name='Jose', active_screen="rules", override_screen="none", nickname=""),
+        Player(name='John', active_screen="rules", override_screen="none", nickname=""),
+        Player(name='Mary', active_screen="rules", override_screen="none", nickname=""),
+        Player(name='Vlad', active_screen="rules", override_screen="none", nickname="")
     ]
 )
