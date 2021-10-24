@@ -53,26 +53,25 @@
         </div>
         <div>
 
-            <a href='/loadPlayerData'><button>Load Player Data</button></a>
+            <!-- <a href='/loadPlayerData'><button>Load Player Data</button></a>
             <a href='/deletePlayerData'><button>Delete Player Data</button></a>
             <a href='/assignMafiaRole'><button>1-Assign Mafia Role</button></a>
-            <a href='/assignInformants'><button>2-Assign Informants</button></a>
+            <a href='/assignInformants'><button>2-Assign Informants</button></a> -->
             <!-- <a href='/reassignInformants'><button>3-Reassign Informants</button></a> -->
-            <a href='/assignAllToDetective'><button>Assign All To Detective</button></a>
-            <a href='/process_survey'><button>Process Survey</button></a>
+            <!-- <a href='/assignAllToDetective'><button>Assign All To Detective</button></a> -->
+            <a href='/processSurvey'><button>Process Survey</button></a>
 
         </div>
-        <button>Clear Player Data</button>
-        <a href="/start_game2" style="text-decoration: none;">
+        <a href="/startGame" style="text-decoration: none;">
             <button style="background-color: lightgreen;">Start Game</button>
         </a>
-        <a href="/stop_game2" style="text-decoration: none;">
+        <a href="/stopGame" style="text-decoration: none;">
             <button style="background-color: red;">Stop Game</button>
         </a>
-        <button onclick="startTimer()">Start Timer</button>
-        <button onclick="sendMessage('All')">Message all users</button>
-        <button onclick="deleteAllPlayerMessages()">Delete all messages</button>
-        <a href="/resurrectAllPlayers"><button>Resurrect Players</button></a>
+        <!-- <button onclick="startTimer()">Start Timer</button> -->
+        <!-- <button onclick="sendMessage('All')">Message all users</button> -->
+        <!-- <button onclick="deleteAllPlayerMessages()">Delete all messages</button> -->
+        <!-- <a href="/resurrectAllPlayers"><button>Resurrect Players</button></a> -->
         <div style="border: 1px solid black">
             <h4>Round: <span id="round"></span></h4>
             <h4>Timer: <span id="timer"></span></h4>
@@ -103,8 +102,8 @@
         </table>
     </div>
     <div style="border:1px solid black;">
-        <h1>Questions v2</h1>
-        <button onclick="countSelected2()">countSelected2</button>
+        <h1>Player Answers</h1>
+        <!-- <button onclick="countSelected2()">countSelected2</button> -->
 
         <table>
             <thead>
@@ -189,59 +188,59 @@
         //             timer()                    
         //         })
         // }
-        countSelected = () => {
-            console.log("countSelected")
-            var xhttp = new XMLHttpRequest()
-            xhttp.open("GET", "/countSelected", true)
-            xhttp.send()
-        }
-        countSelected2 = () => {
-            fetch('/countSelected2')
-                .then(response => response.text())
-                .then(data => console.log(data))
-        }
-        clearCountSelected = () => {
-            console.log("clear countSelected")
-            var xhttp = new XMLHttpRequest()
-            xhttp.open("GET", "/clearCountSelected", true)
-            xhttp.send()            
-        }
-        sendMessage = (recip) => {
-            console.log(recip)
-            var xhttp = new XMLHttpRequest()
-            xhttp.open("GET", "/sendMessage?recip=" + recip, true)
-            xhttp.send()
-        }
-        startTimer = () => {
-            var xhttp = new XMLHttpRequest()
-            xhttp.open("GET", "/setTimerEnd", true)
-            xhttp.send()
-        }
+        // countSelected = () => {
+        //     console.log("countSelected")
+        //     var xhttp = new XMLHttpRequest()
+        //     xhttp.open("GET", "/countSelected", true)
+        //     xhttp.send()
+        // }
+        // countSelected2 = () => {
+        //     fetch('/countSelected2')
+        //         .then(response => response.text())
+        //         .then(data => console.log(data))
+        // }
+        // clearCountSelected = () => {
+        //     console.log("clear countSelected")
+        //     var xhttp = new XMLHttpRequest()
+        //     xhttp.open("GET", "/clearCountSelected", true)
+        //     xhttp.send()            
+        // }
+        // sendMessage = (recip) => {
+        //     console.log(recip)
+        //     var xhttp = new XMLHttpRequest()
+        //     xhttp.open("GET", "/sendMessage?recip=" + recip, true)
+        //     xhttp.send()
+        // }
+        // startTimer = () => {
+        //     var xhttp = new XMLHttpRequest()
+        //     xhttp.open("GET", "/setTimerEnd", true)
+        //     xhttp.send()
+        // }
 
-        deleteAllPlayerMessages = () => {
-            var xhttp = new XMLHttpRequest()
-            xhttp.open("GET", "/deleteAllPlayerMessages", true)
-            xhttp.send()
-        }
-        getMessages = () => {
-            console.log("getMessages")
-            let messages = ""
-            const url = "/getMessages"
-            fetch(url)
-                .then(response => response.json())
-                .then(data => messages = data)
-                .then(html => {
-                    console.log(html, messages)
+        // deleteAllPlayerMessages = () => {
+        //     var xhttp = new XMLHttpRequest()
+        //     xhttp.open("GET", "/deleteAllPlayerMessages", true)
+        //     xhttp.send()
+        // }
+        // getMessages = () => {
+        //     console.log("getMessages")
+        //     let messages = ""
+        //     const url = "/getMessages"
+        //     fetch(url)
+        //         .then(response => response.json())
+        //         .then(data => messages = data)
+        //         .then(html => {
+        //             console.log(html, messages)
                     
-                    for (let key in html){
-                        let value = html[key]
-                        document.getElementById('AJ').innerHTML = value
+        //             for (let key in html){
+        //                 let value = html[key]
+        //                 document.getElementById('AJ').innerHTML = value
 
-                    }
+        //             }
 
                     
-                })
-        }
+        //         })
+        // }
         setScreen = (selectId) => {
             const screen = document.getElementById(selectId).value
             const id = document.getElementById(selectId).name
@@ -271,9 +270,6 @@
                 .then(data => {
                     let current = document.getElementById("playerData").innerHTML
                     if(current != data) {
-                        console.log("new data, refresh")
-                        console.log({current})
-                        console.log({data})
                         document.getElementById("playerData").innerHTML = data
                     } else {
                         console.log("same data, no action")

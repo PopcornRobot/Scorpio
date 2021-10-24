@@ -57,24 +57,24 @@ function timer(roundZeroEndTime, roundOneEndTime, roundTwoEndTime, roundThreeEnd
         console.log("round 1 start")
         announceRound1 = false
         var xhttp = new XMLHttpRequest()
-        xhttp.open("GET", "/new_round/1", true)
+        xhttp.open("GET", "/newRound/1", true)
         xhttp.send()        
     }
     else if(round == "2" && announceRound2 == true){
         console.log("round 2 start")
         announceRound2 = false
         var xhttp = new XMLHttpRequest()
-        xhttp.open("GET", "/new_round/2", true)
+        xhttp.open("GET", "/newRound/2", true)
         xhttp.send()        
     } else if(round == "3" && announceRound3 == true){
         console.log("round 3 start")
         announceRound3 = false
         var xhttp = new XMLHttpRequest()
-        xhttp.open("GET", "/new_round/3", true)
+        xhttp.open("GET", "/newRound/3", true)
         xhttp.send()        
     } else if(round == "Game Over" && announceRound4 == true) {
         console.log("---- round 4 hit")
-        const url = "/new_round/4"
+        const url = "/newRound/4"
         fetch(url)
     }    
 

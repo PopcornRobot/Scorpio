@@ -31,8 +31,9 @@ class Player(models.Model):
     safe_list_1 = models.TextField(null=True, blank=True)
     safe_list_2 = models.TextField(null=True, blank=True)
     safe_list_3 = models.TextField(null=True, blank=True)
-    private_tip = models.CharField(max_length=500, default="none", null=True, blank=True)
+    private_tip = models.CharField(max_length=500, default="none")
     gender = models.CharField(max_length=500, default="none")
+    informing_player = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name + " " + self.role
@@ -59,7 +60,7 @@ class Game(models.Model):
     roundLength = models.IntegerField(default=30)
     pregameLength = models.IntegerField(default=30)
     timer = models.IntegerField(default=0)
-    gameOver = models.DateTimeField(null=True)
+    gameOverTime = models.DateTimeField(null=True)
     roundEndTime = models.IntegerField(default=0)
     roundZeroEndTime = models.IntegerField(default=0)
     roundOneEndTime = models.IntegerField(default=0)
@@ -73,7 +74,7 @@ class Game(models.Model):
     debug_roundLength = models.IntegerField(default=30)
     debug_pregameLength = models.IntegerField(default=30)
     death_alert = models.CharField(max_length=120, default="")
-
+    game_over = models.BooleanField(default=True)
 
 class PlayerMessages(models.Model):
     id = models.AutoField(primary_key=True)

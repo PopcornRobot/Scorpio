@@ -8,7 +8,7 @@
     <title>Document</title>
     <script src="{% static 'js/timer.js' %}"></script>
 </head>
-<body style="color:white; background-color: black"  >
+<body >
     <h4>User: {{ player.name }}</h4>
 
     <div style="border:1px solid black">
@@ -21,14 +21,7 @@
                 
             </span> 
     </div>
-    <!-- <h4>Nickname: {{ nickname }}</h4>
-    <h4>Role: {{ role }}</h4>
-    <h4>Informant: {{ informant }}</h4>
-    <button onclick="getPlayerMessages('{{ user }}')">Get Messages</button>
-    <h4>Messages: {{ messages }}</h4> -->
-
-
-
+ 
     <script>
         let player_id = "{{ player.id }}"
         let roundZeroEndTime = "{{ roundZeroEndTime }}" 
