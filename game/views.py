@@ -483,7 +483,7 @@ def new_round(request, round):
     print("-----new round", round)
     game = Game.objects.get(id=1)
     if game.game_over == False:
-        log(game.id, timer, str(round) + " " + str(game.announce_round_1) + " " + str(game.announce_round_2) + " " + str(game.announce_round_3) + " " + str(game.announce_round_4) )
+        log(game.id, "timer", str(round) + " " + str(game.announce_round_1) + " " + str(game.announce_round_2) + " " + str(game.announce_round_3) + " " + str(game.announce_round_4) )
 
         if round == 1 and game.announce_round_1 == True:
             print("----------------assign_informants 1")
