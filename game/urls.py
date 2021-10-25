@@ -45,7 +45,7 @@ urlpatterns = [
     path('mafiaFindInformantSubmit/<int:id>', views.mafia_find_informant_submit),
     path('survey_save', views.survey_save),
     path('screen', views.screen),
-
+    path('getTip', views.get_tip),
 
     # path('game_menu', views.game_menu, name='game_menu'),
     # path('start_game', views.start_game, name='start_game'),
