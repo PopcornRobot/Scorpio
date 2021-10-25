@@ -86,4 +86,4 @@ class GameLog(models.Model):
     game = models.ForeignKey(Game, on_delete=CASCADE)
     event = models.CharField(max_length=200, default="", null=True)
     player = models.CharField(max_length=200, default="", null=True)
-    datetime = models.CharField(max_length=200, default="", null=True)
+    datetime = models.DateTimeField(auto_now_add=True)

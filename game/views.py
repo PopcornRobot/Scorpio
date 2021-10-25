@@ -29,11 +29,12 @@ def start_game(request):
     game = Game.objects.get(id=1)
     game.game_over = False
     game.save()
-    log(game.id, "admin", "-----------------------start game")
+    log(game.id, "admin", "start game")
     return HttpResponseRedirect("/dashboard")
 
 def stop_game(request):
     game = Game.objects.get(id=1)
+    log(game.id, "admin", "stop game")
     game.roundEndTime = 0
     game.roundZeroEndTime = 0
     game.roundOneEndTime = 0
@@ -65,7 +66,7 @@ def pregame_length_set(request):
         game.debug_pregameLength = request.POST['pregameLength']
     else:
         game.pregameLength = request.POST['pregameLength']
-        
+
     game.save()
     return redirect("/dashboard")
 
@@ -105,7 +106,7 @@ def set_timer_end():
         minute_multiplier = 1
         roundLength = game.debug_roundLength
         pregameLength = game.debug_pregameLength
-    else: 
+    else:
         minute_multiplier = 60
         roundLength = game.roundLength
         pregameLength = game.pregameLength
@@ -130,7 +131,7 @@ def bulletin(request, id):
         activeScreen = "screens/" + player.active_screen + ".html"
     else:
         activeScreen = "screens/" + player.override_screen + ".html"
-        
+
     count_words = ["zero", "one", "two", "three", "four"]
     mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
     other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
@@ -203,16 +204,16 @@ def get_player_screen(request, id):
     other_mafia_display = ""
     for m in other_mafia:
         other_mafia_display += m.name + ", "
-    other_mafia_display = other_mafia_display[:-2]        
+    other_mafia_display = other_mafia_display[:-2]
     other_players = Player.objects.exclude(name=user.name).exclude(alive=False)
     if user.partner:
         print("user.partner", user.partner.low_accuracy_question)
         partner = user.partner
     else:
-        partner = user    
+        partner = user
     if user.informing_player == 0:
         informing_player = None
-    else: 
+    else:
         informing_player = Player.objects.get(id=user.informing_player)
 
     context =  {
@@ -226,7 +227,7 @@ def get_player_screen(request, id):
         'partner_name': partner.name,
         'partner_low_accuracy_question': partner.low_accuracy_question,
         'death_name': game.death_alert,
-        'player_low_accuracy_question': user.low_accuracy_question, 
+        'player_low_accuracy_question': user.low_accuracy_question,
         'mafia_count_text': mafia_count_text,
         'tip_on_mafia': tip_on_mafia,
         'informing_player_id': user.informing_player,
@@ -247,7 +248,7 @@ def set_override_screen(request, id, screen):
     user.override_screen = screen
     user.save()
     return HttpResponseRedirect("/dashboard")
-    
+
 def dashboard(request):
     question_data = Question.objects.all()
     if question_data.count() == 0:
@@ -263,7 +264,7 @@ def dashboard(request):
                 Question(text='q8', news_report=""),
                 Question(text='q9', news_report=""),
             ]
-        )  
+        )
     game = Game.objects.get(id=1)
     players = Player.objects.all().order_by('name')
     playerMessages = PlayerMessages.objects.all()
@@ -273,7 +274,7 @@ def dashboard(request):
     low_accuracy = Question.objects.all().order_by('-selected_count')[:1][0]
     if Question.objects.filter(selected_count__gt=0).order_by('selected_count')[:1]:
         high_accuracy = Question.objects.filter(selected_count__gt=0).order_by('selected_count')[:1][0]
-    else: 
+    else:
         high_accuracy = ""
     max_selected = Question.objects.aggregate(Max('selected_count'))
     # print("max selected", max_selected)
@@ -301,9 +302,9 @@ def dashboard(request):
         'roundZeroEndTime': game.roundZeroEndTime,
         'roundOneEndTime': game.roundOneEndTime,
         'roundTwoEndTime': game.roundTwoEndTime,
-        'roundThreeEndTime': game.roundThreeEndTime,    
-        'debug': game.debug,   
-        'time': time, 
+        'roundThreeEndTime': game.roundThreeEndTime,
+        'debug': game.debug,
+        'time': time,
         'pregameLength': pregameLength,
     }
     return render(request, "dashboard.html", context)
@@ -451,7 +452,7 @@ def assign_informants(request):
         informant.role = "informant"
         informant.has_been_informant = True
         informant.active_screen = "informant"
-        informant.save()   
+        informant.save()
     return HttpResponseRedirect('/dashboard')
 
 def assign_all_to_detective(request=""):
@@ -496,7 +497,7 @@ def new_round(request, round):
             print("---round 0 hit")
             game.announce_round_4 = False
             game.game_over = True
-            game.save()        
+            game.save()
             players = Player.objects.all()
             for p in players:
                 p.active_screen = "lock_screen_vote"
@@ -541,8 +542,8 @@ def get_player_data(request):
             'nickname': p.nickname,
             'role': p.role
             }
-            
-   # assemble html table body and return 
+
+   # assemble html table body and return
     table_body = ""
     for p in players:
         table_body += (
@@ -552,7 +553,7 @@ def get_player_data(request):
             '<td>' + str(p.nickname) +'</td>'
             '<td>' + str(p.partner) +'</td>'
             '<td>' + str(p.private_tip) + '</td>'
-            '<td>' + 
+            '<td>' +
             '<select name="'+ str(p.id) +'" id="'+ str(p.id) +'">' +
                             '<option value=""></option>' +
                             '<option value="rules">rules</option>' +
@@ -599,7 +600,7 @@ def get_player_data(request):
                         '<button onclick="setOverrideScreen(' + str(p.id) + ')">Set</button>' +
                         str(p.override_screen) +
             '</td>'
-            '<td>' 
+            '<td>'
             '<select name="' + str(p.id) + '-role" id="'+ str(p.id) +'-role">'+
                 '<option></option>' +
                 '<option value="detective">detective</option>' +
@@ -635,6 +636,7 @@ def clear_all_override_screens(request, id):
     return HttpResponseRedirect("/bulletin/" + str(id))
 
 def mafia_find_informant_submit(request, id):
+    print("---- mafia_find_informant_submit ---")
     game = Game.objects.get(id=1)
     mafia_player = Player.objects.get(id=id)
     killed_player = Player.objects.get(name=request.GET['player'])
@@ -654,7 +656,7 @@ def mafia_find_informant_submit(request, id):
             Player.objects.update(active_screen="detectives_win")
         game.death_alert = mafia_player.name
         game.save()
-    
+
     for p in Player.objects.all():
         p.override_screen = "lock_screen"
         p.save()
@@ -662,12 +664,12 @@ def mafia_find_informant_submit(request, id):
     death_alert_announcer.override_screen = "death_alert"
     death_alert_announcer.save()
     print("mfi", killed_player, death_alert_announcer)
-    
+
     return HttpResponseRedirect("/bulletin/" + str(id))
 
 def logs(request):
 
-    return render(request, 'logs.html', {"logs":GameLog.objects.all().order_by('datetime')})
+    return render(request, 'logs.html', {"logs":GameLog.objects.all().order_by('-datetime')})
 
 
 
@@ -815,7 +817,7 @@ def logs(request):
 #     # player.active_screen = "informant_tip_submitted"
 #     player.save()
 
-    
+
 #     if list != "None":
 #         safe_list_is_clean = True
 #         for s in selected_players:
@@ -838,7 +840,7 @@ def logs(request):
 #             print("---mafia tip", mafia[0].low_accuracy_question)
 #             detective.private_tip = mafia[0].low_accuracy_question
 #             detective.save()
-            
+
 #         player.override_screen = "informant_tip_submitted"
 #         player.active_screen = "character_assign_detective"
 #         player.save()
@@ -987,7 +989,7 @@ def screen(request):
 #     return HttpResponseRedirect("/game_menu")
 
 # # def start_game(request):
-    
+
 # #     # assign Chief
 
 # #     # get random person

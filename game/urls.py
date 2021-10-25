@@ -15,7 +15,7 @@ urlpatterns = [
     path('dashboard', views.dashboard, name="dashboard"),
     path('scan', views.scan),
     path('logs', views.logs),
-    
+
 # functions
     path('startGame', views.start_game),
     path('stopGame', views.stop_game),
@@ -38,7 +38,7 @@ urlpatterns = [
     path('newRound/<int:round>', views.new_round),
     path('debugSwitch', views.debug_switch),
     path('submitSafePerson/<int:id>', views.submit_safe_person),
-    path('getPlayerData', views.get_player_data),    
+    path('getPlayerData', views.get_player_data),
     path('setPlayerRole/<int:id>/<str:role>', views.set_player_role),
     path('clearOverrideScreen/<int:id>', views.clear_override_screen),
     path('clearAllOverrideScreens/<int:id>', views.clear_all_override_screens),
@@ -77,7 +77,3 @@ urlpatterns = [
     # path('submitSafeList/<int:id>', views.submit_safe_list),
     # path('submitSafeList2/<int:id>/', views.submit_safe_list2),
     # path('submitSafeList2/<int:id>/<list>', views.submit_safe_list2),
-
-
-
-
