@@ -29,11 +29,12 @@ def start_game(request):
     game = Game.objects.get(id=1)
     game.game_over = False
     game.save()
-    log(game.id, "admin", "-----------------------start game")
+    log(game.id, "admin", "start game")
     return HttpResponseRedirect("/dashboard")
 
 def stop_game(request):
     game = Game.objects.get(id=1)
+    log(game.id, "admin", "stop game")
     game.roundEndTime = 0
     game.roundZeroEndTime = 0
     game.roundOneEndTime = 0
@@ -634,6 +635,7 @@ def clear_all_override_screens(request, id):
     return HttpResponseRedirect("/bulletin/" + str(id))
 
 def mafia_find_informant_submit(request, id):
+    print("---- mafia_find_informant_submit ---")
     game = Game.objects.get(id=1)
     mafia_player = Player.objects.get(id=id)
     killed_player = Player.objects.get(name=request.GET['player'])
@@ -666,7 +668,7 @@ def mafia_find_informant_submit(request, id):
 
 def logs(request):
 
-    return render(request, 'logs.html', {"logs":GameLog.objects.all().order_by('datetime')})
+    return render(request, 'logs.html', {"logs":GameLog.objects.all().order_by('-datetime')})
 
 
 

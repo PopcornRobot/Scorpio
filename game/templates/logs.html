@@ -10,7 +10,7 @@
     <h1>Logs</h1>
     <ul>
         {% for l in logs%}
-        <li> {{ l.datetime }} {{ l.event }}</li>
+        <li> {{ l.datetime }} - {{ l.player }} - {{ l.event }}</li>
         {% endfor %}
     </ul>
 </body>
