@@ -288,7 +288,8 @@ def dashboard(request):
         roundLength = game.roundLength
         pregameLength = game.pregameLength
         time = "min"
-    # print('players', players)
+    current_tip = Question.objects.filter(selected_count__gt=0)
+
     context = {
         'players': players,
         'playerMessages': playerMessages,
@@ -306,6 +307,7 @@ def dashboard(request):
         'debug': game.debug,
         'time': time,
         'pregameLength': pregameLength,
+        'current_tip': current_tip,
     }
     return render(request, "dashboard.html", context)
 
@@ -470,6 +472,12 @@ def assign_all_to_detective(request=""):
         safe_list_3 = None
     )
     return HttpResponseRedirect("/dashboard")
+
+def get_tip(request):
+    print("get_tip")
+    return HttpResponseRedirect("/dashboard")
+
+
 def new_round(request, round):
     print("-----new round", round)
     game = Game.objects.get(id=1)
