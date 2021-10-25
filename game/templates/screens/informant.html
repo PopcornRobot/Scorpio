@@ -1,7 +1,19 @@
 {% extends 'base_newspaper.html' %}
 {% load static %}
-
 {% block content %}
+<style>
+    input[type=button],
+    input[type=submit] {
+        /* background-color: #62529c; */
+        border: none;
+        /* color: black; */
+        padding: 5px 15px;
+        text-decoration: none;
+        margin: 3px 2px;
+        cursor: pointer;
+    }
+</style>
+
 <div class="container-fluid">
 
     <!-- Heading + Image -->
@@ -48,19 +60,26 @@
 
         <form action="/submitSafePerson/{{ player_id }}" method="POST">
             {% csrf_token %}
-            <ul>
-              {% for p in other_players %}
-              <li style="list-style-type: none; color: black">
-                <input type="radio" name="players" value="{{ p.id }}">
-                {{ p.name }}
-    
-              </li>
-              {% endfor %}
-            </ul>
+            {% for p in other_players %}
+              <!-- <li style="list-style-type: none; color: black"> -->
+                <!-- <input type="radio" name="players" value="{{ p.id }}">
+                {{ p.name }} -->
+              <!-- </li> -->
+
+                <div class='radio-group'>
+                    <label class='radio-label'>
+                        <input name='players' type='radio' checked='checked' value="{{ p.id }}">
+                        <span class='inner-label'>{{ p.name }}</span>
+                    </label>
+                </div>
+
+            {% endfor %}
+            </hr>
             <input type="submit" value="Submit" style="background-color:white; color:black;">
         </form>
-    
+ 
     </div>
+</div>
 
     <script>
 
@@ -89,5 +108,5 @@
     
     </script>
 
-</div>
+
 {% endblock %}

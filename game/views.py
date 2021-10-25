@@ -410,7 +410,8 @@ def delete_player_data(request):
     return HttpResponseRedirect('/dashboard')
 
 def assign_mafia_role(request=""):
-    mafia_names = ["Pistol Pete", "Ice Pick Willie", "Bootsie"]
+    mafia_names = ["Pistol Pete", "Ice Pick Willie", "Bootsie", "Scarface", "Big Tuna", 
+    "Junior Lollipops", "Baby Shanks", "The Cigar", "Greasy Thumb", "The Prophet", "Money bags"  ]
     print("assign_mafia_role")
     player_count = Player.objects.all().count()
     mafia_count = int(round(player_count * .2))
@@ -914,9 +915,9 @@ def logs(request):
 #     questions = Question.objects.all()
 #     return render(request, 'all_questions.html', {'questions': questions})
 
-# def screen(request):
-#     # questions = Question.objects.all()
-#     return render(request, 'screens/' + request.GET["screen"] + '.html')
+def screen(request):
+    # questions = Question.objects.all()
+    return render(request, 'screens/' + request.GET["screen"] + '.html')
 
 # def role_assignment(request):
 #     player = Player.objects.get(id=request.GET['pid'])
@@ -1068,73 +1069,73 @@ def logs(request):
 
 
 
-# def survey_save(request):
-#     print("survey_save")
-#     answer_ids =request.POST.getlist('survey')
+def survey_save(request):
+    print("survey_save")
+    answer_ids =request.POST.getlist('survey')
 
-#     player = Player.objects.create( \
-#         name=request.POST['name'], \
-#         role='detective', \
-#         nickname='', \
-#         active_screen='rules', \
-#         override_screen='none'
-#         # nickname=request.POST['gangsterNameDropdown'] \
-#             )
-#     print(player.id)
-#     # print(list_ids)
+    player = Player.objects.create( \
+        name=request.POST['name'], \
+        role='detective', \
+        nickname='', \
+        active_screen='rules', \
+        override_screen='none'
+        # nickname=request.POST['gangsterNameDropdown'] \
+            )
+    print(player.id)
+    # print(list_ids)
 
-#     # return HttpResponse("thanks for your submission!")
-#     # return render(request, 'rules.html', {})
+    # return HttpResponse("thanks for your submission!")
+    # return render(request, 'rules.html', {})
 
-#     # player = Player.objects.get(name=request.user.name)
-#     # print(player)
+    # player = Player.objects.get(name=request.user.name)
+    # print(player)
 
-#     # if request.method == "POST":
-#     #     gangsterName = request.POST['gangsterNameDropdown']
+    # if request.method == "POST":
+    #     gangsterName = request.POST['gangsterNameDropdown']
 
-#     #     gangsterNameList = list(Player.objects.all().values_list('nickname', flat=True))
-#     #     gangsterNameList = set(gangsterNameList)
+    #     gangsterNameList = list(Player.objects.all().values_list('nickname', flat=True))
+    #     gangsterNameList = set(gangsterNameList)
 
-#     #     if gangsterName in gangsterNameList:
-#     #         print(gangsterName + " is in the List")
+    #     if gangsterName in gangsterNameList:
+    #         print(gangsterName + " is in the List")
 
-#     #         players = Player.objects.all()
+    #         players = Player.objects.all()
 
-#     #         game_is_started = False
-#     #         if len(players) > 0 and players[0].role != "":
-#     #             game_is_started = True
+    #         game_is_started = False
+    #         if len(players) > 0 and players[0].role != "":
+    #             game_is_started = True
 
-#     #         questions = Question.objects.all()
-#     #         return render(request, 'survey.html', {'questions': questions, 'game_is_started': game_is_started})
-#     #     else:
-#     #         print(gangsterName + " is not in the List")
-#     #         player = Player.objects.create(name=request.POST['name'], role='', nickname=gangsterName)
+    #         questions = Question.objects.all()
+    #         return render(request, 'survey.html', {'questions': questions, 'game_is_started': game_is_started})
+    #     else:
+    #         print(gangsterName + " is not in the List")
+    #         player = Player.objects.create(name=request.POST['name'], role='', nickname=gangsterName)
 
-#     for id in answer_ids:
-#         question = Question.objects.get(id=id)
-#         PlayerAnswer.objects.create(player=player, question=question)
+    for id in answer_ids:
+        question = Question.objects.get(id=id)
+        PlayerAnswer.objects.create(player=player, question=question)
 
-#     # print(gangsterNameList)
-#         # for nickname in gangsterNameList:
-#         #     if gangsterName == nickname:
-#         #         print("this is a dup")
-#         #     print("this is not a dup")
+    # print(gangsterNameList)
+        # for nickname in gangsterNameList:
+        #     if gangsterName == nickname:
+        #         print("this is a dup")
+        #     print("this is not a dup")
 
-#         # if gangsterName in gangsterNameList:
-#         #     print("this is dup")
-#         # else:
-#         #     print("this is not dup")
-#         # gangsterNameList.append(gangsterName)
+        # if gangsterName in gangsterNameList:
+        #     print("this is dup")
+        # else:
+        #     print("this is not dup")
+        # gangsterNameList.append(gangsterName)
 
-#         # for name in gangsterNameList:
-#         #     if name != gangsterName:
-#         #         print(gangsterName + " is not dup")
-#         #         pass
-#         #     if name == gangsterName:
-#         #         print(gangsterName + " is a dup")
+        # for name in gangsterNameList:
+        #     if name != gangsterName:
+        #         print(gangsterName + " is not dup")
+        #         pass
+        #     if name == gangsterName:
+        #         print(gangsterName + " is a dup")
 
-#     # return HttpResponseRedirect(("/rules?pid=%s" % (player.id)))
-#     return HttpResponseRedirect("/bulletin/" + str(player.id))
+    # return HttpResponseRedirect(("/rules?pid=%s" % (player.id)))
+    return HttpResponseRedirect("/bulletin/" + str(player.id))
 
 
 # def overview(request):

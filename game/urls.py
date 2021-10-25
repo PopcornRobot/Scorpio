@@ -43,8 +43,10 @@ urlpatterns = [
     path('clearOverrideScreen/<int:id>', views.clear_override_screen),
     path('clearAllOverrideScreens/<int:id>', views.clear_all_override_screens),
     path('mafiaFindInformantSubmit/<int:id>', views.mafia_find_informant_submit),
+    path('survey_save', views.survey_save),
+    path('screen', views.screen),
 
-]
+
     # path('game_menu', views.game_menu, name='game_menu'),
     # path('start_game', views.start_game, name='start_game'),
     # path('stop_game', views.stop_game, name='stop_game'),
@@ -52,15 +54,14 @@ urlpatterns = [
     # path('delete', views.delete, name='delete'),
     # path('role_assignment', views.role_assignment, name='role_assignment'),
     # path('all_questions', views.all_questions, name='all_questions'),
-    # path('survey_save', views.survey_save),
     # path('overview', views.overview),
     # path('printout', views.printout),
     # path('randomize', views.randomize),
     # path('validate_name', views.validate_name, name='validate_name'),
-    # path('screen', views.screen),
-
 
     # path('timer', views.timer),
+
+]
 
 # bulletin/dashboard test
     # path('getMessages', views.getMessages),

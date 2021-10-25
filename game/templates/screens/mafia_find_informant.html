@@ -2,6 +2,20 @@
 {% load static %}
 
 {% block content %}
+
+<style>
+    input[type=button],
+    input[type=submit] {
+        /* background-color: #62529c; */
+        border: none;
+        /* color: black; */
+        padding: 5px 15px;
+        text-decoration: none;
+        margin: 3px 2px;
+        cursor: pointer;
+    }
+</style>
+
 <div class="container-fluid">
 
     <!-- Heading + Image -->
@@ -11,11 +25,14 @@
         <img src="{% static "img/whisper22.jpg" %}" max width="100%" class="text-center"/>
 
         <!-- <p class="blocktect nerko" style="font-size:30px;">INFORMANT DETECTIVE #2</p>
-        <p class="blocktect nerko" style="font-size:30px;">SMELLS LIKE A RAT</p>
-        <img src="{% static "img/find_one.jpg" %}" max width="100%" class="text-center"/>
-
-        <p class="blocktect nerko" style="font-size:30px;">INFORMANT DETECTIVE #3</p>
         <p class="blocktect nerko" style="font-size:30px;">SMELLS LIKE A RAT</p> -->
+
+        <img src="{% static "img/findone22.jpg" %}" max width="100%" class="text-center"/>
+
+        <!-- <p class="blocktect nerko" style="font-size:30px;">INFORMANT DETECTIVE #3</p>
+        <p class="blocktect nerko" style="font-size:30px;">SMELLS LIKE A RAT</p> --> 
+        
+        <img src="{% static "img/travel22.jpg" %}" max width="100%" class="text-center"/>
 
     </div>
 
@@ -58,15 +75,20 @@
         <form action="/mafia_find_informant_submit/{{ player_id }}">
             {% for player in other_players %}
 
-                <input type="radio" name="player" id="{{ player.id }}" value="{{ player.name}}">
-                <label for="{{ player.id }}">{{ player.name }}</label><br>
-                {% endfor   %}
-                <input type="submit" value="submit">
-            </div>
+                <!-- <input type="radio" name="player" id="{{ player.id }}" value="{{ player.name}}">
+                <label for="{{ player.id }}">{{ player.name }}</label><br> -->
+
+                <div class='radio-group'>
+                    <label class='radio-label'>
+                        <input type='radio' name='player' id="{{ player.id }}" value="{{ player.name}}" checked="checked">
+                        <span class='inner-label'>{{ player.name }}</span>
+                    </label>
+                </div>
+
+            {% endfor %}
+            <hr>
+            <input type="submit" value="submit" style="background-color:black; color:white;">
         </form>
-
-
-
 
     </div>
 

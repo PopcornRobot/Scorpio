@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,19 +8,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="{% static 'js/timer.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
 </head>
-<body >
-    <h4>User: {{ player.name }}</h4>
 
-    <div style="border:1px solid black">
-            <div style="border: 1px solid black">
-                <h4>Round: <span id="round"></span></h4>
-                <h4>Timer: <span id="timer"></span></h4>
-            </div>
-            <span id="activeScreen">
-                
-                
-            </span> 
+<style>
+
+    .container-fluid {
+        background-image: url("{% static "img/newspaper_two.jpg" %}");
+        background-position: 50% 50%;
+        background-repeat: repeat;
+    }
+
+    .rajdhani {font-family: 'Rajdhani', sans-serif;}
+
+</style>
+
+<body >
+    
+
+    <div class="container-fluid">
+
+        <br>
+
+        <!-- <h6>User: {{ player.name }}</h6> -->
+            <p class="rajdhani"; style="font-size: 10px; color:black; ">
+            <u>Round: <span id="round"></span> | Timer: <span id="timer"></u></span></p>
+            <!-- <p style="font-size: 10px;">Timer: <span id="timer"></span></p> -->
+        
+        <span id="activeScreen">
+        </span> 
     </div>
  
     <script>
