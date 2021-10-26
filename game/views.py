@@ -20,21 +20,21 @@ def rules(request):
     return render(request, 'rules.html', {'player_id': request.GET['pid']})
 
 def start_game(request):
+    game = Game.objects.get(id=1)
+    game.game_over = False
+    game.save()
+    log(game.id, "admin", "---------------start game---------------")
     clear_count_selected()
     count_selected()
     process_survey()
     set_timer_end()
     assign_mafia_role()
     update_screens()
-    game = Game.objects.get(id=1)
-    game.game_over = False
-    game.save()
-    log(game.id, "admin", "start game")
     return HttpResponseRedirect("/dashboard")
 
 def stop_game(request):
+    log(1, "admin", "=================stop game=================")
     game = Game.objects.get(id=1)
-    log(game.id, "admin", "stop game")
     game.roundEndTime = 0
     game.roundZeroEndTime = 0
     game.roundOneEndTime = 0
@@ -292,7 +292,7 @@ def dashboard(request):
     current_tip = Question.objects.filter(selected_count__gt=0)
 
     context = {
-        'players': players,
+        'players': players.order_by('id'),
         'playerMessages': playerMessages,
         'mafia': mafia,
         'townpeople': townpeople,
@@ -326,16 +326,25 @@ def process_survey(request=""):
         for answer in player_answers:
             print(answer.question.selected_count, answer.question.text)
             count_dict[answer.id] = answer.question.selected_count
-            answer_dict[answer.question.selected_count] = answer.question.text
+            answer_dict[answer.question.text] = answer.question.selected_count
             answer_list.append(answer.question.selected_count)
         od = collections.OrderedDict(sorted(answer_dict.items()))
+        # {k: v for k, v in sorted(answer_dict.items(), key=lambda item: item[1])}
+        sorted_answers = sorted(answer_dict.items(), key=lambda x:x[1])
+        log(1, "process_survey-sorted_answers", sorted_answers)
+        log(1, "process_survey-player", player.name)
+        # log(1, "process_survey-answer_dict", answer_dict)
         sorted_answer_list = sorted(answer_list)
-        q_high = max(answer_list)
-        q_low = min(answer_list)
-        q_med = sorted_answer_list[int((len(answer_list)-1)/2)]
-        player.low_accuracy_question = answer_dict[q_low]
-        player.med_accuracy_question = answer_dict[q_med]
-        player.high_accuracy_question = answer_dict[q_high]
+        q_high = sorted_answer_list[2]
+        # log(1, "process_survey q_high 1", answer_list)
+        answer_list.remove(q_high)
+        # log(1, "process_survey q_high 2", answer_list)
+        q_med = sorted_answer_list[1]
+        q_low = sorted_answer_list[0]
+        
+        player.low_accuracy_question = sorted_answers[0][0]
+        player.med_accuracy_question = sorted_answers[1][0]
+        player.high_accuracy_question = sorted_answers[2][0]
         player.save()
     return HttpResponseRedirect(reverse('game:dashboard'))
 
@@ -527,8 +536,13 @@ def submit_safe_person(request, id):
     informant.active_screen = "character_assign_detective"
     informant.save()
     random_mafia = random.choice(Player.objects.filter(role="mafia"))
-    safe_person.private_tip = random_mafia.low_accuracy_question
-
+    game = Game.objects.get(id=1)
+    if game.announce_round_2 == True:
+        safe_person.private_tip = random_mafia.low_accuracy_question
+    elif game.announce_round_3 == True:
+        safe_person.private_tip = random_mafia.med_accuracy_question
+    elif game.announce_round_4 == True:
+        safe_person.private_tip = random_mafia.high_accuracy_question
     if safe_person.role == "mafia":
         safe_person.override_screen = "tip_received_mafia"
         safe_person.informing_player = informant.id
