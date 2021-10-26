@@ -20,6 +20,7 @@ def rules(request):
     return render(request, 'rules.html', {'player_id': request.GET['pid']})
 
 def start_game(request):
+    stop_game()
     game = Game.objects.get(id=1)
     game.game_over = False
     game.save()
@@ -32,7 +33,7 @@ def start_game(request):
     update_screens()
     return HttpResponseRedirect("/dashboard")
 
-def stop_game(request):
+def stop_game(request=""):
     log(1, "admin", "=================stop game=================")
     game = Game.objects.get(id=1)
     game.roundEndTime = 0
