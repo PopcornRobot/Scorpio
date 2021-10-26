@@ -76,7 +76,6 @@ class Game(models.Model):
     debug_pregameLength = models.IntegerField(default=30)
     death_alert = models.CharField(max_length=120, default="")
     game_over = models.BooleanField(default=True)
-    game_start_time = models.IntegerField(default=0)
 
 class PlayerMessages(models.Model):
     id = models.AutoField(primary_key=True)

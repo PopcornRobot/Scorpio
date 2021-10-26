@@ -24,7 +24,6 @@ def start_game(request):
     Question.objects.all().update(is_used=False)
     game = Game.objects.get(id=1)
     # game.game_over = False
-    game.game_start_time = time.time()
     game.roundEndTime = 0
     game.roundZeroEndTime = 0
     game.roundOneEndTime = 0
