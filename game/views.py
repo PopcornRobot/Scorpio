@@ -326,7 +326,8 @@ def process_survey(request=""):
         for answer in player_answers:
             print(answer.question.selected_count, answer.question.text)
             count_dict[answer.id] = answer.question.selected_count
-            answer_dict[answer.question.text] = answer.question.selected_count
+            answer_dict[answer.question.id] = answer.question.selected_count
+            # answer_dict[answer.question.news_report] = answer.question.selected_count
             answer_list.append(answer.question.selected_count)
         od = collections.OrderedDict(sorted(answer_dict.items()))
         # {k: v for k, v in sorted(answer_dict.items(), key=lambda item: item[1])}
