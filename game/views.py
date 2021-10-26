@@ -135,7 +135,7 @@ def bulletin(request, id):
         activeScreen = "screens/" + player.override_screen + ".html"
 
     count_words = ["zero", "one", "two", "three", "four"]
-    mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
+    # mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
     other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
     other_mafia_display = ""
     for m in other_mafia:
@@ -200,7 +200,7 @@ def get_player_screen(request, id):
         active_screen = user.active_screen
     else:
         active_screen = user.override_screen
-    count_words = ["zero", "one", "two", "three", "four"]
+    count_words = ["zero", "one", "two", "three", "four", "five", "six"]
     mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
     other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
     other_mafia_display = ""
