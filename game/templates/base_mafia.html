@@ -10,6 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="generator" content="Codeply">
         <link href="{% static "css/radio_style.css" %}" rel="stylesheet">
+        <link href="{% static "css/arlene_custom.css" %}" rel="stylesheet"> 
         <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" /> -->
         <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" rel="stylesheet" /> -->
         <!-- <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" /> -->
@@ -29,43 +30,21 @@
         <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Tillana&family=Walter+Turncoat&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
-            
+  
+    <style>
+
+        .container-fluid {
+            background-image: url("{% static "img/newspaper.jpg" %}");
+            background-position: 50% 50%;
+            background-repeat: repeat;
+        }
+
+    </style>  
+
+
 </head>
 
-<style>
-    .garamond {font-family: 'EB Garamond', serif;}
 
-    .nanum {font-family: 'Nanum Pen Script', cursive;}
-
-    .walter {font-family: 'Walter Turncoat', cursive;}
-
-    .nerko {font-family: 'Nerko One', cursive;}
-
-    .container-fluid {
-        background-image: url("{% static "img/newspaper.jpg" %}");
-        background-position: 50% 50%;
-        background-repeat: repeat;
-    }
-
-    .top-left {
-        position: absolute;
-        top: 8px;
-        left: 60px;
-    }
-
-    .top-right {
-        position: absolute;
-        top: 8px;
-        left: 60px;
-    }
-
-    .blocktext {
-        margin-left: auto;
-        margin-right: auto;
-        /* width: 8em */
-    }
-
-</style>
 
 <body>
 
@@ -73,7 +52,7 @@
 
         <br>
 
-        <p style="font-size:60px; text-align: center;" class="nerko">NOTES</p>
+        <!-- <p style="font-size:60px; text-align: center;" class="nerko">NOTES</p> -->
 
         <div style="background-color:#000000; height:7px; width:100%;"></div>
 

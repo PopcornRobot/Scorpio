@@ -20,21 +20,11 @@ def rules(request):
     return render(request, 'rules.html', {'player_id': request.GET['pid']})
 
 def start_game(request):
-    clear_count_selected()
-    count_selected()
-    process_survey()
-    set_timer_end()
-    assign_mafia_role()
-    update_screens()
+    assign_all_to_detective()
+    
     game = Game.objects.get(id=1)
-    game.game_over = False
-    game.save()
-    log(game.id, "admin", "start game")
-    return HttpResponseRedirect("/dashboard")
-
-def stop_game(request):
-    game = Game.objects.get(id=1)
-    log(game.id, "admin", "stop game")
+    # game.game_over = False
+    game.game_start_time = time.time()
     game.roundEndTime = 0
     game.roundZeroEndTime = 0
     game.roundOneEndTime = 0
@@ -45,9 +35,21 @@ def stop_game(request):
     game.announce_round_3 = True
     game.announce_round_4 = True
     game.death_alert = ""
-    game.game_over = True
     game.save()
-    assign_all_to_detective()
+    log(game.id, "admin", "---------------start game---------------")
+    clear_count_selected()
+    count_selected()
+    process_survey()
+    set_timer_end()
+    assign_mafia_role()
+    update_screens()
+    return HttpResponseRedirect("/dashboard")
+
+def stop_game(request=""):
+    log(1, "admin", "=================stop game=================")
+    game = Game.objects.get(id=1)
+    # game.game_over = True
+    game.save()
     clear_count_selected()
     return HttpResponseRedirect("/dashboard")
 
@@ -114,14 +116,29 @@ def set_timer_end():
     game.roundOneEndTime = now + pregameLength + roundLength * minute_multiplier
     game.roundTwoEndTime = now  + pregameLength+ (roundLength * 2) * minute_multiplier
     game.roundThreeEndTime = now + pregameLength + (roundLength * 3) * minute_multiplier
+    game.roundThreeEndTime = now + pregameLength + (roundLength * 4) * minute_multiplier
     game.announce_round_1 = True
     game.announce_round_2 = True
     game.announce_round_3 = True
     game.announce_round_4 = True
     game.save()
+    log(game.id, "set_timer_end", str(game.roundZeroEndTime) + " " + str(game.roundOneEndTime) + " " + str(game.roundTwoEndTime) + " " + str(game.roundThreeEndTime) + " " + str(now) )
     return HttpResponse("ajaxTest")
 
-# bulletin test
+def current_round(game):
+    current_time = time.time()
+    if game.roundZeroEndTime > current_time:
+        return 0
+    elif game.roundOneEndTime > current_time:
+        return 1
+    elif game.roundTwoEndTime > current_time:
+        return 2
+    elif game.roundThreeEndTime > current_time:
+        return 3
+    elif game.roundFourEndTime > current_time:
+        return 4
+    
+
 
 def bulletin(request, id):
     player = Player.objects.get(id=id)
@@ -133,7 +150,7 @@ def bulletin(request, id):
         activeScreen = "screens/" + player.override_screen + ".html"
 
     count_words = ["zero", "one", "two", "three", "four"]
-    mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
+    # mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
     other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
     other_mafia_display = ""
     for m in other_mafia:
@@ -161,6 +178,36 @@ def bulletin(request, id):
 def check_player_screen(request, id):
     print("checkPlayerScreen", id)
     game = Game.objects.get(id=1)
+    curr_round= current_round(game)
+    
+    if curr_round == 1 and game.announce_round_1 == True:
+        print("announce new round", curr_round)
+        assign_informants()
+        game.announce_round_1 = False
+        game.save()
+    elif curr_round == 2 and game.announce_round_2 == True:
+        print("announce new round", curr_round)
+        assign_informants()
+        game.announce_round_2 = False
+        game.save()
+    elif curr_round == 3 and game.announce_round_3 == True:
+        print("announce new round", curr_round)
+        assign_informants()
+        game.announce_round_3 = False
+        game.save()
+    elif curr_round == 4 and game.announce_round_4 == True:
+        print("announce new round", curr_round)
+        assign_informants()
+        game.announce_round_4 = False
+        game.save()
+        players = Player.objects.all()
+        for p in players:
+            p.active_screen = "lock_screen_vote"
+            p.save()        
+    
+
+
+
     if id != "null":
         user = Player.objects.get(id=id)
         if user.override_screen == "none":
@@ -198,7 +245,7 @@ def get_player_screen(request, id):
         active_screen = user.active_screen
     else:
         active_screen = user.override_screen
-    count_words = ["zero", "one", "two", "three", "four"]
+    count_words = ["zero", "one", "two", "three", "four", "five", "six"]
     mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
     other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
     other_mafia_display = ""
@@ -288,9 +335,10 @@ def dashboard(request):
         roundLength = game.roundLength
         pregameLength = game.pregameLength
         time = "min"
-    # print('players', players)
+    current_tip = Question.objects.filter(selected_count__gt=0)
+
     context = {
-        'players': players,
+        'players': players.order_by('id'),
         'playerMessages': playerMessages,
         'mafia': mafia,
         'townpeople': townpeople,
@@ -306,6 +354,7 @@ def dashboard(request):
         'debug': game.debug,
         'time': time,
         'pregameLength': pregameLength,
+        'current_tip': current_tip,
     }
     return render(request, "dashboard.html", context)
 
@@ -323,31 +372,41 @@ def process_survey(request=""):
         for answer in player_answers:
             print(answer.question.selected_count, answer.question.text)
             count_dict[answer.id] = answer.question.selected_count
-            answer_dict[answer.question.selected_count] = answer.question.text
+            answer_dict[answer.question.id] = answer.question.selected_count
+            # answer_dict[answer.question.news_report] = answer.question.selected_count
             answer_list.append(answer.question.selected_count)
         od = collections.OrderedDict(sorted(answer_dict.items()))
+        # {k: v for k, v in sorted(answer_dict.items(), key=lambda item: item[1])}
+        sorted_answers = sorted(answer_dict.items(), key=lambda x:x[1])
+        log(1, "process_survey-sorted_answers", sorted_answers)
+        log(1, "process_survey-player", player.name)
+        # log(1, "process_survey-answer_dict", answer_dict)
         sorted_answer_list = sorted(answer_list)
-        q_high = max(answer_list)
-        q_low = min(answer_list)
-        q_med = sorted_answer_list[int((len(answer_list)-1)/2)]
-        player.low_accuracy_question = answer_dict[q_low]
-        player.med_accuracy_question = answer_dict[q_med]
-        player.high_accuracy_question = answer_dict[q_high]
+        q_high = sorted_answer_list[2]
+        # log(1, "process_survey q_high 1", answer_list)
+        answer_list.remove(q_high)
+        # log(1, "process_survey q_high 2", answer_list)
+        q_med = sorted_answer_list[1]
+        q_low = sorted_answer_list[0]
+        
+        player.low_accuracy_question = sorted_answers[0][0]
+        player.med_accuracy_question = sorted_answers[1][0]
+        player.high_accuracy_question = sorted_answers[2][0]
         player.save()
     return HttpResponseRedirect(reverse('game:dashboard'))
 
-def count_selected(request=""):
+def count_selected():
     print('count selected')
     player_answers = PlayerAnswer.objects.all()
     for answer in player_answers:
         question_id = answer.question.id
         Question.objects.filter(id=question_id).update(selected_count=F('selected_count')+1)
-    return HttpResponseRedirect("/dashboard")
+    # return HttpResponseRedirect("/dashboard")
 
-def clear_count_selected(request=""):
+def clear_count_selected():
     print('clear count selected')
     Question.objects.update(selected_count=0)
-    return HttpResponseRedirect("/dashboard")
+    # return HttpResponseRedirect("/dashboard")
 
 def kill_informant(request, informant, killer):
     print("kill informant", informant, killer)
@@ -428,6 +487,7 @@ def assign_mafia_role(request=""):
     return HttpResponseRedirect("/dashboard")
 
 def assign_informants(request):
+    print("-------------assign_informants")
     informants = Player.objects.filter(role='informant').exclude(alive=False)
     for p in informants: # reset informants to detectives
         p.role = 'detective'
@@ -455,7 +515,7 @@ def assign_informants(request):
         informant.save()
     return HttpResponseRedirect('/dashboard')
 
-def assign_all_to_detective(request=""):
+def assign_all_to_detective():
     Player.objects.all().update(
         role = "detective",
         nickname = "none",
@@ -469,39 +529,46 @@ def assign_all_to_detective(request=""):
         safe_list_2 = None,
         safe_list_3 = None
     )
+    # return HttpResponse("/dashboard")
+
+def get_tip(request):
+    print("get_tip")
     return HttpResponseRedirect("/dashboard")
+
+
 def new_round(request, round):
     print("-----new round", round)
-    game = Game.objects.get(id=1)
-    if game.game_over == False:
+    # game = Game.objects.get(id=1)
+    # # if game.game_over == False:
+    # log(game.id, "timer", str(round) + " " + str(game.announce_round_1) + " " + str(game.announce_round_2) + " " + str(game.announce_round_3) + " " + str(game.announce_round_4) )
 
-        if round == 1 and game.announce_round_1 == True:
-            print("----------------assign_informants 1")
-            game.announce_round_1 = False
-            game.save()
-            assign_informants("request")
-            log(game.id, "timer", "round 1 start")
-        if round == 2 and game.announce_round_2 == True:
-            print("----------------assign_informants 2")
-            game.announce_round_2 = False
-            game.save()
-            assign_informants("request")
-            log(game.id, "timer", "round 2 start")
-        if round == 3 and game.announce_round_3 == True:
-            game.announce_round_3 = False
-            game.save()
-            assign_informants("request")
-            log(game.id, "timer", "round 3 start")
-        if round == 4 and game.announce_round_4 == True:
-            log(game.id, "timer", "game over")
-            print("---round 0 hit")
-            game.announce_round_4 = False
-            game.game_over = True
-            game.save()
-            players = Player.objects.all()
-            for p in players:
-                p.active_screen = "lock_screen_vote"
-                p.save()
+    # if round == 1 and game.announce_round_1 == True:
+    #     print("----------------assign_informants 1")
+    #     game.announce_round_1 = False
+    #     game.save()
+    #     assign_informants("request")
+    #     log(game.id, "timer", "round 1 start")
+    # if round == 2 and game.announce_round_2 == True:
+    #     print("----------------assign_informants 2")
+    #     game.announce_round_2 = False
+    #     game.save()
+    #     assign_informants("request")
+    #     log(game.id, "timer", "round 2 start")
+    # if round == 3 and game.announce_round_3 == True:
+    #     game.announce_round_3 = False
+    #     game.save()
+    #     assign_informants("request")
+    #     log(game.id, "timer", "round 3 start")
+    # if round == 4 and game.announce_round_4 == True:
+    #     log(game.id, "timer", "game over")
+    #     print("---round 0 hit")
+    #     game.announce_round_4 = False
+    #     # game.game_over = True
+    #     game.save()
+    #     players = Player.objects.all()
+    #     for p in players:
+    #         p.active_screen = "lock_screen_vote"
+    #         p.save()
     return HttpResponseRedirect('/dashboard')
 
 def debug_switch(request):
@@ -517,8 +584,13 @@ def submit_safe_person(request, id):
     informant.active_screen = "character_assign_detective"
     informant.save()
     random_mafia = random.choice(Player.objects.filter(role="mafia"))
-    safe_person.private_tip = random_mafia.low_accuracy_question
-
+    game = Game.objects.get(id=1)
+    if game.announce_round_2 == True:
+        safe_person.private_tip = random_mafia.low_accuracy_question
+    elif game.announce_round_3 == True:
+        safe_person.private_tip = random_mafia.med_accuracy_question
+    elif game.announce_round_4 == True:
+        safe_person.private_tip = random_mafia.high_accuracy_question
     if safe_person.role == "mafia":
         safe_person.override_screen = "tip_received_mafia"
         safe_person.informing_player = informant.id

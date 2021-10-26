@@ -53,30 +53,30 @@ function timer(roundZeroEndTime, roundOneEndTime, roundTwoEndTime, roundThreeEnd
     }
 
     let round = document.getElementById('round').innerHTML
-    if(round == "1" && announceRound1 == true){
-        console.log("round 1 start")
-        announceRound1 = false
-        var xhttp = new XMLHttpRequest()
-        xhttp.open("GET", "/newRound/1", true)
-        xhttp.send()        
-    }
-    else if(round == "2" && announceRound2 == true){
-        console.log("round 2 start")
-        announceRound2 = false
-        var xhttp = new XMLHttpRequest()
-        xhttp.open("GET", "/newRound/2", true)
-        xhttp.send()        
-    } else if(round == "3" && announceRound3 == true){
-        console.log("round 3 start")
-        announceRound3 = false
-        var xhttp = new XMLHttpRequest()
-        xhttp.open("GET", "/newRound/3", true)
-        xhttp.send()        
-    } else if(round == "Game Over" && announceRound4 == true) {
-        console.log("---- round 4 hit")
-        const url = "/newRound/4"
-        fetch(url)
-    }    
+    // if(round == "1" && announceRound1 == true){
+    //     console.log("round 1 start")
+    //     announceRound1 = false
+    //     var xhttp = new XMLHttpRequest()
+    //     xhttp.open("GET", "/newRound/1", true)
+    //     xhttp.send()        
+    // }
+    // else if(round == "2" && announceRound2 == true){
+    //     console.log("round 2 start")
+    //     announceRound2 = false
+    //     var xhttp = new XMLHttpRequest()
+    //     xhttp.open("GET", "/newRound/2", true)
+    //     xhttp.send()        
+    // } else if(round == "3" && announceRound3 == true){
+    //     console.log("round 3 start")
+    //     announceRound3 = false
+    //     var xhttp = new XMLHttpRequest()
+    //     xhttp.open("GET", "/newRound/3", true)
+    //     xhttp.send()        
+    // } else if(round == "Game Over" && announceRound4 == true) {
+    //     console.log("---- round 4 hit")
+    //     const url = "/newRound/4"
+    //     fetch(url)
+    // }    
 
 }  
 

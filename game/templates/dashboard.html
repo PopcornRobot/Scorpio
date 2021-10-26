@@ -53,10 +53,10 @@
         </div>
         <div>
 
-            <!-- <a href='/loadPlayerData'><button>Load Player Data</button></a>
+            <!-- <a href='/loadPlayerData'><button>Load Player Data</button></a> -->
             <a href='/deletePlayerData'><button>Delete Player Data</button></a>
-            <a href='/assignMafiaRole'><button>1-Assign Mafia Role</button></a>
-            <a href='/assignInformants'><button>2-Assign Informants</button></a> -->
+            <!-- <a href='/assignMafiaRole'><button>1-Assign Mafia Role</button></a> -->
+            <!-- <a href='/assignInformants'><button>2-Assign Informants</button></a> -->
             <!-- <a href='/reassignInformants'><button>3-Reassign Informants</button></a> -->
             <!-- <a href='/assignAllToDetective'><button>Assign All To Detective</button></a> -->
             <a href='/processSurvey'><button>Process Survey</button></a>
@@ -65,9 +65,9 @@
         <a href="/startGame" style="text-decoration: none;">
             <button style="background-color: lightgreen;">Start Game</button>
         </a>
-        <a href="/stopGame" style="text-decoration: none;">
+        <!-- <a href="/stopGame" style="text-decoration: none;">
             <button style="background-color: red;">Stop Game</button>
-        </a>
+        </a> -->
         <!-- <button onclick="startTimer()">Start Timer</button> -->
         <!-- <button onclick="sendMessage('All')">Message all users</button> -->
         <!-- <button onclick="deleteAllPlayerMessages()">Delete all messages</button> -->
@@ -109,6 +109,7 @@
             <thead>
                 <tr>
                     <td>Player</td>
+                    <td></td>
                     <td>Answers</td>
                 </tr>
             </thead>
@@ -117,9 +118,17 @@
                 <tr>
                     <td>{{ player.name }}</td>
                     <td>
-                        <div>Low: {{ player.low_accuracy_question }}</div>
-                        <div>Med: {{ player.med_accuracy_question }}</div>
+                        <ol>
+                            {% for answer in player.playeranswer_set.all %}
+                                <li>{{ answer.question.selected_count }} - {{ answer.question.text }}</li>
+                            {% endfor %}
+
+                        </ol>
+                    </td>
+                    <td>
                         <div>High: {{ player.high_accuracy_question }}</div>
+                        <div>Med: {{ player.med_accuracy_question }}</div>
+                        <div>Low: {{ player.low_accuracy_question }}</div>
                     </td>
                     
                 </tr>
@@ -135,8 +144,10 @@
         <a href="/clearCountSelected">
             <button>Clear count answers</button>
         </a>
-        <p>Low accuracy question: {{ low_accuracy }}</p>
-        <p>High accuracy question: {{ high_accuracy }}</p>
+        <a href="/getTip"><button>Get new tip</button></a>
+        {{ current_tip }}
+        <!-- <p>Low accuracy question: {{ low_accuracy }}</p>
+        <p>High accuracy question: {{ high_accuracy }}</p> -->
         <table>
             <thead>
                 <tr>
