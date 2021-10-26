@@ -5,19 +5,19 @@
 <div class="container-fluid">
 
     <!-- Heading + Image -->
-    <!-- <div class="row no-gutter">
-    </div> -->
+    <div class="row no-gutter">
+        <p class="garamond blocktext" style="font-size:27px;">JIMMY TWO-LIPS DEAD</p>
+        <img src="{% static "img/survey_photo.jpg" %}" max width="100%" class="text-center"/>
+    </div>
+    <br>
 
     <!-- Instructions + Text -->
-    <div class="row">
-      <p class="blocktext garamond" style="font-size:22px;">JIMMY TWO-LIPS DEAD</p>
-      <img src="{% static "img/survey_photo.jpg" %}" max width="100%" class="text-center"/>
+    <div class="row garamond">
 
       <p>Small-time gangster, Jimmy Two-Lips, was found dead in his home.
       Witnesses heard two gun shots when they called the police.
       </p>
-      <p>
-      Responding officers found the victim in his underwear
+      <p>Responding officers found the victim in his underwear
       watching The Real Housewives of Pomona. He was pronounced dead at the scene.</p>
 
       <!-- <p>Police officers believe this is the work of criminal organization <em>Scorpio</em>.
@@ -25,77 +25,81 @@
       Police are relying on us to find them.
       The suspect is considered armed and dangerous.</p> -->
      <div style="background-color:#000000; height:1px; width:100%;"></div>
+     <br>
 
+      <p><strong>MISSING EVIDENCE FROM POLICE LOCKER!</strong></p>
+      <p>Evidence linking the illegal alcohol establishment, the Blind Pig, with the
+      Galway murders went missing last Sunday.
+      <!-- This triggered an internal investigation into LAPD's detective unit. -->
+      </p>
 
-        <p class="blocktext garamond" style="font-size:22px;">MISSING EVIDENCE FROM POLICE LOCKER!</p>
-        <p>Evidence linking the illegal alcohol establishment, the Blind Pig, with the
-        Galway murders went missing last Sunday.
-        <!-- This triggered an internal investigation into LAPD's detective unit. -->
-        </p>
+      <p>Sources say Internal Affairs is investigating the Police Department
+      for possible links to the criminal organization <em>Scorpio</em>.</p>
+      
+      <div style="background-color:#000000; height:1px; width:100%;"></div>
+      <br>
 
-        <p>Sources say Internal Affairs is investigating the Police Department
-           for possible links to the criminal organization <em>Scorpio</em>.</p>
-        <div style="background-color:#000000; height:1px; width:100%;"></div>
+      <!-- Police spokesman reports that  -->
 
-        <!-- Police spokesman reports that  -->
+      <p><strong>HOW THE GAME WORKS</strong></p>
+      <p>Rumor has it that Scorpio has infiltrated tonight's party.
+      Your goal is to gather notes and find them.</p>
 
+      <p>To help detectives, tips about the criminal will be dropped throughout the game.
+      These tips are real facts (e.g. “this person skydived") that lead to real people.</p>
 
-        <div style="background-color:#000000; height:1px; width:100%;"></div>
+      <p>At the end of the game, the group will vote on the identity of the criminal. </p>
 
-        <p class="blocktext" style="font-size: 25px;">HOW THE GAME WORKS</p>
-        <p >Rumor has it that Scorpio has infiltrated tonight's party.
-          Your goal is to gather notes and find them.
+      <div style="background-color:#000000; height:1px; width:100%;"></div>
+      <br>
 
-        </p>
+      <p><strong>ROLES</strong></p>
+      
+      <img src="{% static "img/male_dete22.jpg" %}" style="width: 100%" class="text-center"/>
 
-        <p>To help detectives, tips about the criminal will be dropped throughout the game.
-        These tips are real facts (e.g. “this person skydived") that lead to real people.</p>
+      <p><strong>Detective</strong></p>
+      <p></p>
 
-        <p>At the end of the game, the group will vote on the identity of the criminal. </p>
+      <ol>
+        <li>Interrogate everyone to find the murderer.   </li>
+        <li>Spread tips.</li>
+        <li>Trust no one.</li>
+      </ol>
 
-        <div style="background-color:#000000; height:2px; width:100%;"></div>
+      <img src="{% static "img/criminal22.jpg" %}" style="width: 100%" class="text-center"/>
 
-        <p class="blocktext" style="font-size:25px;">ROLES</p>
+      <p><strong>Criminal</strong></p>
 
-        <div class="rules-column">
+      <ol>
+        <li>Convince everyone you are not the murderer.</li>
+        <li>Kill detectives before they spread information about you.</li>
+      </ol>
 
-            <br>
-            <img src="{% static "img/male_dete22.jpg" %}" style="width: 100px" class="text-center"/>
+      <!-- <br>
+      <img src="{% static "img/inform22.jpg" %}" style="width: 100px" class="text-center"/>
 
-            <p><strong>Detective</strong></p>
-            <p>1. Interrogate everyone. Find murderer.</p>
-            <p>2. Spread tips.</p>
-            <p>3. Trust no one.</p>
+      <p><strong>Informant</strong></p>
+      <p>1. Spread tip to trusted detectives.</p>
+      <p>2. The murderer is hunting you. Keep your identity a secret to stay alive.</p> -->
 
-            <!-- <br>
-            <img src="{% static "img/inform22.jpg" %}" style="width: 100px" class="text-center"/>
+      <div style="background-color:#000000; height:2px; width:100%;"></div>
 
-            <p><strong>Informant</strong></p>
-            <p>1. Spread tip to trusted detectives.</p>
-            <p>2. The murderer is hunting you. Keep your identity a secret to stay alive.</p> -->
+      <br>
+      <p><strong>THREE CARDINAL RULES</strong></p>
 
-            <br>
-            <img src="{% static "img/criminal22.jpg" %}" style="width: 100px" class="text-center"/>
+      <br>
 
-            <p><strong>Criminal</strong></p>
-            <p>1. Convince everyone you are not the murderer.</p>
-            <p>2. Kill detectives before they spread information about you.</p>
-
-        </div>
-
-        <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-        <p class="blocktext" style="font-size:25px;">The Three Cardinal Rules</p>
-
-        <p>1. <em style="font-size:15px">No lies</em>. If someone asks you a question about your life,
+      <ol>
+        <li><em style="font-size:15px">No lies</em>. If someone asks you a question about your life,
         tell them the truth (within reason, of course). You can lie about who you think is
-        the murderer.</p>
+        the murderer.</li>
 
-        <p>2. <em style="font-size:15px">Check your phone every 10 minutes</em>. Your screen updates with new objectives and important information
-        as the game progresses.</p>
+        <li><em style="font-size:15px">Check your phone every 10 minutes</em>. Your screen updates with new objectives and important information
+        as the game progresses.</li>
 
-        <p>3. <em style="font-size:15px">Hide your screen!</em> Don't compromise your identity. Your screen reveals information
-        about your identity.</p>
+        <li><em style="font-size:15px">Hide your screen!</em> Don't compromise your identity. Your screen reveals information
+        about your identity.</li>
+      </ol>
 
     </div>
 

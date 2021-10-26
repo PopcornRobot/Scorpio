@@ -40,12 +40,13 @@
                 <p id="error" class="text-danger" style="display:none">* Please enter your name.</p> 
                 <!-- TODO: ADD VALIDATION -->
                 <p><input id="txt_name" type="text" name="name" placeholder="Name" /></p>
-                <p><button id="submit" type="submit">Submit</button></p>        <!-- button -->
+                <!-- <p><button id="submit" value="Submit" type="submit">Submit</button></p>        button -->
+                <input type="submit" value="Submit" style="background-color:white; color:black;">
 
                 {% if not game_is_started %}
                 <!-- <p><button id="submit" type="submit">Submit</button></p>        button -->
                 {% elif game_is_started %}
-                <p style="color:black"> Signup closed. Game has already started.</p>
+                <!-- <p style="color:black"> Signup closed. Game has already started.</p> -->
                 {% endif %}
             </form>
 
