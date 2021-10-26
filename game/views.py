@@ -20,9 +20,21 @@ def rules(request):
     return render(request, 'rules.html', {'player_id': request.GET['pid']})
 
 def start_game(request):
-    stop_game()
+    assign_all_to_detective()
+    
     game = Game.objects.get(id=1)
-    game.game_over = False
+    # game.game_over = False
+    game.game_start_time = time.time()
+    game.roundEndTime = 0
+    game.roundZeroEndTime = 0
+    game.roundOneEndTime = 0
+    game.roundTwoEndTime = 0
+    game.roundThreeEndTime = 0
+    game.announce_round_1 = True
+    game.announce_round_2 = True
+    game.announce_round_3 = True
+    game.announce_round_4 = True
+    game.death_alert = ""
     game.save()
     log(game.id, "admin", "---------------start game---------------")
     clear_count_selected()
@@ -36,19 +48,8 @@ def start_game(request):
 def stop_game(request=""):
     log(1, "admin", "=================stop game=================")
     game = Game.objects.get(id=1)
-    game.roundEndTime = 0
-    game.roundZeroEndTime = 0
-    game.roundOneEndTime = 0
-    game.roundTwoEndTime = 0
-    game.roundThreeEndTime = 0
-    game.announce_round_1 = True
-    game.announce_round_2 = True
-    game.announce_round_3 = True
-    game.announce_round_4 = True
-    game.death_alert = ""
-    game.game_over = True
+    # game.game_over = True
     game.save()
-    assign_all_to_detective()
     clear_count_selected()
     return HttpResponseRedirect("/dashboard")
 
@@ -115,6 +116,7 @@ def set_timer_end():
     game.roundOneEndTime = now + pregameLength + roundLength * minute_multiplier
     game.roundTwoEndTime = now  + pregameLength+ (roundLength * 2) * minute_multiplier
     game.roundThreeEndTime = now + pregameLength + (roundLength * 3) * minute_multiplier
+    game.roundThreeEndTime = now + pregameLength + (roundLength * 4) * minute_multiplier
     game.announce_round_1 = True
     game.announce_round_2 = True
     game.announce_round_3 = True
@@ -123,7 +125,20 @@ def set_timer_end():
     log(game.id, "set_timer_end", str(game.roundZeroEndTime) + " " + str(game.roundOneEndTime) + " " + str(game.roundTwoEndTime) + " " + str(game.roundThreeEndTime) + " " + str(now) )
     return HttpResponse("ajaxTest")
 
-# bulletin test
+def current_round(game):
+    current_time = time.time()
+    if game.roundZeroEndTime > current_time:
+        return 0
+    elif game.roundOneEndTime > current_time:
+        return 1
+    elif game.roundTwoEndTime > current_time:
+        return 2
+    elif game.roundThreeEndTime > current_time:
+        return 3
+    elif game.roundFourEndTime > current_time:
+        return 4
+    
+
 
 def bulletin(request, id):
     player = Player.objects.get(id=id)
@@ -163,6 +178,36 @@ def bulletin(request, id):
 def check_player_screen(request, id):
     print("checkPlayerScreen", id)
     game = Game.objects.get(id=1)
+    curr_round= current_round(game)
+    
+    if curr_round == 1 and game.announce_round_1 == True:
+        print("announce new round", curr_round)
+        assign_informants()
+        game.announce_round_1 = False
+        game.save()
+    elif curr_round == 2 and game.announce_round_2 == True:
+        print("announce new round", curr_round)
+        assign_informants()
+        game.announce_round_2 = False
+        game.save()
+    elif curr_round == 3 and game.announce_round_3 == True:
+        print("announce new round", curr_round)
+        assign_informants()
+        game.announce_round_3 = False
+        game.save()
+    elif curr_round == 4 and game.announce_round_4 == True:
+        print("announce new round", curr_round)
+        assign_informants()
+        game.announce_round_4 = False
+        game.save()
+        players = Player.objects.all()
+        for p in players:
+            p.active_screen = "lock_screen_vote"
+            p.save()        
+    
+
+
+
     if id != "null":
         user = Player.objects.get(id=id)
         if user.override_screen == "none":
@@ -350,18 +395,18 @@ def process_survey(request=""):
         player.save()
     return HttpResponseRedirect(reverse('game:dashboard'))
 
-def count_selected(request=""):
+def count_selected():
     print('count selected')
     player_answers = PlayerAnswer.objects.all()
     for answer in player_answers:
         question_id = answer.question.id
         Question.objects.filter(id=question_id).update(selected_count=F('selected_count')+1)
-    return HttpResponseRedirect("/dashboard")
+    # return HttpResponseRedirect("/dashboard")
 
-def clear_count_selected(request=""):
+def clear_count_selected():
     print('clear count selected')
     Question.objects.update(selected_count=0)
-    return HttpResponseRedirect("/dashboard")
+    # return HttpResponseRedirect("/dashboard")
 
 def kill_informant(request, informant, killer):
     print("kill informant", informant, killer)
@@ -442,6 +487,7 @@ def assign_mafia_role(request=""):
     return HttpResponseRedirect("/dashboard")
 
 def assign_informants(request):
+    print("-------------assign_informants")
     informants = Player.objects.filter(role='informant').exclude(alive=False)
     for p in informants: # reset informants to detectives
         p.role = 'detective'
@@ -469,7 +515,7 @@ def assign_informants(request):
         informant.save()
     return HttpResponseRedirect('/dashboard')
 
-def assign_all_to_detective(request=""):
+def assign_all_to_detective():
     Player.objects.all().update(
         role = "detective",
         nickname = "none",
@@ -483,7 +529,7 @@ def assign_all_to_detective(request=""):
         safe_list_2 = None,
         safe_list_3 = None
     )
-    return HttpResponseRedirect("/dashboard")
+    # return HttpResponse("/dashboard")
 
 def get_tip(request):
     print("get_tip")
@@ -492,37 +538,37 @@ def get_tip(request):
 
 def new_round(request, round):
     print("-----new round", round)
-    game = Game.objects.get(id=1)
-    if game.game_over == False:
-        log(game.id, "timer", str(round) + " " + str(game.announce_round_1) + " " + str(game.announce_round_2) + " " + str(game.announce_round_3) + " " + str(game.announce_round_4) )
+    # game = Game.objects.get(id=1)
+    # # if game.game_over == False:
+    # log(game.id, "timer", str(round) + " " + str(game.announce_round_1) + " " + str(game.announce_round_2) + " " + str(game.announce_round_3) + " " + str(game.announce_round_4) )
 
-        if round == 1 and game.announce_round_1 == True:
-            print("----------------assign_informants 1")
-            game.announce_round_1 = False
-            game.save()
-            assign_informants("request")
-            log(game.id, "timer", "round 1 start")
-        if round == 2 and game.announce_round_2 == True:
-            print("----------------assign_informants 2")
-            game.announce_round_2 = False
-            game.save()
-            assign_informants("request")
-            log(game.id, "timer", "round 2 start")
-        if round == 3 and game.announce_round_3 == True:
-            game.announce_round_3 = False
-            game.save()
-            assign_informants("request")
-            log(game.id, "timer", "round 3 start")
-        if round == 4 and game.announce_round_4 == True:
-            log(game.id, "timer", "game over")
-            print("---round 0 hit")
-            game.announce_round_4 = False
-            game.game_over = True
-            game.save()
-            players = Player.objects.all()
-            for p in players:
-                p.active_screen = "lock_screen_vote"
-                p.save()
+    # if round == 1 and game.announce_round_1 == True:
+    #     print("----------------assign_informants 1")
+    #     game.announce_round_1 = False
+    #     game.save()
+    #     assign_informants("request")
+    #     log(game.id, "timer", "round 1 start")
+    # if round == 2 and game.announce_round_2 == True:
+    #     print("----------------assign_informants 2")
+    #     game.announce_round_2 = False
+    #     game.save()
+    #     assign_informants("request")
+    #     log(game.id, "timer", "round 2 start")
+    # if round == 3 and game.announce_round_3 == True:
+    #     game.announce_round_3 = False
+    #     game.save()
+    #     assign_informants("request")
+    #     log(game.id, "timer", "round 3 start")
+    # if round == 4 and game.announce_round_4 == True:
+    #     log(game.id, "timer", "game over")
+    #     print("---round 0 hit")
+    #     game.announce_round_4 = False
+    #     # game.game_over = True
+    #     game.save()
+    #     players = Player.objects.all()
+    #     for p in players:
+    #         p.active_screen = "lock_screen_vote"
+    #         p.save()
     return HttpResponseRedirect('/dashboard')
 
 def debug_switch(request):
