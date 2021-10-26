@@ -9,17 +9,25 @@
         <p class="blocktext garamond" style="font-size:30px;">TIP SUBMITTED</p>
         <img src="{% static "img/tip_sent22.jpg" %}" max width="100%" class="text-center"/>
     </div>
+    <br>
 
     <!-- Instructions + Text -->
-    <div class="row">
+    <div class="row garamond">
 
-        <hr>
-        <p class="blocktext" style="font-size:12px;">Your tip has been submitted. 
+        <br>
+        <p>Your tip has been submitted. 
         If you are right, a hint may be announced shortly. If not, it'll be your death. Good luck</p>
 
+        <br>
         <a href="/clearOverrideScreen/{{ player_id }}">
-            <button style="color: black">Return to game</button>
+            <button class="button-white">Return to game</button>
         </a>
+
+        <!-- TODO added below <br> to remove white space from webpage | need to update background image -->
+        <br>
+        <br>
+        <br>
+        <br>
 
     </div>
 

@@ -4,134 +4,22 @@
 {% block content %}
 <div class="container-fluid">
 
-    <!-- <section id="three" class="no-padding">
-        <div class="container-fluid">
-            <div class="row no-gutter">
-
-                <p class="garamond text-center" style="font-size:30px; color:black">MISSION SUCCESS</p>
-
-                <img src="{% static "img/tip_sent2_2.jpg" %}" max width="100%" class="text-center"/>
-
-            </div>
-        </div>
-    </section> -->
-
-
-    <!-- <section class="container-fluid" id="four">
-        <div class="row">
-
-            <hr>
-
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <p style="color:black; font-size:15px" class="garamond">Your angel face and innocent demeanor served you well. The detective with the package foolishly thought you were trustworthy and
-                        shared this information with you.</p>
-                    <p style="color:black">Your angel face and innocent demeanor served you well.
-                      A detective at the party foolishly thought you were trustworthy and
-                        shared this with you, in hopes that you would announce this tip to everyone.</p>
-                </div>
-            </div>
-
-            <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <p style="color:black; font-size:15px" class="garamond"> **Private Tip goes here** {{ private_tip }}</p>
-                    <!-- {{ partner.low_accuracy_question }} -->
-                <!-- </div>
-            </div>
-
-            <div class="media wow fadeInRight">
-                    <div class="media-body media-middle">
-                        <p style="color:black; font-size:15px" class="garamond"> ** Player_low_accuracy_question {{ player_low_accuracy_question }}</p> -->
-                        <!-- {{ partner.low_accuracy_question }} -->
-                    <!-- </div>
-            </div>
-
-            <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <p style="color:black; font-size:15px" class="garamond">Publicize this information and gain the trust of an adoring public or keep it to yourself. The choice is yours.</p>
-                    <p style="color:black; font-size:15px" class="garamond">If you decide to announce the tip, it must be announced accurately.
-                            Use this power wisely.</p>
-                </div>
-            </div>
-
-            <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-            <div class="media wow fadeInRight">
-                <div class="media-body media-middle">
-                    <p style="color:black; font-size:15px" class="garamond">The informant is... {{ informing_player.name }}</p>
-                    <p style="color:black; font-size:15px" class="garamond"> Kill them and rid yourself of this annoying problem.
-                            Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
-                    <p style="color:black; font-size:15px" class="garamond">Do you kill {{ informing_player.name }}?</p>
-                    <a href="/killInformant/{{ informing_player_id }}/{{ player_id }}">
-                        <button  style="color:black">Kill Informant</button>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-
-    </section> -->
-
-    <script>
-
-        // global variables
-
-        // Page load
-        document.addEventListener("DOMContentLoaded", () => {
-
-            // LettersRandomPlaces({
-            // element: ".animated__word",
-            // })
-
-        }); // page load closing
-
-        // Our functions
-
-        // LettersRandomPlaces({
-        //     element: ".animated__text",
-
-        //     // delay in ms
-        //     start_delay_time: 1000,
-
-        //     // or 'random'
-        //     delay_type: "sequential",
-
-        //     // duration of the animation
-        //     animation_duration: 5000,
-
-        //     // type: number
-        //     force: 200,
-
-        //     // direction
-        //     direction: ['x', 'y'],
-
-        //     // scale text randomly
-        //     random_scale: false,
-
-        //     // -1 for random
-        //     rotate: -1,
-        // })
-
-    </script>
     <!-- Heading + Image -->
     <div class="row no-gutter">
-        <p class="blocktext nerko" style="font-size:30px;">MISSION SUCCESS</p>
+        <h1 class="blocktext nerko">MISSION SUCCESS</h1>
         <img src="{% static "img/tip_sent2_2.jpg" %}" max width="100%" class="text-center"/>
     </div>
+    <br>
 
     <!-- Instructions + Text -->
-    <div class="row">
+    <div class="row walter">
 
-        <hr>
-        <h1>KILL ONLY</H1>
-        <p class="walter">Your angel face and innocent demeanor served you well.
+        <br>
+        <h1>KILL ONLY</h1>
+        <p>Your angel face and innocent demeanor served you well.
         The detective, ** AJ **, trusted you with his life. Now, you can take it!</p>
 
-        <p class="walter">You have two options:</p>
+        <p>You have two options:</p>
         <ol>
           <li><em>Kill the detective.</em></li>
           <li><p><em>Reveal the tip.</em> If you reveal the tip, you can publicize the information
@@ -141,33 +29,26 @@
             announced accurately. </p></li>
         </ol>
 
-
-        <p class="walter">Kill the detective and rid yourself of this annoying problem.
+        <p>Kill the detective and rid yourself of this annoying problem.
         Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
-
 
         <p>** TWO BUTTONS: "REVEAL TIP" and "KILL AJ"</p>
 
-
         <div style="background-color:#000000; height:1px; width:100%;"></div>
 
-
-
-        <p class="walter">**Private Tip goes here** {{ private_tip }}</p>
-        <p class='walter'>** Player_low_accuracy_question {{ player_low_accuracy_question }}</p>
+        <p>**Private Tip goes here** {{ private_tip }}</p>
+        <p>** Player_low_accuracy_question {{ player_low_accuracy_question }}</p>
 
         <div style="background-color:#000000; height:2px; width:100%;"></div>
 
+        <p>The informant is... {{ partner_name }}</p>
+        <p>Do you kill {{ partner_name }}?</p>
 
-        <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-        <p class="walter">The informant is... {{ partner_name }}</p>
-        <p class="walter">Do you kill {{ partner_name }}?</p>
-
+        <br>
         <hr>
 
         <a href="/killIinformant/{{ partner_id }}/{{ player_id }}">
-            <button  style="color:black">Kill Informant</button>
+            <button class="button-black">Kill Informant</button>
         </a>
 
     </div>

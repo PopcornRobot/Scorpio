@@ -6,12 +6,12 @@
 
     <!-- Heading + Image -->
     <div class="row no-gutter">
-        <p class="blocktext garamond" style="font-size:30px;">YOU RECEIVED A TIP</p>
+        <p class="garamond blocktext" style="font-size:30px;">YOU RECEIVED A TIP</p>
         <img src="{% static "img/tip_one22.jpg" %}" max width="100%" class="text-center"/>
     </div>
 
     <!-- Instructions + Text -->
-    <div class="row">
+    <div class="row garamond">
 
         <hr>
         <p>An informant risked their life to deliver this information to you. Please
@@ -25,7 +25,7 @@
         <p>{{ private_tip }}</p>
         <p>Once you click the button, this tip will no longer be available</p>
         <a href="/clearOverrideScreen/{{ player_id }}">
-            <button style="color:black">I have read the tip</button>
+            <button class="button-white">I have read the tip</button>
         </a>
     
     </div>
