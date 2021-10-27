@@ -434,6 +434,7 @@ def kill_informant(request, informant, killer):
     informant_player.alive = False
     informant_player.override_screen = "lock_screen"
     informant_player.active_screen = "you_have_been_killed"
+    informant_player.role = "detective"
     informant_player.save()
     lock_screen_players = Player.objects.filter(). \
         exclude(id=informant_player.id). \
