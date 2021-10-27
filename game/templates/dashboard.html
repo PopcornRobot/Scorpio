@@ -57,6 +57,11 @@
                 <input type="submit" value="submit">
                 {{ bulletinPolling }} sec
             </form>
+
+            <select>
+              <option>heello</option>
+                <option>heello</option>
+              </select>
         </div>
         <div>
 
@@ -183,8 +188,9 @@
         let roundThreeEndTime = ""
         let playerId = "{{ player.id }}"
         polling = () => {
+            getPlayerData()
             console.log("polling")
-            setInterval(() => {getPlayerData()}, 1000)
+            setInterval(() => {getPlayerData()}, 3000)
             // setInterval(() => {getTimerData()}, 5000)
             setInterval(function() {timer(
                 {{roundZeroEndTime}},
