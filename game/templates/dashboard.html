@@ -50,6 +50,13 @@
                 <input type="submit" value="submit">
                 {{ roundLength }} {{ time }}
             </form>
+            <form action="/bulletinPolling" method="Post">
+                {% csrf_token %}
+                <label for="bulletinPolling">Bulletin Polling ({{ time }})</label>
+                <input id="bulletinPolling" name="bulletinPolling" type="text">
+                <input type="submit" value="submit">
+                {{ bulletinPolling }}
+            </form>
         </div>
         <div>
 

@@ -41,8 +41,15 @@ def start_game(request):
     # process_survey()
     set_timer_end()
     assign_mafia_role()
+    game = Game.objects.get(id=1)
+
+    game.initial_tip = get_tip()
+    game.save()
     update_screens()
     return HttpResponseRedirect("/dashboard")
+
+def initial_tip(request):
+    return HttpResponse(Game.objects.get(id=1).initial_tip)
 
 def stop_game(request=""):
     log(1, "admin", "=================stop game=================")
@@ -137,7 +144,12 @@ def current_round(game):
     elif game.roundFourEndTime > current_time:
         return 4
     
-
+def bulletin_polling(request):
+    game = Game.objects.get(id=1)
+    time = request.POST['bulletinPolling']
+    game.bulletin_polling = int(time) * 1000
+    game.save()
+    return HttpResponseRedirect('/dashboard')
 
 def bulletin(request, id):
     player = Player.objects.get(id=id)
@@ -164,6 +176,8 @@ def bulletin(request, id):
         partner = player.partner
     else:
         partner = player
+    bulletin_polling = game.bulletin_polling
+
     context = {
         'player': player,
         'roundZeroEndTime': game.roundZeroEndTime,
@@ -171,6 +185,7 @@ def bulletin(request, id):
         'roundTwoEndTime': game.roundTwoEndTime,
         'roundThreeEndTime': game.roundThreeEndTime,
         'activeScreen': activeScreen,
+        'bulletin_polling': bulletin_polling,
     }
     return render(request, "bulletin.html", context)
 
@@ -271,7 +286,12 @@ def get_player_screen(request, id):
     else:
         informing_player = Player.objects.get(id=user.informing_player)
     if active_screen == "tip_received_detective":
-        private_tip = get_tip()
+        if game.has_second_tip_sent == False:
+            private_tip = "The Police have reported that there {0} mafia members".format(len(mafia))
+            game.has_second_tip_sent = True
+            game.save()
+        else:
+            private_tip = get_tip()
     else:
         private_tip = ""
     context =  {
@@ -348,7 +368,7 @@ def dashboard(request):
         pregameLength = game.pregameLength
         time = "min"
     current_tip = Question.objects.filter(selected_count__gt=0)
-
+    bulletinPolling = game.bulletin_polling
     context = {
         'players': players.order_by('id'),
         'playerMessages': playerMessages,
@@ -367,10 +387,12 @@ def dashboard(request):
         'time': time,
         'pregameLength': pregameLength,
         'current_tip': current_tip,
+        'bulletinPolling': bulletinPolling,
     }
     return render(request, "dashboard.html", context)
 
 def get_tip():
+
     questions = Question.objects.all().exclude(is_used=True).order_by('-selected_count')
     for q in questions:
         answers = PlayerAnswer.objects.filter(question=q, player__role="mafia")    

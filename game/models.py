@@ -76,6 +76,9 @@ class Game(models.Model):
     debug_pregameLength = models.IntegerField(default=30)
     death_alert = models.CharField(max_length=120, default="")
     game_over = models.BooleanField(default=True)
+    bulletin_polling = models.IntegerField(default=0)
+    initial_tip = models.TextField()
+    has_second_tip_sent = models.BooleanField(default=False)
 
 class PlayerMessages(models.Model):
     id = models.AutoField(primary_key=True)

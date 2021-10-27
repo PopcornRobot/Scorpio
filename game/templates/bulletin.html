@@ -47,14 +47,10 @@
         let roundThreeEndTime = "{{ roundThreeEndTime }}"        
         polling = () => {
             console.log("polling", {{roundZeroEndTime}})
-            //     setInterval(function() {getMessages()}, 2000)
 
 // enabled
-            setInterval(function() {checkPlayerScreen()}, 1000)
+            setInterval(function() {checkPlayerScreen()}, {{ bulletin_polling }})
             getPlayerScreen()
-            
-            
-            
             setInterval(function() {timer(
                 roundZeroEndTime,
                 roundOneEndTime,
