@@ -15,9 +15,9 @@ class Migration(migrations.Migration):
             name='roundFourEndTime',
             field=models.IntegerField(default=0),
         ),
-        migrations.AlterField(
-            model_name='game',
-            name='game_start_time',
-            field=models.IntegerField(default=0),
-        ),
+        # migrations.AlterField(
+        #     model_name='game',
+        #     name='game_start_time',
+        #     field=models.IntegerField(default=0),
+        # ),
     ]

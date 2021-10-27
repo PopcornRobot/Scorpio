@@ -22,7 +22,7 @@
 
         <hr>
         <p>%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information)</p>
-        <p>{{ private_tip }}</p>
+        <p>{{ private_tip|safe }}</p>
         <p>Once you click the button, this tip will no longer be available</p>
         <a href="/clearOverrideScreen/{{ player_id }}">
             <button class="button-white">I have read the tip</button>

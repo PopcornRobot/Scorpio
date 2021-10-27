@@ -56,62 +56,18 @@
           before time runs out.
           Pretend you are a detective and
           sweet talk them into giving the evidence back to you. </p>
-
-        <ol>
-          <li>Brandon</li>
-          <li>Arlene</li>
-        </ol>
-
-        <!-- <p> -->
-<!--
-        <p>Someone just called and told you there are missing items from the warehouse.
-        Items that can expose you and your crew's identity.The whole thing feels like a setup.
-        How could so many things go wrong at the same time?</p>
-
-        <p>They believe that a traitor sent the items to the detectives
-        at this party. You don't know which detective has it, but you know this:</p> -->
-
-
-        <!-- <hr>
-        <p>INFORMANT DETECTIVE #1: {{ private_tip }}</p>
-        <p>INFORMANT DETECTIVE #1: {{ player_low_accuracy_question }}</p>
-
-        <div style="background-color:#000000; height:1px; width:100%;"></div>
-
-        <hr>
-        <p>The only way to stop the tip from being released is to kill the informant
-        before they share the items with other detectives. This clue expires when the time runs out.</p>
-
-        <p>Warning: If you kill a detective that is not an
-        informant, you will be exposed and the police will kill you.</p>
-
-        <div style="background-color:#000000; height:2px; width:100%;"></div>
-
-        <hr> -->
-
-        <p>Scorpio members: {{ other_mafia_display }}</p>
+            <div>
+              <span>Informants: {{ informant_list }}   </span>
+            </div>
+            <div>
+              <p>Scorpio members: {{ other_mafia_display }}</p>
+            </div>
 
         <div style="background-color:#000000; height:2px; width:100%;"></div>
 
         <br>
 
-        <form action="/mafiaFindInformantSubmit/{{ player_id }}">
-            {% for player in other_players %}
-
-                <!-- <input type="radio" name="player" id="{{ player.id }}" value="{{ player.name}}">
-                <label for="{{ player.id }}">{{ player.name }}</label><br> -->
-
-                <div class='radio-group'>
-                    <label class='radio-label'>
-                        <input type='radio' name='player' id="{{ player.id }}" value="{{ player.name}}" checked="checked">
-                        <span class='inner-label'>{{ player.name }}</span>
-                    </label>
-                </div>
-
-            {% endfor %}
-            <hr>
-            <input type="submit" value="submit" style="background-color:black; color:white;">
-        </form>
+  
 
     </div>
 
