@@ -601,14 +601,7 @@ def submit_safe_person(request, id):
     informant = Player.objects.get(id=id)
     informant.active_screen = "character_assign_detective"
     informant.save()
-    # random_mafia = random.choice(Player.objects.filter(role="mafia"))
-    game = Game.objects.get(id=1)
-    # if game.announce_round_2 == True:
-    #     safe_person.private_tip = random_mafia.low_accuracy_question
-    # elif game.announce_round_3 == True:
-    #     safe_person.private_tip = random_mafia.med_accuracy_question
-    # elif game.announce_round_4 == True:
-    #     safe_person.private_tip = random_mafia.high_accuracy_question
+
     if safe_person.role == "mafia":
         safe_person.override_screen = "tip_received_mafia"
         safe_person.informing_player = informant.id
@@ -616,8 +609,6 @@ def submit_safe_person(request, id):
 
         log(1, informant.name, "{0} gave tip to mafia member {1}.".format(informant.name, safe_person.name))
     else:
-        # safe_person.override_screen = "tip_received_detective"
-
         announcer = random.choice(Player.objects.filter(override_screen="none").exclude(alive=False).exclude(id=id).exclude(id=request.POST['players']))
         announcer.override_screen = "tip_received_detective"
         announcer.save()
