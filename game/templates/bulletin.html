@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ player.name }}: Scorpio</title>
     <script src="{% static 'js/timer.js' %}"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
 </head>
@@ -24,7 +24,7 @@
 </style>
 
 <body >
-    
+
 
     <div class="container-fluid">
 
@@ -34,17 +34,17 @@
             <p class="rajdhani"; style="font-size: 10px; color:black; ">
             <u>Round: <span id="round"></span> | Timer: <span id="timer"></u></span></p>
             <!-- <p style="font-size: 10px;">Timer: <span id="timer"></span></p> -->
-        
+
         <span id="activeScreen">
-        </span> 
+        </span>
     </div>
- 
+
     <script>
         let player_id = "{{ player.id }}"
-        let roundZeroEndTime = "{{ roundZeroEndTime }}" 
-        let roundOneEndTime = "{{ roundOneEndTime }}" 
+        let roundZeroEndTime = "{{ roundZeroEndTime }}"
+        let roundOneEndTime = "{{ roundOneEndTime }}"
         let roundTwoEndTime = "{{ roundTwoEndTime }}"
-        let roundThreeEndTime = "{{ roundThreeEndTime }}"        
+        let roundThreeEndTime = "{{ roundThreeEndTime }}"
         polling = () => {
             console.log("polling", {{roundZeroEndTime}})
 
@@ -55,9 +55,9 @@
                 roundZeroEndTime,
                 roundOneEndTime,
                 roundTwoEndTime,
-                roundThreeEndTime               
+                roundThreeEndTime
                 )}, 1000)
-      
+
         }
         // getMessages = () => {
         //     console.log("getMessages")
@@ -72,7 +72,7 @@
            fetch(url)
                 .then(response => response.text())
                 .then(data => console.log(data))
-        
+
        }
        getPlayerScreen = () => {
         //    console.log("player----", player)
@@ -83,11 +83,11 @@
                     document.getElementById('activeScreen').innerHTML = data
                 })
        }
-    
+
         let playerActiveScreen = "{{ playerActiveScreen }}"
- 
+
        checkPlayerScreen = () => {
-           
+
            //    console.log("check player screen", playerActiveScreen)
            const url = "/checkPlayerScreen/" + player_id
            fetch(url)
@@ -105,13 +105,13 @@
                    roundTwoEndTime = data["roundTwoEndTime"]
                    roundThreeEndTime = data["roundThreeEndTime"]
                    getPlayerScreen()
-                } else { 
+                } else {
                         // timer()
                         // console.log("no changes")
                     }
                 })
        }
-       
+
        document.onload(polling())
     </script>
 </body>

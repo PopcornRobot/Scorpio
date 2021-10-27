@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Logs: Scorpio</title>
 </head>
 <body>
     <h1>Logs</h1>
     <ul>
         {% for l in logs%}
-        <li> {{ l.datetime }} - {{ l.player }} - {{ l.event }}</li>
+        <li><p>({{ l.player }}) {{ l.event|safe }} <br />
+            <small style="color:gray">{{ l.datetime|date:"M d, h:i:s.u [U]" }}</small> </p></li>
         {% endfor %}
     </ul>
 </body>

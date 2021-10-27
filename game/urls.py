@@ -29,7 +29,7 @@ urlpatterns = [
     path('getPlayerScreen/<int:id>', views.get_player_screen),
     path('setPlayerScreen/<int:id>/<str:screen>', views.set_player_screen),
     path('setOverrideScreen/<int:id>/<str:screen>', views.set_override_screen),
-    path('processSurvey', views.process_survey),
+    
     path('loadPlayerData', views.load_player_data),
     path('deletePlayerData', views.delete_player_data),
     path('assignMafiaRole', views.assign_mafia_role),

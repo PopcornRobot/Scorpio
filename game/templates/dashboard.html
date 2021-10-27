@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard: Scorpio</title>
     <script src="{% static 'js/timer.js' %}"></script>
 
     <style>
@@ -14,13 +14,13 @@
           border-collapse: collapse;
           width: 100%;
         }
-        
+
         td, th {
           border: 1px solid #dddddd;
           text-align: left;
           padding: 8px;
         }
-        
+
         tr:nth-child(even) {
           background-color: #dddddd;
         }
@@ -52,10 +52,10 @@
             </form>
             <form action="/bulletinPolling" method="Post">
                 {% csrf_token %}
-                <label for="bulletinPolling">Bulletin Polling ({{ time }})</label>
+                <label for="bulletinPolling">Bulletin Polling (seconds)</label>
                 <input id="bulletinPolling" name="bulletinPolling" type="text">
                 <input type="submit" value="submit">
-                {{ bulletinPolling }}
+                {{ bulletinPolling }} sec
             </form>
         </div>
         <div>
@@ -83,7 +83,7 @@
             <h4>Round: <span id="round"></span></h4>
             <h4>Timer: <span id="timer"></span></h4>
         </div>
-        
+
         <div>
         <h3>Players</h3>
         <table>
@@ -137,7 +137,7 @@
                         <div>Med: {{ player.med_accuracy_question }}</div>
                         <div>Low: {{ player.low_accuracy_question }}</div>
                     </td>
-                    
+
                 </tr>
                 {% endfor %}
             </tbody>
@@ -180,7 +180,7 @@
     <script>
         let roundOneEndTime = ""
         let roundTwoEndTime = ""
-        let roundThreeEndTime = ""  
+        let roundThreeEndTime = ""
         let playerId = "{{ player.id }}"
         polling = () => {
             console.log("polling")
@@ -190,9 +190,9 @@
                 {{roundZeroEndTime}},
                 {{roundOneEndTime}},
                 {{roundTwoEndTime}},
-                {{roundThreeEndTime}}                
+                {{roundThreeEndTime}}
                 )}, 1000)        }
-                
+
         // getTimerData = () => {
         //     const url = "/checkPlayerScreen/null"
         //     fetch(url)
@@ -203,7 +203,7 @@
         //             roundTwoEndTime = data["roundTwoEndTime"]
         //             roundThreeEndTime = data["roundThreeEndTime"]
         //             console.log("data",roundOneEndTime,roundTwoEndTime,roundThreeEndTime)
-        //             timer()                    
+        //             timer()
         //         })
         // }
         // countSelected = () => {
@@ -221,7 +221,7 @@
         //     console.log("clear countSelected")
         //     var xhttp = new XMLHttpRequest()
         //     xhttp.open("GET", "/clearCountSelected", true)
-        //     xhttp.send()            
+        //     xhttp.send()
         // }
         // sendMessage = (recip) => {
         //     console.log(recip)
@@ -249,14 +249,14 @@
         //         .then(data => messages = data)
         //         .then(html => {
         //             console.log(html, messages)
-                    
+
         //             for (let key in html){
         //                 let value = html[key]
         //                 document.getElementById('AJ').innerHTML = value
 
         //             }
 
-                    
+
         //         })
         // }
         setScreen = (selectId) => {
@@ -272,8 +272,8 @@
             const id = document.getElementById(selectId).name
             const url = "/setOverrideScreen/" + id + "/" + screen
             console.log("override", screen, id, url)
-            
-            fetch(url)            
+
+            fetch(url)
         }
         setPlayerRole = (selectId) => {
             const role = document.getElementById(selectId + "-role").value
@@ -295,7 +295,8 @@
 
                 })
         }
-        document.onload(polling())
+        // document.onload(polling())
+        window.addEventListener('DOMContentLoaded', polling());
 
     </script>
 </body>
