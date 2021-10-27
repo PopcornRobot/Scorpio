@@ -44,7 +44,7 @@ class PlayerAnswer(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     is_used = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return self.player.name + " : " + self.question.text
 
@@ -84,10 +84,10 @@ class PlayerMessages(models.Model):
     id = models.AutoField(primary_key=True)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     text = models.CharField(max_length=120)
-    
+
 class GameLog(models.Model):
     id = models.AutoField(primary_key=True)
     game = models.ForeignKey(Game, on_delete=CASCADE)
-    event = models.CharField(max_length=200, default="", null=True)
-    player = models.CharField(max_length=200, default="", null=True)
+    event = models.TextField()
+    player = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
