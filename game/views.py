@@ -21,7 +21,7 @@ def rules(request):
 
 def start_game(request):
     assign_all_to_detective()
-    
+
     game = Game.objects.get(id=1)
     # game.game_over = False
     game.game_start_time = time.time()
@@ -137,7 +137,7 @@ def current_round(game):
         return 3
     elif game.roundFourEndTime > current_time:
         return 4
-    
+
 
 
 def bulletin(request, id):
@@ -179,7 +179,7 @@ def check_player_screen(request, id):
     print("checkPlayerScreen", id)
     game = Game.objects.get(id=1)
     curr_round= current_round(game)
-    
+
     if curr_round == 1 and game.announce_round_1 == True:
         print("announce new round", curr_round)
         assign_informants()
@@ -203,8 +203,8 @@ def check_player_screen(request, id):
         players = Player.objects.all()
         for p in players:
             p.active_screen = "lock_screen_vote"
-            p.save()        
-    
+            p.save()
+
 
 
 
@@ -388,7 +388,7 @@ def process_survey(request=""):
         # log(1, "process_survey q_high 2", answer_list)
         q_med = sorted_answer_list[1]
         q_low = sorted_answer_list[0]
-        
+
         player.low_accuracy_question = sorted_answers[0][0]
         player.med_accuracy_question = sorted_answers[1][0]
         player.high_accuracy_question = sorted_answers[2][0]
@@ -470,7 +470,7 @@ def delete_player_data(request):
     return HttpResponseRedirect('/dashboard')
 
 def assign_mafia_role(request=""):
-    mafia_names = ["Pistol Pete", "Ice Pick Willie", "Bootsie", "Scarface", "Big Tuna", 
+    mafia_names = ["Pistol Pete", "Ice Pick Willie", "Bootsie", "Scarface", "Big Tuna",
     "Junior Lollipops", "Baby Shanks", "The Cigar", "Greasy Thumb", "The Prophet", "Money bags"  ]
     print("assign_mafia_role")
     player_count = Player.objects.all().count()
