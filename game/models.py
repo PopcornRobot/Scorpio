@@ -31,9 +31,10 @@ class Player(models.Model):
     safe_list_1 = models.TextField(null=True, blank=True)
     safe_list_2 = models.TextField(null=True, blank=True)
     safe_list_3 = models.TextField(null=True, blank=True)
-    private_tip = models.CharField(max_length=500, default="none")
+    private_tip = models.TextField(default="")
     gender = models.CharField(max_length=500, default="none")
     informing_player = models.IntegerField(default=0)
+    death_alert = models.ForeignKey('self', on_delete=models.CASCADE, related_name='%(class)s_requests_created', blank=True, null=True)
 
     def __str__(self):
         return self.name + " " + self.role
@@ -44,7 +45,7 @@ class PlayerAnswer(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     is_used = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return self.player.name + " : " + self.question.text
 
@@ -74,7 +75,7 @@ class Game(models.Model):
     debug = models.BooleanField(default=True)
     debug_roundLength = models.IntegerField(default=30)
     debug_pregameLength = models.IntegerField(default=30)
-    death_alert = models.CharField(max_length=120, default="")
+    # death_alert = models.CharField(max_length=120, default="")
     game_over = models.BooleanField(default=True)
     bulletin_polling = models.IntegerField(default=0)
     initial_tip = models.TextField()
@@ -84,10 +85,10 @@ class PlayerMessages(models.Model):
     id = models.AutoField(primary_key=True)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     text = models.CharField(max_length=120)
-    
+
 class GameLog(models.Model):
     id = models.AutoField(primary_key=True)
     game = models.ForeignKey(Game, on_delete=CASCADE)
-    event = models.CharField(max_length=200, default="", null=True)
-    player = models.CharField(max_length=200, default="", null=True)
+    event = models.TextField()
+    player = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)

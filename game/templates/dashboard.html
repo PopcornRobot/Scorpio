@@ -58,10 +58,6 @@
                 {{ bulletinPolling }} sec
             </form>
 
-            <select>
-              <option>heello</option>
-                <option>heello</option>
-              </select>
         </div>
         <div>
 
@@ -120,6 +116,7 @@
         <table>
             <thead>
                 <tr>
+                    <td>ID</td>
                     <td>Player</td>
                     <td></td>
                     <td>Answers</td>
@@ -128,6 +125,7 @@
             <tbody>
                 {% for player in players %}
                 <tr>
+                    <td>{{ player.id }}</td>
                     <td>{{ player.name }}</td>
                     <td>
                         <ol>
@@ -190,7 +188,7 @@
         polling = () => {
             getPlayerData()
             console.log("polling")
-            setInterval(() => {getPlayerData()}, 3000)
+            setInterval(() => {getPlayerData()}, 5000)
             // setInterval(() => {getTimerData()}, 5000)
             setInterval(function() {timer(
                 {{roundZeroEndTime}},

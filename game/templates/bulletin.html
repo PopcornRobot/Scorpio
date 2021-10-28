@@ -6,10 +6,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ player.name }}: Scorpio</title>
+    <title>{{ player.id }}. {{ player.name }}: Scorpio</title>
     <script src="{% static 'js/timer.js' %}"></script>
     <link href="{% static "css/arlene_custom.css" %}" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+<<<<<<< HEAD
+=======
+
+    <style>
+
+            /* .container-fluid {
+                background-image: url("{% static "img/newspaper_two.jpg" %}");
+                background-position: 50% 50%;
+                background-repeat: repeat;
+            } */
+
+            .rajdhani {font-family: 'Rajdhani', sans-serif;}
+
+        </style>
+
+>>>>>>> 1f29d19b2f7d5762b97ab397cf614f497b6d8913
 </head>
 
 <body >
@@ -96,7 +112,8 @@
                 })
        }
 
-       document.onload(polling())
+       // document.onload(polling())
+       window.addEventListener('DOMContentLoaded', polling());
     </script>
 </body>
 </html>
