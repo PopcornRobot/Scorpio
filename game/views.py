@@ -389,8 +389,10 @@ def get_tip():
 
     if game.announce_round_3:
         questions.order_by('?')
+        log(game.id, "admin", "random tip")
     else:
         questions.order_by('-selected_count')
+        log(game.id, "admin", "in order")
 
     for q in questions:
         answers = PlayerAnswer.objects.filter(question=q, player__role="mafia")
