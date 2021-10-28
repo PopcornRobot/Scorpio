@@ -31,7 +31,7 @@ class Player(models.Model):
     safe_list_1 = models.TextField(null=True, blank=True)
     safe_list_2 = models.TextField(null=True, blank=True)
     safe_list_3 = models.TextField(null=True, blank=True)
-    private_tip = models.CharField(max_length=500, default="none")
+    private_tip = models.TextField(default="")
     gender = models.CharField(max_length=500, default="none")
     informing_player = models.IntegerField(default=0)
     death_alert = models.ForeignKey('self', on_delete=models.CASCADE, related_name='%(class)s_requests_created', blank=True, null=True)

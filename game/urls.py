@@ -18,7 +18,7 @@ urlpatterns = [
 
 # functions
     path('startGame', views.start_game),
-    path('stopGame', views.stop_game),
+    # path('stopGame', views.stop_game),
     path('countSelected', views.count_selected),
     path('clearCountSelected', views.clear_count_selected),
     path('killInformant/<str:informant>/<str:killer>', views.kill_informant),
