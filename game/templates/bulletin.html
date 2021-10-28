@@ -8,38 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ player.name }}: Scorpio</title>
     <script src="{% static 'js/timer.js' %}"></script>
+    <link href="{% static "css/arlene_custom.css" %}" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
-
-    <style>
-
-            /* .container-fluid {
-                background-image: url("{% static "img/newspaper_two.jpg" %}");
-                background-position: 50% 50%;
-                background-repeat: repeat;
-            } */
-        
-            .rajdhani {font-family: 'Rajdhani', sans-serif;}
-        
-        </style>
-        
 </head>
 
-
-
 <body >
-
-
     <div class="container-fluid">
 
         <br>
 
-        <!-- <h6>User: {{ player.name }}</h6> -->
-            <p class="rajdhani"; style="font-size: 10px; color:black; ">
-            Round: <span id="round"></span> | Timer: <span id="timer"></span></p>
-            <!-- <p style="font-size: 10px;">Timer: <span id="timer"></span></p> -->
-
-        <span id="activeScreen">
-        </span>
+        <p class="rajdhani" style="font-size: 25px;">
+        Timer: <span id="timer"></span></p>
+            
+        <span id="activeScreen"></span>
     </div>
 
     <script>

@@ -21,6 +21,8 @@
 
 .nerko {font-family: 'Nerko One', cursive;}
 
+.rajdhani {font-family: 'Rajdhani', sans-serif;}
+
 .blocktext {
   margin-left: auto;
   margin-right: auto;
@@ -67,9 +69,12 @@ input[type=submit] {
   text-decoration: none;
   margin: 3px 2px;
   cursor: pointer;
+  /* line-height: 60px; */
+  /* float: left; */
 }
 
 .button-black {
+  /* display:inline-block; */
   background-color: black;
   border: none;
   color: white;
@@ -77,6 +82,8 @@ input[type=submit] {
   text-decoration: none;
   margin: 3px 2px;
   cursor: pointer;
+  /* line-height: 60px; */
+  /* float: left; */
 }
 
     
