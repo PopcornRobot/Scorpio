@@ -9,19 +9,22 @@
     <title>{{ player.id }}. {{ player.name }}: Scorpio</title>
     <script src="{% static 'js/timer.js' %}"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+
+            /* .container-fluid {
+                background-image: url("{% static "img/newspaper_two.jpg" %}");
+                background-position: 50% 50%;
+                background-repeat: repeat;
+            } */
+        
+            .rajdhani {font-family: 'Rajdhani', sans-serif;}
+        
+        </style>
+        
 </head>
 
-<style>
 
-    .container-fluid {
-        background-image: url("{% static "img/newspaper_two.jpg" %}");
-        background-position: 50% 50%;
-        background-repeat: repeat;
-    }
-
-    .rajdhani {font-family: 'Rajdhani', sans-serif;}
-
-</style>
 
 <body >
 
@@ -32,7 +35,7 @@
 
         <!-- <h6>User: {{ player.name }}</h6> -->
             <p class="rajdhani"; style="font-size: 10px; color:black; ">
-            <u>Round: <span id="round"></span> | Timer: <span id="timer"></u></span></p>
+            Round: <span id="round"></span> | Timer: <span id="timer"></span></p>
             <!-- <p style="font-size: 10px;">Timer: <span id="timer"></span></p> -->
 
         <span id="activeScreen">
