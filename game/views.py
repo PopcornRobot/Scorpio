@@ -485,8 +485,8 @@ def delete_player_data(request):
     return HttpResponseRedirect('/dashboard')
 
 def assign_mafia_role(request=""):
-    mafia_names = ["Pistol Pete", "Ice Pick Willie", "Bootsie", "Scarface", "Big Tuna",
-    "Junior Lollipops", "Baby Shanks", "The Cigar", "Greasy Thumb", "The Prophet", "Money bags"  ]
+    mafia_names = ["Bootsie", "Scarface", "Big Tuna", "The Fox", "The Enforcer", "Lucky", "Toto",
+    "Junior Lollipops", "Baby Shanks", "The Cigar", "Greasy Thumb", "The Prophet", "Money Bags"  ]
     print("assign_mafia_role")
     player_count = Player.objects.all().count()
     mafia_count = int(round(player_count * .2))
@@ -498,7 +498,9 @@ def assign_mafia_role(request=""):
         random_mafia = random.choice(players)
         random_mafia.role = "mafia"
         random_mafia.nickname = random.choice(mafia_names)
+        mafia_names.remove(random_mafia.nickname)
         random_mafia.save()
+        log(1, "admin", "Assigned {0} as mafia.".format(random_mafia.name))
     return HttpResponseRedirect("/dashboard")
 
 def assign_informants():
