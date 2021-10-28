@@ -388,10 +388,10 @@ def get_tip():
     questions = Question.objects.all().exclude(is_used=True)
 
     if not game.announce_round_3:
-        questions.order_by('?')
+        questions = questions.order_by('?')
         # log(game.id, "admin", "random tip")
     else:
-        questions.order_by('-selected_count')
+        questions = questions.order_by('-selected_count')
         # log(game.id, "admin", "in order")
 
     for q in questions:
