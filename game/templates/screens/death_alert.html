@@ -15,20 +15,14 @@
 
         <hr>
         <p>It is with a heavy heart that I must announce the passing of one of our dear friends.
-        {{ death_name}} was found dead moments ago behind the alleyway trash cans.</p>
+        {{ death_player.name }} was found dead moments ago behind the alleyway trash cans.</p>
         <p>At the moment, we do not have any suspects. #JusticeForArlene</p>
 
         <div style="background-color:#000000; height:1px; width:100%;"></div>
 
-        <hr>
-        <p>*** MAFIA DEAD VERSION ***</p>
 
-        <p>Ladies and gentlemen, we did it. A few minutes ago, we found evidence that
-        Arlene Rangel was the murderer.  When we confronted her, the situation quickly
-        escalated into a shoot-out. Justice deserved.</p>
+        <a href="/clearDeathScreen/{{ player_id }}/{{ death_player.id }}" class="button-white">Return to game</a>
 
-        <a href="/clearAllOverrideScreens/{{ player_id }}" class="button-white">Return to game</a>
-    
     </div>
 
 </div>

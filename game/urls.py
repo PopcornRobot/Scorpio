@@ -29,7 +29,7 @@ urlpatterns = [
     path('getPlayerScreen/<int:id>', views.get_player_screen),
     path('setPlayerScreen/<int:id>/<str:screen>', views.set_player_screen),
     path('setOverrideScreen/<int:id>/<str:screen>', views.set_override_screen),
-    
+
     path('loadPlayerData', views.load_player_data),
     path('deletePlayerData', views.delete_player_data),
     path('assignMafiaRole', views.assign_mafia_role),
@@ -41,8 +41,9 @@ urlpatterns = [
     path('getPlayerData', views.get_player_data),
     path('setPlayerRole/<int:id>/<str:role>', views.set_player_role),
     path('clearOverrideScreen/<int:id>', views.clear_override_screen),
-    path('clearAllOverrideScreens/<int:id>', views.clear_all_override_screens),
-    path('mafiaFindInformantSubmit/<int:id>', views.mafia_find_informant_submit),
+    path('clearDeathScreen/<int:id>/<int:death_id>', views.clear_death_screen),
+    # path('clearAllOverrideScreens/<int:id>', views.clear_all_override_screens),
+    # path('mafiaFindInformantSubmit/<int:id>', views.mafia_find_informant_submit),
     path('survey_save', views.survey_save),
     path('screen', views.screen),
     path('bulletinPolling', views.bulletin_polling),

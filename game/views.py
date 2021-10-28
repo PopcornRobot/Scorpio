@@ -34,7 +34,7 @@ def start_game(request):
     game.announce_round_2 = True
     game.announce_round_3 = True
     game.announce_round_4 = True
-    game.death_alert = ""
+    # game.death_alert = ""
     game.save()
     log(game.id, "admin", "==== START NEW GAME ====")
     clear_count_selected()
@@ -310,7 +310,7 @@ def get_player_screen(request, id):
         'partner_id': partner.id,
         'partner_name': partner.name,
         'partner_low_accuracy_question': partner.low_accuracy_question,
-        'death_name': game.death_alert,
+        'death_player': user.death_alert,
         'player_low_accuracy_question': user.low_accuracy_question,
         'mafia_count_text': mafia_count_text,
         'tip_on_mafia': tip_on_mafia,
@@ -426,28 +426,18 @@ def kill_informant(request, informant, killer):
     print("kill informant", informant, killer)
     game = Game.objects.get(id=1)
     informant_player = Player.objects.get(id=informant)
-    game.death_alert = informant_player.name
-    game.save()
+
+    # Remove killer's override screen
     killer_player = Player.objects.get(id=killer)
-    killer_player.override_screen = "lock_screen"
+    killer_player.override_screen = "none"
     killer_player.save()
-    informant_player.alive = False
-    informant_player.override_screen = "lock_screen"
-    informant_player.active_screen = "you_have_been_killed"
-    informant_player.role = "detective"
-    informant_player.save()
-    lock_screen_players = Player.objects.filter(). \
-        exclude(id=informant_player.id). \
-        exclude(id=killer_player.id). \
-        exclude(alive=False)
-    for p in lock_screen_players:
-        p.override_screen = "lock_screen"
-        p.save()
-    announce_player = random.choice(Player.objects.filter().exclude(alive=False). \
+
+    announce_player = random.choice(Player.objects.filter(override_screen="none").filter(alive=True). \
         exclude(id=informant_player.id). \
         exclude(id=killer_player.id))
-    print("==== anounce_player", announce_player)
+    # print("==== anounce_player", announce_player)
     announce_player.override_screen = "death_alert"
+    announce_player.death_alert = informant_player
     announce_player.save()
     message = '{0} killed {1}. Announced by {2}'.format(killer_player.name, informant_player.name, announce_player.name )
     log(game.id, killer_player, message)
@@ -739,46 +729,64 @@ def clear_override_screen(request, id):
     player.save()
     return HttpResponseRedirect("/bulletin/" + str(id))
 
-def clear_all_override_screens(request, id):
-    players = Player.objects.all()
-    for p in players:
-        p.override_screen = "none"
-        p.save()
+def clear_death_screen(request, id, death_id):
+    print("clear override screen ")
+    player = Player.objects.get(id=id)
+    player.override_screen = "none"
+    player.death_alert = None
+    player.save()
 
-    log(1, "admin", "All override screens cleared.")
-    return HttpResponseRedirect("/bulletin/" + str(id))
-
-def mafia_find_informant_submit(request, id):
-    print("---- mafia_find_informant_submit ---")
-    game = Game.objects.get(id=1)
-    mafia_player = Player.objects.get(id=id)
-    killed_player = Player.objects.get(name=request.GET['player'])
-    if killed_player.role == "informant":
-        killed_player.alive = False
-        killed_player.active_screen = "you_have_been_killed"
-        killed_player.save()
-        game.death_alert = killed_player.name
-        game.save()
-    else:
-        mafia_player.alive = False
-        mafia_player.active_screen = "you_have_been_killed"
-        mafia_player.save()
-        mafia_remaining_count = Player.objects.filter(role="mafia").exclude(alive=False).count()
-        if mafia_remaining_count == 0:
-            log(game.id, mafia_player, "mafia count 0, detectives win")
-            Player.objects.update(active_screen="detectives_win")
-        game.death_alert = mafia_player.name
-        game.save()
-
-    for p in Player.objects.all():
-        p.override_screen = "lock_screen"
-        p.save()
-    death_alert_announcer = random.choice(Player.objects.exclude(id=id).exclude(alive=False))
-    death_alert_announcer.override_screen = "death_alert"
-    death_alert_announcer.save()
-    print("mfi", killed_player, death_alert_announcer)
+    # Kill player
+    death_player = Player.objects.get(id=death_id)
+    death_player.override_screen = "none"
+    death_player.alive = False
+    death_player.active_screen = "you_have_been_killed"
+    death_player.role = "detective"
+    death_player.save()
 
     return HttpResponseRedirect("/bulletin/" + str(id))
+
+#
+# def clear_all_override_screens(request, id):
+#     players = Player.objects.all()
+#     for p in players:
+#         p.override_screen = "none"
+#         p.save()
+#
+#     log(1, "admin", "All override screens cleared.")
+#     return HttpResponseRedirect("/bulletin/" + str(id))
+#
+# def mafia_find_informant_submit(request, id):
+#     print("---- mafia_find_informant_submit ---")
+#     game = Game.objects.get(id=1)
+#     mafia_player = Player.objects.get(id=id)
+#     killed_player = Player.objects.get(name=request.GET['player'])
+#     if killed_player.role == "informant":
+#         killed_player.alive = False
+#         killed_player.active_screen = "you_have_been_killed"
+#         killed_player.save()
+#         game.death_alert = killed_player.name
+#         game.save()
+#     else:
+#         mafia_player.alive = False
+#         mafia_player.active_screen = "you_have_been_killed"
+#         mafia_player.save()
+#         mafia_remaining_count = Player.objects.filter(role="mafia").exclude(alive=False).count()
+#         if mafia_remaining_count == 0:
+#             log(game.id, mafia_player, "mafia count 0, detectives win")
+#             Player.objects.update(active_screen="detectives_win")
+#         game.death_alert = mafia_player.name
+#         game.save()
+#
+#     for p in Player.objects.all():
+#         p.override_screen = "lock_screen"
+#         p.save()
+#     death_alert_announcer = random.choice(Player.objects.exclude(id=id).exclude(alive=False))
+#     death_alert_announcer.override_screen = "death_alert"
+#     death_alert_announcer.save()
+#     print("mfi", killed_player, death_alert_announcer)
+#
+#     return HttpResponseRedirect("/bulletin/" + str(id))
 
 def logs(request):
 

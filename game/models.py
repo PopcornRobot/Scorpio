@@ -34,6 +34,7 @@ class Player(models.Model):
     private_tip = models.CharField(max_length=500, default="none")
     gender = models.CharField(max_length=500, default="none")
     informing_player = models.IntegerField(default=0)
+    death_alert = models.ForeignKey('self', on_delete=models.CASCADE, related_name='%(class)s_requests_created', blank=True, null=True)
 
     def __str__(self):
         return self.name + " " + self.role
@@ -74,7 +75,7 @@ class Game(models.Model):
     debug = models.BooleanField(default=True)
     debug_roundLength = models.IntegerField(default=30)
     debug_pregameLength = models.IntegerField(default=30)
-    death_alert = models.CharField(max_length=120, default="")
+    # death_alert = models.CharField(max_length=120, default="")
     game_over = models.BooleanField(default=True)
     bulletin_polling = models.IntegerField(default=0)
     initial_tip = models.TextField()
