@@ -157,18 +157,18 @@ def bulletin(request, id):
     else:
         activeScreen = "screens/" + player.override_screen + ".html"
 
-    count_words = ["zero", "one", "two", "three", "four"]
+    # count_words = ["zero", "one", "two", "three", "four"]
     # mafia_count_text = "another mafia member" if mafia.count() <= 2 else count_words[mafia.count()] + " other mafia members"
-    other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
-    other_mafia_display = ""
-    for m in other_mafia:
-        other_mafia_display += m.name + ", "
-    other_mafia_display = other_mafia_display[:-2]
-    other_players = Player.objects.exclude(name=player.name).exclude(alive=False).exclude(role="mafia")
-    if mafia:
-        tip_on_mafia_one = mafia[0].low_accuracy_question
-    else:
-        tip_on_mafia_one = "none"
+    # other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
+    # other_mafia_display = ""
+    # for m in other_mafia:
+    #     other_mafia_display += "{0} as {1}, ".format(m.name, m.nickname)
+    # other_mafia_display = other_mafia_display[:-2]
+    # other_players = Player.objects.exclude(name=player.name).exclude(alive=False).exclude(role="mafia")
+    # if mafia:
+    #     tip_on_mafia_one = mafia[0].low_accuracy_question
+    # else:
+    #     tip_on_mafia_one = "none"
     if player.partner:
         partner = player.partner
     else:
@@ -267,8 +267,8 @@ def get_player_screen(request, id):
     other_mafia = Player.objects.exclude(id=id).filter(role="mafia")
     other_mafia_display = ""
     for m in other_mafia:
-        other_mafia_display += m.name + ", "
-    other_mafia_display = other_mafia_display[:-2]
+        other_mafia_display += "{0} is {1}<br /> ".format(m.name, m.nickname)
+    # other_mafia_display = other_mafia_display[:-2]
     informant_list = ""
     informants = Player.objects.filter(role="informant").exclude(alive=False)
     for i in informants:
