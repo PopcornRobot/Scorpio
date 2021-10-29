@@ -10,29 +10,17 @@
     <script src="{% static 'js/timer.js' %}"></script>
     <link href="{% static "css/arlene_custom.css" %}" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
-
-    <style>
-
-            /* .container-fluid {
-                background-image: url("{% static "img/newspaper_two.jpg" %}");
-                background-position: 50% 50%;
-                background-repeat: repeat;
-            } */
-
-            .rajdhani {font-family: 'Rajdhani', sans-serif;}
-
-        </style>
-
+   
 </head>
 
-<body >
+<body>
     <div class="container-fluid">
 
         <br>
 
         <p class="rajdhani" style="font-size: 25px;">
-        Timer: <span id="timer"></span></p>
-            
+            Timer: <span id="timer"></span></p>
+
         <span id="activeScreen"></span>
     </div>
 
@@ -112,5 +100,6 @@
        // document.onload(polling())
        window.addEventListener('DOMContentLoaded', polling());
     </script>
+
 </body>
 </html>

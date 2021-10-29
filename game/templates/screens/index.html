@@ -1,0 +1,61 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width">
+    <title>Flip Example Preset</title>
+    <link href="{% static "css/flip.min.css" %}" rel="stylesheet"> 
+    <link href="{% static "css/newClock.css" %}" rel="stylesheet"> 
+    <link href="{% static "js/flip.min.js" %}" rel="stylesheet"> 
+    <script src="{% static 'js/timer.js' %}"></script>
+    
+</head>
+<body>
+
+<!-- START OF FLIP EXAMPLE PRESET -->
+
+
+    <p class="rajdhani" style="font-size: 25px;">
+        Timer: <span id="timer"></span></p>
+
+        <span id="activeScreen"></span> 
+
+        <div class="tick" 
+            data-value="100"
+            data-did-init="setupFlip">
+            <div data-repeat="true">
+                <span data-view="flip"></span>
+            </div>
+        </div>
+
+<script>
+
+    function setupFlip(tick) {
+
+    // The Tick `interval` function
+    // helps to quickly setup a timer
+        Tick.helper.interval(function() {
+
+            // For this demo we increase
+            // the value of our ticker
+            // each second
+            tick.value++;
+        }, 1000);
+
+        var counter = Tick.count.down(deadline, { format: ['m', 's'] } );
+        console.log(counter)
+    }
+
+</script>
+
+
+<script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
+
+<!-- END OF FLIP EXAMPLE PRESET -->
+
+</body>
+</html>

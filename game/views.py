@@ -863,3 +863,5 @@ def survey_save(request):
         PlayerAnswer.objects.create(player=player, question=question)
 
     return HttpResponseRedirect("/bulletin/" + str(player.id))
+
+
