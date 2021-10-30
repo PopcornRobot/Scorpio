@@ -59,7 +59,7 @@
             </form>
 
         </div>
-        <div>
+        <div style="margin-bottom:20px; margin-top:10px">
 
             <!-- <a href='/loadPlayerData'><button>Load Player Data</button></a> -->
             <a href='/deletePlayerData'><button>Delete Player Data</button></a>
@@ -68,11 +68,13 @@
             <!-- <a href='/reassignInformants'><button>3-Reassign Informants</button></a> -->
             <!-- <a href='/assignAllToDetective'><button>Assign All To Detective</button></a> -->
             <a href='/processSurvey'><button>Process Survey</button></a>
+                    <button id="show_roles">Show roles</button>
 
         </div>
         <a href="/startGame" style="text-decoration: none;">
-            <button style="background-color: lightgreen;">Start Game</button>
+            <button id="btn_start" style="background-color: lightgreen;">Start Game</button>
         </a>
+
         <!-- <a href="/stopGame" style="text-decoration: none;">
             <button style="background-color: red;">Stop Game</button>
         </a> -->
@@ -83,6 +85,30 @@
         <div style="border: 1px solid black">
             <h4>Round: <span id="round"></span></h4>
             <h4>Timer: <span id="timer"></span></h4>
+        </div>
+        <div id="player_roles" style="display:none">
+        <h3>Players</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Nickname</th>
+                    <th>Partner</th>
+                    <th>Tip</th>
+                    <th>Screen</th>
+                    <th>Override</th>
+                    <th>Role</th>
+                    <th>Has Been Informant</th>
+                    <th>Alive</th>
+                </tr>
+            </thead>
+            <tbody id="playerData">
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
         </div>
 
     <div style="border:1px solid black;">
@@ -123,30 +149,7 @@
         </table>
     </div>
 
-      <div>
-      <h3>Players</h3>
-      <table>
-          <thead>
-              <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Nickname</th>
-                  <th>Partner</th>
-                  <th>Tip</th>
-                  <th>Screen</th>
-                  <th>Override</th>
-                  <th>Role</th>
-                  <th>Has Been Informant</th>
-                  <th>Alive</th>
-              </tr>
-          </thead>
-          <tbody id="playerData">
-              <tr>
-                  <td></td>
-              </tr>
-          </tbody>
-      </table>
-  </div>
+
     <div style="border:1px solid black;">
         <h1>Questions v1</h1>
         <a href="/countSelected">
@@ -182,6 +185,11 @@
 
 
     <script>
+      btn_roles = document.getElementById("show_roles")
+      btn_roles.addEventListener("click", function(){
+        document.getElementById("player_roles").style.display = "block";
+      });
+
         let roundOneEndTime = ""
         let roundTwoEndTime = ""
         let roundThreeEndTime = ""

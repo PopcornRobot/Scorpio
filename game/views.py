@@ -45,7 +45,7 @@ def start_game(request):
     assign_mafia_role()
 
     game = Game.objects.get(id=1)
-    game.initial_tip = get_tip()
+    game.initial_tip = get_tip("Scorpio")
     game.has_second_tip_sent = False;
     game.save()
 
@@ -298,6 +298,7 @@ def get_player_screen(request, id):
         'partner_name': partner.name,
         'partner_low_accuracy_question': partner.low_accuracy_question,
         'death_player': user.death_alert,
+        'death_message': user.death_message,
         'player_low_accuracy_question': user.low_accuracy_question,
         'mafia_count_text': mafia_count_text,
         'tip_on_mafia': tip_on_mafia,
@@ -384,7 +385,7 @@ def dashboard(request):
     }
     return render(request, "dashboard.html", context)
 
-def get_tip():
+def get_tip(name=""):
 
     game = Game.objects.get(id=1)
     questions = Question.objects.all().exclude(is_used=True)
@@ -402,7 +403,10 @@ def get_tip():
             q.is_used = True
             q.save()
             tip = random.choice(answers)
-            return tip.question.news_report.replace('%s', tip.player.nickname)
+            if name == "":
+                return tip.question.news_report.replace('%s', tip.player.nickname)
+            else:
+                return tip.question.news_report.replace('%s', name)
 
 
 
@@ -438,10 +442,12 @@ def kill_informant(request, informant, killer):
     if no_activity_players > 0:
         announce_player = random.choice(Player.objects.filter(override_screen="none").filter(alive=True). \
             filter(private_tip="").filter(death_alert=None). \
+            exclude(role="informant"). \
             exclude(id=informant_player.id). \
             exclude(id=killer_player.id))
     else:
         announce_player = random.choice(Player.objects.filter(override_screen="none").filter(alive=True). \
+            exclude(role="informant"). \
             exclude(id=informant_player.id). \
             exclude(id=killer_player.id))
 
@@ -452,6 +458,7 @@ def kill_informant(request, informant, killer):
     else:
         death_msg = random.choice(DeathMessage.objects.all())
     death_msg.is_used = True
+    death_msg.save()
 
 
     announce_player.override_screen = "death_alert"
@@ -635,15 +642,18 @@ def submit_safe_person(request, id):
         # Have bias towards players who have yet to contribute
         no_activity_players = Player.objects.filter(override_screen="none").filter(alive=True). \
             filter(private_tip="").filter(death_alert=None). \
+            exclude(role="informant"). \
             exclude(id=id).exclude(id=request.POST['players']).count()
 
         if no_activity_players > 0:
             announcer = random.choice(Player.objects.filter(override_screen="none").filter(alive=True). \
                 filter(private_tip="").filter(death_alert=None). \
+                exclude(role="informant"). \
                 exclude(id=id).exclude(id=request.POST['players']))
 
         else:
             announcer = random.choice(Player.objects.filter(override_screen="none").exclude(alive=False). \
+                exclude(role="informant"). \
                 exclude(id=id).exclude(id=request.POST['players']))
 
         announcer.override_screen = "tip_received_detective"
@@ -657,7 +667,7 @@ def submit_safe_person(request, id):
 
             mafia_names = comma_separator(names)
 
-            announcer.private_tip = "Breaking news! Deputies at the scene report that security cameras caught {0} suspicious people at the time of the murder. Police now suspect that Scorpio is not one person, but {0}. Police have identified them as the criminals {1}. More news to come.".format(len(mafias), mafia_names)
+            announcer.private_tip = "Breaking news! Security cameras caught {0} suspicious people near the murder. Police now believe Scorpio is not one person, but {0}. Police have identified them as the criminals {1}. More news to come.".format(len(mafias), mafia_names)
             game.has_second_tip_sent = True
             game.save()
         else:
