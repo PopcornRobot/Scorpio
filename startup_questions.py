@@ -16,7 +16,7 @@ Question.objects.all().delete()
 DeathMessage.objects.all().delete()
 
 d = DeathMessage.objects.bulk_create([
-    DeathMessage(text=""),
+    DeathMessage(text="It is with a heavy heart that I must announce the passing of one of our dear friends. %s was found dead moments ago behind the alleyway trash cans. We do not have any suspects. #JusticeFor%s"),
 ])
 
 q = Question.objects.bulk_create([
