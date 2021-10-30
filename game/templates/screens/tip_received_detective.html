@@ -6,7 +6,7 @@
 
     <!-- Heading + Image -->
     <div class="no-gutter">
-        <p class="garamond blocktext" style="font-size:30px;">YOU RECEIVED A TIP</p>
+        <p class="garamond blocktext" style="font-size:30px;">A TIP EMERGES</p>
         <img src="{% static "img/tip_one22.jpg" %}" max width="100%" class="text-center"/>
     </div>
 
@@ -15,14 +15,12 @@
 
         <hr>
 
-        <p>An informant risked their life to deliver this information to you. Please
-        inform a moderator that you would like to make a
-        public announcement.</p>
+        <p>An informant risked their life to deliver this to you. Please
+        tell the moderator you would like to read the following announcement.</p>
+        <hr />
 
-        <div style="background-color:#000000; height:1px; width:100%;"></div>
-
-        <p>%%INCLUDE_TIP%% (e.g. "Ladies and gentlemen, new information)</p>
         <p>{{ private_tip|safe }}</p>
+        <hr />
         <p>Once you click the button, this tip will no longer be available</p>
         <a href="/clearOverrideScreen/{{ player_id }}">
             <button class="button-white">I have read the tip</button>

@@ -6,7 +6,7 @@
 
     <!-- Heading + Image -->
     <div class="row no-gutter">
-        <h1 class="blocktext nerko">MISSION SUCCESS</h1>
+        <h1 class="blocktext nerko">DETECTIVE FOOLED</h1>
         <img src="{% static "img/tip_sent2_2.jpg" %}" max width="100%" class="text-center"/>
     </div>
     <br>
@@ -14,10 +14,11 @@
     <!-- Instructions + Text -->
     <div class="walter">
 
-      <p>{{ partner_name }} foolishly gave you critical evidence to return to the police lockers.
+      <p>{{ informing_player.name }} foolishly gave the evidence to you.
         Now you can do what you wanted to do all along.</p>
+      <hr />
 
-      <p>Kill {{ partner_name }} and rid yourself of this annoying problem.
+      <p>Kill {{ informing_player.name }} and rid yourself of this annoying detective.
         Or keep them alive and make them serve you as a powerful ally. </p>
 
       <p>The choice is yours.</p>
@@ -49,7 +50,7 @@
         <p>Do you kill {{ partner_name }}?</p> -->
 
         <a class="button-black" href="/killInformant/{{ informing_player_id }}/{{ player_id }}" style="float:left">
-            Kill {{ partner_name }}
+            Kill {{ informing_player.name }}
         </a>
         <a class="button-black" href="/clearOverrideScreen/{{ player_id }}" style="float:right">
                 Let them live
