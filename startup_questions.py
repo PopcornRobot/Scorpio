@@ -14,7 +14,7 @@ from game.models import *
 Question.objects.all().delete()
 
 q = Question.objects.bulk_create([
-    Question(text="<strong>I ever had a one night stand.</strong> ",
+    Question(text="<strong>I have had a one night stand.</strong> ",
         news_report="Loose moral behavior. Engaged in sexual conduct with people they only knew one day."),
 
     Question(text="<strong>I have shoplifted.</strong> ",
