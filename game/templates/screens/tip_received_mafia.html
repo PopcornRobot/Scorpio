@@ -14,6 +14,15 @@
     <!-- Instructions + Text -->
     <div class="walter">
 
+      <p>{{ partner_name }} foolishly gave you critical evidence to return to the police lockers.
+        Now you can do what you wanted to do all along.</p>
+
+      <p>Kill {{ partner_name }} and rid yourself of this annoying problem.
+        Or keep them alive and make them serve you as a powerful ally. </p>
+
+      <p>The choice is yours.</p>
+<!--
+      Kill AJ
         <hr>
         <h1>KILL ONLY</h1>
         <p>Your angel face and innocent demeanor served you well.
@@ -32,21 +41,20 @@
         <p>Kill the detective and rid yourself of this annoying problem.
         Or keep them alive and make them serve you as a powerful ally. The choice is yours.</p>
 
-        <p>** TWO BUTTONS: "REVEAL TIP" and "KILL AJ"</p>
+        <p>** TWO BUTTONS: "REVEAL TIP" and "KILL AJ"</p> -->
 
-        <div style="background-color:#000000; height:1px; width:100%;"></div>
+        <!-- <div style="background-color:#000000; height:1px; width:100%;"></div>
 
         <p>The informant is... {{ partner_name }}</p>
-        <p>Do you kill {{ partner_name }}?</p>
+        <p>Do you kill {{ partner_name }}?</p> -->
 
-        <a href="/killInformant/{{ informing_player_id }}/{{ player_id }}">
-            <button class="button-black">Kill Informant</button>
+        <a class="button-black" href="/killInformant/{{ informing_player_id }}/{{ player_id }}" style="float:left">
+            Kill {{ partner_name }}
         </a>
-        <a href="/clearOverrideScreen/{{ player_id }}">
-            <button class="button-black">
-                Let them live... for now.
-            </button>
+        <a class="button-black" href="/clearOverrideScreen/{{ player_id }}" style="float:right">
+                Let them live
         </a>
+        <div style="clear: both;"></div>
     </div>
 
 </div>

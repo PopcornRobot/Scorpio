@@ -7,7 +7,9 @@
 
     <!-- Heading + Image -->
     <div class="row no-gutter">
-        <p class="blocktext nerko" style="font-size:30px;">SECRET MISSION #1</p>
+        <p class="blocktext nerko" style="font-size:20px;">THE SECRET TARGETS </p>
+        <p class="blocktext nerko" style="font-size:30px;">{{ informant_list }}</p>
+        <!-- <h3>{{ informant_list }}</h# -->
         <!-- <p class="blocktect nerko" style="font-size:30px;">SMELLS LIKE A RAT</p> -->
         <!-- <img src="{% static "img/whisper22.jpg" %}" max width="100%" class="text-center"/> -->
 
@@ -31,7 +33,7 @@
         <hr>
 
         <!-- <p>Who would have thouxght? </p> -->
-        
+
         <p><em>You thought you were a goner.</em> </p>
         <p>The police had
           evidence you were behind the Galway murders. So you hired someone to steal
@@ -47,32 +49,21 @@
         <p>This is your chance!</p> -->
 
         <div style="background-color:#000000; height:1px; width:100%;"></div>
-        <br>
 
-        <p><em>GOAL:</em> The detectives below are looking for someone to trust
-           <!-- pass the evidence
-          to another detective. The good news is they don't want anyone to know
-          (lest they get fired for stealing evidence) and they have to do it -->
-          before time runs out.
-          Pretend you are a detective and
-          sweet talk them into giving the evidence back to you. </p>
-            <div>
-              <span>Informants: {{ informant_list }}  </span>
-            </div>
+        <p><em>Mission:</em> The detectives below stole evidence from the police lockers and are
+          looking for help to return it before time runs out. Pretend you are a
+          detective and sweet talk the detectives into trusting you on their secret mission. </p>
 
-            <br>
-            <div style="background-color:#000000; height:1px; width:100%;"></div>
-            <br>
+        <p><em>Tip:</em> Don’t mention anything about the secret mission to the detective. Nobody is supposed to know about it.</p>
 
-            <div>
-              <p>Scorpio members: {{ other_mafia_display }}</p>
-            </div>
+        <p><em>Detectives:</em> </p>
+        <h5>{{ informant_list }}</h5>
+        <hr />
 
-        <!-- <div style="background-color:#000000; height:2px; width:100%;"></div> -->
+        <p>Scorpio members:<br /> {{ other_mafia_display|safe }}</p>
 
-        <br>
 
-  
+
 
     </div>
 

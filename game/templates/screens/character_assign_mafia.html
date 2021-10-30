@@ -6,7 +6,7 @@
 
     <!-- Heading + Image -->
     <div class="row no-gutter">
-        <h1 class="blocktext nerko">YOU ARE THE MAFIA</h1>
+        <h1 class="blocktext nerko">YOU ARE SCORPIO</h1>
         <img src="{% static "img/mafia_one2.jpg" %}" max width="100%" class="text-center"/>
     </div>
 
@@ -14,7 +14,17 @@
 
     <!-- Instructions + Text -->
     <div class="walter">
+      <p>The media thinks Scorpio is a criminal mastermind, but Scorpio is really a criminal organization.
+        In the underworld, you are known as "{{ nickname }}".  </p>
+      <p>Soon everyone is going to vote on who to
+        deliver to the police. </p>
+      <hr />
 
+      <p><em>Mission:</em> Convince everyone you and your friends are innocent.</p>
+
+      <p>Scorpio members: <br />
+        {{ other_mafia_display|safe }}</p>
+<!--
         <p>You are the murderer known as "{{ nickname }}".
         You are a part of the criminal organization called <strong>Scorpio</strong>.</p>
 
@@ -26,13 +36,13 @@
         <p>Good thing you had the bright idea of hiding in
         this party. Unfortunately, it was a party of off-duty detectives.</p>
 
-        <p>Soon everyone is going to vote on who to deliver to the police. Right now the group 
+        <p>Soon everyone is going to vote on who to deliver to the police. Right now the group
         thinks there's only one murderer. Convince everyone you and your friends are innocent.</p>
 
         <div style="background-color:#000000; height:1px; width:100%;"></div>
 
-        <p>Scorpio member(s): {{ other_mafia_display }}</p>
-    
+        <p>Scorpio member(s): {{ other_mafia_display }}</p> -->
+
     </div>
 
 </div>
