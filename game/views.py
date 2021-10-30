@@ -23,6 +23,8 @@ def rules(request):
 def start_game(request):
     assign_all_to_detective()
     Question.objects.all().update(is_used=False)
+    DeathMessage.objects.all().update(is_used=False)
+
     game = Game.objects.get(id=1)
     # game.game_over = False
     game.roundEndTime = 0
@@ -444,8 +446,17 @@ def kill_informant(request, informant, killer):
             exclude(id=killer_player.id))
 
     # print("==== anounce_player", announce_player)
+
+    if DeathMessage.objects.filter(is_used=False).count() > 0:
+        death_msg = random.choice(DeathMessage.objects.filter(is_used=False))
+    else:
+        death_msg = random.choice(DeathMessage.objects.all())
+    death_msg.is_used = True
+
+
     announce_player.override_screen = "death_alert"
     announce_player.death_alert = informant_player
+    announce_player.death_message = death_msg.text.replace("%s", informant_player.name)
     announce_player.save()
     message = '{0} killed {1}. Announced by {2}'.format(killer_player.name, informant_player.name, announce_player.name )
     log(game.id, killer_player, message)
@@ -637,10 +648,16 @@ def submit_safe_person(request, id):
 
         announcer.override_screen = "tip_received_detective"
 
-        mafia_count = Player.objects.filter(role="mafia").count()
 
         if game.has_second_tip_sent == False:
-            announcer.private_tip = "The Police have reported that there {0} mafia members".format(mafia_count)
+            mafias = Player.objects.filter(role="mafia")
+            names = []
+            for mafia in mafias:
+                names.append(mafia.nickname)
+
+            mafia_names = comma_separator(names)
+
+            announcer.private_tip = "Breaking news! Deputies at the scene report that security cameras caught {0} suspicious people at the time of the murder. Police now suspect that Scorpio is not one person, but {0}. Police have identified them as the criminals {1}. More news to come.".format(len(mafias), mafia_names)
             game.has_second_tip_sent = True
             game.save()
         else:
@@ -656,6 +673,13 @@ def submit_safe_person(request, id):
 
 
     return HttpResponseRedirect('/bulletin/' + str(id))
+
+def comma_separator(sequence):
+    if not sequence:
+        return ''
+    if len(sequence) == 1:
+        return sequence[0]
+    return '{} and {}'.format(', '.join(sequence[:-1]), sequence[-1])
 
 def scan(request):
     print("scan")
@@ -865,5 +889,3 @@ def survey_save(request):
         PlayerAnswer.objects.create(player=player, question=question)
 
     return HttpResponseRedirect("/bulletin/" + str(player.id))
-
-

@@ -14,11 +14,11 @@
     <!-- Instructions + Text -->
     <div class="walter">
 
-      <p>{{ partner_name }} foolishly gave the evidence to you.
+      <p>{{ informing_player.name }} foolishly gave the evidence to you.
         Now you can do what you wanted to do all along.</p>
       <hr />
 
-      <p>Kill {{ partner_name }} and rid yourself of this annoying detective.
+      <p>Kill {{ informing_player.name }} and rid yourself of this annoying detective.
         Or keep them alive and make them serve you as a powerful ally. </p>
 
       <p>The choice is yours.</p>
@@ -50,7 +50,7 @@
         <p>Do you kill {{ partner_name }}?</p> -->
 
         <a class="button-black" href="/killInformant/{{ informing_player_id }}/{{ player_id }}" style="float:left">
-            Kill {{ partner_name }}
+            Kill {{ informing_player.name }}
         </a>
         <a class="button-black" href="/clearOverrideScreen/{{ player_id }}" style="float:right">
                 Let them live

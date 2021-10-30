@@ -13,6 +13,12 @@ from game.models import *
 
 Question.objects.all().delete()
 
+DeathMessage.objects.all().delete()
+
+d = DeathMessage.objects.bulk_create([
+    DeathMessage(text=""),
+])
+
 q = Question.objects.bulk_create([
     Question(text="<strong>I've cheated on a school test.</strong>",
         news_report="School records show <strong>%s</strong> was placed on Academic Probation for cheating. They majored in gender studies but failed when they wrote someone else’s name on their final exam. Police warn the public to be on the lookout for someone who has a history of cheating in school."),
